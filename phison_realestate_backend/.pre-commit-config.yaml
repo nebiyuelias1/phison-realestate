@@ -29,7 +29,7 @@ repos:
     rev: 5.0.4
     hooks:
       - id: flake8
-        args: ["--config=setup.cfg"]
+        args: ["--config=phison_realestate_backend/setup.cfg"]
         additional_dependencies: [flake8-isort]
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date

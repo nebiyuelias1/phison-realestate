@@ -4,6 +4,9 @@ Base settings to build other settings files upon.
 from pathlib import Path
 
 import environ
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # phison_realestate_backend/
@@ -278,7 +281,9 @@ ACCOUNT_FORMS = {"signup": "phison_realestate_backend.users.forms.UserSignupForm
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "phison_realestate_backend.users.adapters.SocialAccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
-SOCIALACCOUNT_FORMS = {"signup": "phison_realestate_backend.users.forms.UserSocialSignupForm"}
+SOCIALACCOUNT_FORMS = {
+    "signup": "phison_realestate_backend.users.forms.UserSocialSignupForm"
+}
 
 # django-rest-framework
 # -------------------------------------------------------------------------------
