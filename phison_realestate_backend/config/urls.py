@@ -5,6 +5,7 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from graphene_django.views import GraphQLView
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
@@ -32,6 +33,7 @@ urlpatterns += [
         SpectacularSwaggerView.as_view(url_name="api-schema"),
         name="api-docs",
     ),
+    path("graphql", GraphQLView.as_view(graphiql=True)),
 ]
 
 if settings.DEBUG:

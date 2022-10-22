@@ -84,6 +84,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    "graphene_django",
 ]
 
 LOCAL_APPS = [
@@ -314,3 +315,7 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# graphne-django
+# ------------------------------------------------------------------------------
+GRAPHENE = {"SCHEMA": "phison_realestate_backend.schema.schema"}
