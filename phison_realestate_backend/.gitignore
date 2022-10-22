@@ -273,3 +273,6 @@ tags
 phison_realestate_backend/media/
 
 .pytest_cache/
+
+# Firebase service account file
+phison-real-estate-firebase-adminsdk.json
