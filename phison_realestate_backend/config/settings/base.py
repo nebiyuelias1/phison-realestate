@@ -89,7 +89,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "phison_realestate_backend.users",
-    # Your stuff: custom apps go here
+    "phison_realestate_backend.graphql_api",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -318,4 +318,9 @@ SPECTACULAR_SETTINGS = {
 
 # graphne-django
 # ------------------------------------------------------------------------------
-GRAPHENE = {"SCHEMA": "phison_realestate_backend.schema.schema"}
+GRAPHENE = {
+    "SCHEMA": "phison_realestate_backend.schema.schema",
+    "MIDDLEWARE": [
+        "phison_realestate_backend.graphql_api.middleware.AuthorizationMiddleware"
+    ],
+}
