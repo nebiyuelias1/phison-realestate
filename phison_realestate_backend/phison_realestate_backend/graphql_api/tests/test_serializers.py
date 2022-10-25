@@ -1,3 +1,6 @@
+import pytest
+
+from phison_realestate_backend import firebase
 from phison_realestate_backend.graphql_api.serializers import RegistrationSerializer
 
 
@@ -59,3 +62,36 @@ class TestRegistrationSerializer:
         serializer = self.Serializer(data={"email": "valid@domain.com", **data})
         assert serializer.is_valid() is True
         assert serializer.errors == {}
+
+    def test_create_calls_verify_token(self, mocker):
+        mocker.patch("phison_realestate_backend.firebase.verify_token")
+        data = {
+            "email": "valid@domain.com",
+            "phone": "+251911111111",
+            "name": "testname",
+            "token": "testtoken",
+        }
+        serializer = self.Serializer(data=data)
+        serializer.is_valid()
+        serializer.save()
+        firebase.verify_token.assert_called_once_with("testtoken")
+
+    @pytest.mark.django_db
+    def test_create_a_user(self, mocker):
+        mocker.patch(
+            "phison_realestate_backend.firebase.verify_token",
+            return_value={"uid": "testuid"},
+        )
+        data = {
+            "email": "valid@domain.com",
+            "phone": "+251911111111",
+            "name": "testname",
+            "token": "testtoken",
+        }
+        serializer = self.Serializer(data=data)
+        serializer.is_valid()
+        user = serializer.save()
+        assert user.name == "testname"
+        assert user.email == "valid@domain.com"
+        assert user.username == "testuid"
+        assert user.phone_number == "+251911111111"
