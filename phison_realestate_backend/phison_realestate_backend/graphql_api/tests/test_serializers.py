@@ -4,6 +4,7 @@ from phison_realestate_backend import firebase
 from phison_realestate_backend.graphql_api.serializers import RegistrationSerializer
 
 
+@pytest.mark.django_db
 class TestRegistrationSerializer:
     def setup(self):
         self.Serializer = RegistrationSerializer
@@ -15,12 +16,13 @@ class TestRegistrationSerializer:
     def test_valid_serializer(self):
         data = {
             "email": "valid@domain.com",
-            "phone": "+251911111111",
+            "phone_number": "+251911111111",
             "name": "testname",
             "token": "testtoken",
         }
         serializer = self.Serializer(data=data)
         assert serializer.is_valid() is True
+        del data["token"]
         assert serializer.data == data
         assert serializer.errors == {}
 
@@ -28,7 +30,7 @@ class TestRegistrationSerializer:
         data = {"email": "valid@domain.com"}
         serializer = self.Serializer(data=data)
         assert serializer.is_valid() is False
-        fields = ["phone", "name", "token"]
+        fields = ["phone_number", "name", "token"]
         self._assert(fields, serializer)
 
         fields.pop()
@@ -44,13 +46,17 @@ class TestRegistrationSerializer:
         self._assert(fields, serializer)
 
         fields.pop()
-        data = {**data, "phone": "251911111111"}
+        data = {**data, "phone_number": "251911111111"}
         serializer = self.Serializer(data=data)
         assert serializer.is_valid() is True
         assert serializer.errors == {}
 
     def test_validity_of_email(self):
-        data = {"phone": "+251911111111", "name": "testname", "token": "testtoken"}
+        data = {
+            "phone_number": "+251911111111",
+            "name": "testname",
+            "token": "testtoken",
+        }
         serializer = self.Serializer(data={"email": "thisisinvalid", **data})
         assert serializer.is_valid() is False
         assert serializer.errors is not None
@@ -64,10 +70,13 @@ class TestRegistrationSerializer:
         assert serializer.errors == {}
 
     def test_create_calls_verify_token(self, mocker):
-        mocker.patch("phison_realestate_backend.firebase.verify_token")
+        mocker.patch(
+            "phison_realestate_backend.firebase.verify_token",
+            return_value={"uid": "testuid"},
+        )
         data = {
             "email": "valid@domain.com",
-            "phone": "+251911111111",
+            "phone_number": "+251911111111",
             "name": "testname",
             "token": "testtoken",
         }
@@ -76,7 +85,6 @@ class TestRegistrationSerializer:
         serializer.save()
         firebase.verify_token.assert_called_once_with("testtoken")
 
-    @pytest.mark.django_db
     def test_create_a_user(self, mocker):
         mocker.patch(
             "phison_realestate_backend.firebase.verify_token",
@@ -84,7 +92,7 @@ class TestRegistrationSerializer:
         )
         data = {
             "email": "valid@domain.com",
-            "phone": "+251911111111",
+            "phone_number": "+251911111111",
             "name": "testname",
             "token": "testtoken",
         }

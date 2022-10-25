@@ -11,15 +11,15 @@ class RegistrationSerializer(serializers.Serializer):
 
     email = serializers.EmailField(required=True)
 
-    phone = serializers.CharField(required=True)
+    phone_number = serializers.CharField(required=True)
 
     name = serializers.CharField(required=True)
 
-    token = serializers.CharField(required=True)
+    token = serializers.CharField(required=True, write_only=True)
 
     def create(self, validated_data: Any):
         email = validated_data.get("email")
-        phone = validated_data.get("phone")
+        phone = validated_data.get("phone_number")
         name = validated_data.get("name")
         token = validated_data.get("token")
 
