@@ -85,6 +85,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "graphene_django",
+    "phonenumber_field",
 ]
 
 LOCAL_APPS = [
