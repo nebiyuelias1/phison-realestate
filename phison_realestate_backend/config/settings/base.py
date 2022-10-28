@@ -73,6 +73,7 @@ DJANGO_APPS = [
     # "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
     "django.forms",
+    "django_browser_reload",
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
@@ -86,11 +87,13 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "graphene_django",
     "phonenumber_field",
+    "tailwind",
 ]
 
 LOCAL_APPS = [
     "phison_realestate_backend.users",
     "phison_realestate_backend.graphql_api",
+    "phison_realestate_backend.theme",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -150,6 +153,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 # STATIC
@@ -326,3 +330,7 @@ GRAPHENE = {
         "phison_realestate_backend.graphql_api.middleware.FirebaseAuthorizationMiddleware"
     ],
 }
+
+# django-tailwind settings
+# ------------------------------------------------------------------------------
+TAILWIND_APP_NAME = "theme"
