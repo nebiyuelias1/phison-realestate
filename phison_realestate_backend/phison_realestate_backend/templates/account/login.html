@@ -1,59 +1,76 @@
 {% extends "account/base.html" %}
 
+{% load static %}
 {% load i18n %}
-{% load account socialaccount %}
-{% load crispy_forms_tags %}
 
-{% block head_title %}{% translate "Sign In" %}{% endblock %}
+{% block head_title %}{% translate "Login" %}{% endblock %}
 
 {% block inner %}
+<div class="w-36 mx-auto rounded-3xl border border-solid  border-gray-200 px-6 py-4 flex justify-center">
+  <img src="{% static 'images/logo.png' %}" alt="Phison Realestate logo">
+</div>
 
-<h1>{% translate "Sign In" %}</h1>
+<h1 class="mt-5 text-3xl font-semibold text-center">{% translate "Welcome Back" %}</h1>
+<p class="text-center text-gray-500">{% translate "Welcome back! Please enter your details." %}</p>
 
-{% get_providers as socialaccount_providers %}
+<form class="login mt-8" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
 
-{% if socialaccount_providers %}
-  <p>
-    {% translate "Please sign in with one of your existing third party accounts:" %}
-    {% if ACCOUNT_ALLOW_REGISTRATION %}
-      {% blocktranslate trimmed %}
-        Or, <a href="{{ signup_url }}">sign up</a>
-        for a {{ site_name }} account and sign in below:
-      {% endblocktranslate %}
-    {% endif %}
-  </p>
-
-  <div class="socialaccount_ballot">
-
-    <ul class="socialaccount_providers">
-      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-    </ul>
-
-    <div class="login-or">{% translate "or" %}</div>
-
+  <div class="relative mb-6">
+    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+      <svg aria-hidden="true" class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+      </svg>
+    </div>
+    <input type="email" id="id_login" name="login"
+      class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-orange focus:border-orange block w-full pl-10 p-2.5"
+      placeholder="Enter your email" required>
   </div>
 
-  {% include "socialaccount/snippets/login_extra.html" %}
+  <div class="relative mb-6">
+    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+      <svg aria-hidden="true" class="text-black" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round" class="feather feather-key">
+        <path
+          d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4">
+        </path>
+      </svg>
 
-{% else %}
-  {% if ACCOUNT_ALLOW_REGISTRATION %}
-    <p>
-      {% blocktranslate trimmed %}
-        If you have not created an account yet, then please
-        <a href="{{ signup_url }}">sign up</a> first.
-      {% endblocktranslate %}
+    </div>
+    <input type="password" id="id_password" name="password"
+      class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-orange focus:border-orange block w-full pl-10 p-2.5"
+      placeholder="Enter your password" required>
+  </div>
+
+  <div class="flex mb-6 justify-between">
+    <div class="flex items-start">
+      <div class="flex items-center h-5">
+        <input id="remember" type="checkbox" name="remember"
+          class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300">
+      </div>
+      <label for="remember" class="ml-2 text-sm font-medium text-gray-900">Remember Me</label>
+    </div>
+
+    <a href="{% url 'account_reset_password' %}" class="text-purple hover:underline text-sm font-medium">
+      {% translate "Forgot Password?" %}
+    </a>
+  </div>
+
+  <button class="bg-purple w-full text-white rounded-lg p-2.5 font-semibold" type="submit">
+    {% translate "Login" %}
+  </button>
+
+  {% for error in form.non_field_errors %}
+    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+      {{ error }}
     </p>
-  {% endif %}
-{% endif %}
+  {% endfor %}
 
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form|crispy }}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% translate "Forgot Password?" %}</a>
-  <button class="primaryAction btn btn-primary" type="submit">{% translate "Sign In" %}</button>
 </form>
-
 {% endblock %}
