@@ -1,14 +1,10 @@
 {% extends "account/base.html" %}
 
-{% load static %}
 {% load i18n %}
 
 {% block head_title %}{% translate "Login" %}{% endblock %}
 
 {% block inner %}
-<div class="w-36 mx-auto rounded-3xl border border-solid  border-gray-200 px-6 py-4 flex justify-center">
-  <img src="{% static 'images/logo.png' %}" alt="Phison Realestate logo">
-</div>
 
 <h1 class="mt-5 text-3xl font-semibold text-center">{% translate "Welcome Back" %}</h1>
 <p class="text-center text-gray-500">{% translate "Welcome back! Please enter your details." %}</p>
