@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<nav class="md:w-64 md:fixed md:left-0 md:top-0 md:bottom-0 md:right-0 p-4 bg-white">
+  <header class="flex justify-between">
+    <div class="w-16 flex items-center">
+      <img src="{% static 'images/logo.png' %}" alt="Phison Realestate logo">
+    </div>
+
+    <button id="menuButton" class="bg-gray-100 rounded-lg p-1 hover:bg-gray-200 md:invisible">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+  </header>
+
+  <div id="sideBar" class="md:flex md:flex-col md:items-stretch md:opacity-100
+    md:relative absolute top-0 left-0
+    right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center
+    flex-1 bg-white p-4 hidden">
+    <header class="flex justify-between md:hidden pb-4">
+      <div class="w-16 flex items-center">
+        <img src="{% static 'images/logo.png' %}" alt="Phison Realestate logo">
+      </div>
+
+      <button id="closeMenuButton" class="bg-gray-100 rounded-lg p-1 hover:bg-gray-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-x">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <ul>
+      <li>Sites</li>
+      <li>Buyers</li>
+      <li>Users</li>
+    </ul>
+  </div>
+</nav>
+<div class="md:ml-64 p-4">
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga dignissimos accusantium libero necessitatibus unde
+  perferendis voluptatum rerum recusandae aliquid totam inventore, illo iusto ipsa odit placeat et odio commodi non!
+  Nostrum non necessitatibus molestiae qui hic, accusantium suscipit provident animi magnam in perferendis dolorem
+  mollitia vel nam laborum aliquam minus temporibus natus impedit eligendi labore ratione aliquid ex culpa! Dolores?
+  Quo commodi quae cum ut dicta aliquid accusantium vel itaque, numquam doloremque blanditiis rem optio dolores nesciunt
+  soluta beatae consectetur rerum? Recusandae maiores assumenda molestias cum totam eveniet deserunt. Dolor?
+  Id quisquam possimus ex, ad iste atque exercitationem vero corrupti dolores rerum impedit quam, aspernatur fuga veniam
+  ducimus quaerat earum aliquid alias! Aut adipisci rerum dolor magni maxime? Blanditiis, delectus?
+  Illo, corrupti libero maxime placeat sint dignissimos dolorum eaque delectus aspernatur voluptate expedita dolores
+  inventore saepe, aperiam sapiente nam qui repellendus! Similique suscipit numquam aspernatur illo recusandae alias,
+  nihil ipsa?
+</div>
+{% endblock %}
+{% block inline_javascript %}
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const menuButton = document.querySelector('#menuButton');
+    const closeMenuButton = document.querySelector('#closeMenuButton');
+    const sideBar = document.querySelector('#sideBar');
+
+    menuButton.addEventListener('click', () => {
+      sideBar.classList.remove('hidden');
+    });
+
+    closeMenuButton.addEventListener('click', () => {
+      sideBar.classList.add('hidden');
+    });
+  });
+</script>
+{% endblock %}
