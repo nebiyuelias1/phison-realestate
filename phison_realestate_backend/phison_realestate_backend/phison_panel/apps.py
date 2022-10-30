@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class GraphqlApiConfig(AppConfig):
+class PhisonPanelConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "phison_realestate_backend.graphql_api"
+    name = "phison_panel"
