@@ -31,7 +31,8 @@
       </div>
 
 
-      <div class="flex-shring-0 border border-dashed border-gray-400 w-32 h-32 flex justify-center items-center rounded-2xl">
+      <div
+        class="flex-shring-0 border border-dashed border-gray-400 w-32 h-32 flex justify-center items-center rounded-2xl">
         <img src="{% static 'images/add.svg' %}" alt="add image">
       </div>
     </div>
@@ -42,6 +43,91 @@
     <div class="border border-dashed border-gray-400 w-32 h-32 flex justify-center items-center rounded-2xl">
       <img src="{% static 'images/add.svg' %}" alt="add video">
     </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <h5 class="font-semibold mb-4">Property Information</h5>
+  <hr>
+  <div class="flex flex-wrap mt-4 gap-3">
+    <!-- prettier-ignore -->
+    {% include 'partials/_input.html' with label="Property same" id="property_name" placeholder="g+1" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_input.html' with label="Number of bed rooms" id="num_of_bedrooms" placeholder="2" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_input.html' with label="Number of bathrooms" id="num_of_bathrooms" placeholder="2" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_input.html' with label="Property size (M<sup>2</sup>)" id="num_of_bathrooms" placeholder="2" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_input.html' with label="Number of parkings" id="num_of_bathrooms" placeholder="2" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_input.html' with label="Property location" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_textarea.html' with label="Property description" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    <div class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow">
+      <!-- prettier-ignore -->
+      {% include 'partials/_input.html' with label="Property pricing ($)" id="num_of_bathrooms" placeholder="2" type="text" only %}
+      {% include 'partials/_checkbox.html' with label="Featured property" id="num_of_bathrooms" only %}
+    </div>
+    <div class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow">
+      <!-- prettier-ignore -->
+      {% include 'partials/_input.html' with label="Property progress" id="num_of_bathrooms" placeholder="2" type="text" only %}
+      {% include 'partials/_input_slider.html' with label="Featured property" id="num_of_bathrooms" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow items-center" only %}
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <h5 class="font-semibold mb-4">Payment Information</h5>
+  <hr>
+  <div class="flex flex-wrap mt-4 gap-3">
+    <!-- prettier-ignore -->
+    {% include 'partials/_input.html' with label="Payment Title" id="property_name" placeholder="g+1" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_input.html' with label="Payment Time Period" id="property_name" placeholder="g+1" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_input.html' with label="Payment Amount" id="property_name" placeholder="g+1" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_textarea.html' with label="Property description" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" only %}
+    {% include 'partials/_neutral_button.html' with label="Add Payment" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 self-end mb-2" only %}
+  </div>
+</div>
+
+<div class="my-4">
+  <h6 class="font-semibold mb-4 text-sm">Payment Schedule</h6>
+
+  <div class="overflow-x-auto relative mb-4">
+    <table class="w-full text-xs text-left text-gray-500">
+      <thead class="text-xs text-gray-400 uppercase bg-gray-50 border-b">
+        <tr>
+          <th scope="col" class="py-3 px-6">
+            Title
+          </th>
+          <th scope="col" class="py-3 px-6">
+            Description
+          </th>
+          <th scope="col" class="py-3 px-6">
+            Time period
+          </th>
+          <th scope="col" class="py-3 px-6">
+            Amount
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-white border-b">
+          <th scope="row" class="py-4 px-6 font-medium text-blue-600 whitespace-nowrap">
+            1st Payment
+          </th>
+          <td class="py-4 px-6">
+            Sliver
+          </td>
+          <td class="py-4 px-6">
+            Laptop
+          </td>
+          <td class="py-4 px-6">
+            $2999
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="mt-4">
+  </div>
+  <div class="flex justify-end gap-x-3">
+    {% include 'partials/_neutral_button.html' with label="Cancel" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4" only %}
+    {% include 'partials/_primary_button.html' with label="Save" class="basis-full md:basis-1/3 lg:basis-1/4" %}
   </div>
 </div>
 {% endblock %}
