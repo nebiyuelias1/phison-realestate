@@ -73,7 +73,7 @@ class PropertyVideo(models.Model):
     )
 
 
-class PropertyPayment(models.Model):
+class PaymentInformation(models.Model):
     """Payment information for a property."""
 
     title = models.CharField(max_length=100)
