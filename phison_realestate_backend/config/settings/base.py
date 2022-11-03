@@ -91,6 +91,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "phison_realestate_backend.core",
     "phison_realestate_backend.users",
     "phison_realestate_backend.graphql_api",
     "phison_realestate_backend.theme",
