@@ -1,0 +1,65 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Flutter
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable' # or: 'beta', 'dev' or 'master'
+        flutter-version: '3.0.0'
+    
+    # Run linting and run our unit tests
+    - name: Lint and test code
+      run: cd phison_realestate_mobile && flutter pub get && flutter analyze && flutter test
+        
+#     # Decode the keystore file containing the signing key
+#     - name: Decode Keystore
+#       id: decode_keystore
+#       uses: timheuer/base64-to-file@v1.1
+#       with:
+#         fileName: 'my.keystore'
+#         encodedString: ${{ secrets.KEYSTORE_FILE }}
+        
+#     # Decode the Google Play api key file
+#     - name: Decode Google Play API key
+#       id: decode_api_key
+#       uses: timheuer/base64-to-file@v1.1
+#       with:
+#         fileName: 'google-play-api-key.json'
+#         encodedString: ${{ secrets.GOOGLE_PLAY_API_KEY }}
+    
+    # Build app with a new build number and publish to play store
+#     - name: Build and publish app
+#       run: |
+#         cd hamsa_lomi
+        
+#         echo storePassword=${{ secrets.KEYSTORE_PASSWORD }} >> ./android/key.properties
+#         echo keyPassword=${{ secrets.KEY_PASSWORD }} >> ./android/key.properties
+#         echo keyAlias=${{ secrets.KEY_ALIAS }} >> ./android/key.properties
+#         echo storeFile="${{ steps.decode_keystore.outputs.filePath }}" >> ./android/key.properties
+        
+#         flutter pub get
+#         flutter build appbundle --build-number $GITHUB_RUN_NUMBER
+        
+#         cd android
+        
+#         export ANDROID_PUBLISHER_CREDENTIALS=$(cat "${{ steps.decode_api_key.outputs.filePath }}")
+        
+#         ./gradlew publishBundle
