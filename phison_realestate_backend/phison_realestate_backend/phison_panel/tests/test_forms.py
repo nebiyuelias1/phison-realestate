@@ -56,3 +56,15 @@ class TestPaymentInformationForm:
         form = self.Form(data)
         assert form.is_valid() is False
         assert form.errors["description"][0] == self.required_error_message
+
+    def test_valid_form(self):
+        data = {
+            "title": self.title,
+            "time_period": self.time_period,
+            "amount": self.amount,
+            "description": self.description,
+        }
+
+        form = self.Form(data)
+        assert form.is_valid() is True
+        assert form.errors == {}
