@@ -1,4 +1,36 @@
-from phison_realestate_backend.phison_panel.forms import PaymentInformationForm
+from phison_realestate_backend.phison_panel.forms import (
+    PaymentInformationForm,
+    PropertyForm,
+)
+
+
+class TestPropertyForm:
+    def setup(self):
+        self.required_fields = ["name", "description", "size", "price", "progress"]
+        self.data = {
+            "name": "Test name",
+            "description": "Test Description",
+            "size": 42,
+            "price": 1000,
+            "progress": "Test progress",
+        }
+        self.Form = PropertyForm
+        self.required_error_message = "This field is required."
+
+    def test_invalid_form(self):
+        for field in self.required_fields:
+            # Remove field from data
+            value = self.data.pop(field)
+            form = self.Form(self.data)
+            assert form.is_valid() is False
+            assert form.errors[field][0] == self.required_error_message
+            # Put value back to data for subsequent validation.
+            self.data[field] = value
+
+    def test_valid_form(self):
+        form = self.Form(self.data)
+        assert form.is_valid() is True
+        assert form.errors == {}
 
 
 class TestPaymentInformationForm:
