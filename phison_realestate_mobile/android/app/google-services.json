@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "597049332568",
+    "project_id": "phison-real-estate-c1f09",
+    "storage_bucket": "phison-real-estate-c1f09.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597049332568:android:bd31522cb2e6fa034b0b2d",
+        "android_client_info": {
+          "package_name": "com.phisonrealestate.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597049332568-d4421rnth65fnvrjrjjko8eg7qnm7i5q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEPIZcu1CP98GODb7bbJkpSrAdsXKrsbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597049332568-d4421rnth65fnvrjrjjko8eg7qnm7i5q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
