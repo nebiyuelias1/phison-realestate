@@ -1,8 +1,8 @@
 <div class="mb-2 {{class}}">
   {% if label %}
-    <label class="text-xs" for="{{id}}">{{label}}</label>
+  <label class="text-xs" for="{{id}}">{{label}}</label>
   {% endif %}
-  <input type="{{type}}" id="{{id}}" name="password"
+  <input id="{{id}}" type="{{type}}" name="{{name}}"
     class="bg-gray-50 border border-gray-300 text-gray-900 rounded-2xl focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
-    placeholder="{{placeholder}}">
+    placeholder="{{placeholder}}" {{required_attribute}} value="{% if value %}{{value}}{% endif %}" min="{{min}}" {{step_attribute}}>
 </div>
