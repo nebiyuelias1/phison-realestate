@@ -21,7 +21,7 @@
       </svg>
     </div>
     <input type="email" id="id_login" name="login"
-      class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-orange focus:border-orange block w-full pl-10 p-2.5"
+      class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5"
       placeholder="Enter your email" required>
   </div>
 
@@ -37,7 +37,7 @@
 
     </div>
     <input type="password" id="id_password" name="password"
-      class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-orange focus:border-orange block w-full pl-10 p-2.5"
+      class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5"
       placeholder="Enter your password" required>
   </div>
 
@@ -50,12 +50,12 @@
       <label for="remember" class="ml-2 text-sm font-medium text-gray-900">Remember Me</label>
     </div>
 
-    <a href="{% url 'account_reset_password' %}" class="text-purple hover:underline text-sm font-medium">
+    <a href="{% url 'account_reset_password' %}" class="text-purple-700 hover:underline text-sm font-medium">
       {% translate "Forgot Password?" %}
     </a>
   </div>
 
-  <button class="bg-purple w-full text-white rounded-lg p-2.5 font-semibold" type="submit">
+  <button class="bg-purple-900 w-full text-white rounded-lg p-2.5 font-semibold" type="submit">
     {% translate "Login" %}
   </button>
 
