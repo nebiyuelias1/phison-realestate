@@ -4,5 +4,5 @@
   {% endif %}
   <textarea id="{{id}}" name="{{name}}"
     class="bg-gray-50 border border-gray-300 text-gray-900 rounded-2xl focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
-    placeholder="{{placeholder}}" {{required_attribute}}>{% if value %}{{value}}{% endif %}</textarea>
+    placeholder="{{placeholder}}" {{required_attribute}} {{form_attribute}}>{% if value %}{{value}}{% endif %}</textarea>
 </div>
