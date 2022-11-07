@@ -24,7 +24,7 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable' # or: 'beta', 'dev' or 'master'
-        flutter-version: '3.0.0'
+        flutter-version: '3.3.7'
     
     # Run linting and run our unit tests
     - name: Lint and test code
