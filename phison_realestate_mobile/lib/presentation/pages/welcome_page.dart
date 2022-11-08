@@ -1,9 +1,12 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import '../constants/app_assets_constant.dart';
+
 // import 'package:flutter_svg/svg.dart';
 
 //Project imports:
-import '../constants/app_assets_constant.dart';
 // import '../constants/app_string_constant.dart';
 
 class WelcomePage extends StatelessWidget {
