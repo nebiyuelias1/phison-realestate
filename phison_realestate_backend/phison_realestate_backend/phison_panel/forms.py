@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.models import inlineformset_factory
 
 from phison_realestate_backend.core.models import PaymentInformation, Property
 
@@ -28,3 +29,12 @@ class PaymentInformationForm(forms.ModelForm):
             "amount",
             "description",
         )
+
+
+PaymentInformationFormSet = inlineformset_factory(
+    Property,
+    model=PaymentInformation,
+    form=PaymentInformationForm,
+    min_num=1,
+    validate_min=True,
+)
