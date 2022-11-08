@@ -1,16 +1,20 @@
 from django.db import models
+from django.urls import reverse
 
 
+# TODO: Add property_type to this model with options: apartment or villa
 class Property(models.Model):
     """A model class that represents a property object."""
 
     name = models.CharField(null=False, blank=False, max_length=100)
 
-    bed_room_count = models.IntegerField(default=0, null=False, blank=True)
+    bed_room_count = models.PositiveSmallIntegerField(default=0, null=False, blank=True)
 
-    bath_room_count = models.IntegerField(default=0, null=False, blank=True)
+    bath_room_count = models.PositiveSmallIntegerField(
+        default=0, null=False, blank=True
+    )
 
-    parking_count = models.IntegerField(default=0, null=False, blank=True)
+    parking_count = models.PositiveSmallIntegerField(default=0, null=False, blank=True)
 
     description = models.TextField(null=False, blank=False)
 
@@ -25,6 +29,10 @@ class Property(models.Model):
     is_featured = models.BooleanField(null=False, blank=True, default=False)
 
     progress = models.TextField(null=False, blank=False, max_length=100)
+
+    def get_absolute_url(self):
+        # TODO: Modify this URL to the detail of the property.
+        return reverse("phison_panel:home")
 
 
 class PropertyImage(models.Model):
