@@ -335,4 +335,4 @@ GRAPHENE = {
 
 # django-tailwind settings
 # ------------------------------------------------------------------------------
-TAILWIND_APP_NAME = "theme"
+TAILWIND_APP_NAME = "phison_realestate_backend.theme"
