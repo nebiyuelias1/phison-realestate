@@ -1,9 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
+import 'presentation/pages/welcome_page.dart';
+
 //project imports:
 // import 'presentation/theme/phison_theme.dart';
-import 'presentation/pages/welcome_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
