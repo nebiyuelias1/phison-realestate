@@ -30,7 +30,7 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
         else:
             return PaymentInformationFormSet()
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, **kwargs: Any):
         data = super().get_context_data(**kwargs)
 
         data["formset"] = self._get_payment_information_form_set()
