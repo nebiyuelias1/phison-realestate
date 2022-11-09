@@ -1,0 +1,19 @@
+<div class="flex justify-center mt-8">
+  {% if page_obj.has_previous %}
+          <a class="border-2 border-solid border-gray-300 p-2 rounded-tl-xl rounded-bl-xl bg-white hover:bg-gray-200" href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
+
+          {% for p in prefix %}
+            <a class="border-y-2 border-solid border-gray-300 py-2 px-4 hover:bg-gray-200" href="?page={{p}}">{{p}}</a>
+          {% endfor %}
+  {% endif %}
+
+
+  <a class="border-2 border-solid border-gray-300 py-2 px-4 bg-gray-300">{{ page_obj.number }}</a>
+
+  {% if page_obj.has_next %}
+          {% for s in suffix %}
+            <a class="border-y-2 border-solid border-gray-300 py-2 px-4 hover:bg-gray-200" href="?page={{s}}">{{s}}</a>
+          {% endfor %}
+          <a class="border-2 border-solid border-gray-300 p-2 rounded-tr-xl rounded-br-xl bg-white hover:bg-gray-200" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+  {% endif %}
+</div>
