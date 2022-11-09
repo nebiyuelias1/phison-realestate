@@ -102,46 +102,11 @@
   </div>
 </div>
 
-<div class="flex">
-  <div class="bg-white rounded-2xl p-2 mt-2 hover:shadow-lg group">
-    <div class="relative">
-      <img src="{% static 'images/property-placeholder.png' %}" alt="Property image">
-      <span class="absolute right-2 bottom-2 text-xs backdrop-blur-lg text-white p-2 rounded-lg group-hover:bg-orange-900">Apartment</span>
-    </div>
-    <h3 class="mt-1 font-semibold">2 Bed Apartment</h3>
-
-    <div class="mt-1 flex justify-between">
-      <div class="flex flex-col">
-        <div class="flex">
-          <img class="mr-2" src="{% static 'images/bedroom.svg' %}" alt="bedroom icon">
-          <span class="text-xs font-semibold">2</span>
-        </div>
-        <p class="text-xs text-gray-500">Bedrooms</p>
-      </div>
-
-      <div class="flex flex-col">
-        <div class="flex">
-          <img class="mr-2" src="{% static 'images/bathroom.svg' %}" alt="bathroom icon">
-          <span class="text-xs font-semibold">2</span>
-        </div>
-        <p class="text-xs text-gray-500">Bathrooms</p>
-      </div>
-
-      <div class="flex flex-col">
-        <div class="flex">
-          <img class="mr-2" src="{% static 'images/area.svg' %}" alt="bathroom icon">
-          <span class="text-xs font-semibold">2</span>
-        </div>
-        <p class="text-xs text-gray-500">Living Area</p>
-      </div>
-    </div>
-
-    <div class="bg-gray-100 text-xs text-gray-700 rounded-2xl p-2 -m-2 mt-4 flex items-center group-hover:bg-black group-hover:text-white">
-      <div class="rounded-full p-2 bg-white">
-        <img class="w-4 h-4" src="{% static 'images/map-pin.svg' %}" alt="map pin">
-      </div>
-      <p class="ml-1">St. Cikoka Timur. Kec.</p>
-    </div>
+<div class="flex flex-wrap items-stretch gap-y-6 mt-2">
+  {% for property in object_list %}
+  <div class="pr-3 basis-1/2 md:basis-1/3 lg:basis-1/4 md:flex-grow-0 items-stretch flex-shrink">
+    {% include 'partials/_property_card.html' with property=property only %}
   </div>
+  {% endfor %}
 </div>
 {% endblock %}
