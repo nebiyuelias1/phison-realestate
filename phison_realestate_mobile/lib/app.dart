@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'presentation/pages/welcome_page.dart';
 
 //project imports:
-// import 'presentation/theme/phison_theme.dart';
+import 'presentation/theme/phison_theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'PHISON',
-        // theme: PhisonTheme.lightTheme,
-        home: WelcomePage());
+        theme: PhisonTheme.lightTheme,
+        home: const WelcomePage());
   }
 }
