@@ -91,6 +91,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "phison_realestate_backend.core",
     "phison_realestate_backend.users",
     "phison_realestate_backend.graphql_api",
     "phison_realestate_backend.theme",
@@ -334,4 +335,4 @@ GRAPHENE = {
 
 # django-tailwind settings
 # ------------------------------------------------------------------------------
-TAILWIND_APP_NAME = "theme"
+TAILWIND_APP_NAME = "phison_realestate_backend.theme"

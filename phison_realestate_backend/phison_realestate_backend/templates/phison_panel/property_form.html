@@ -1,0 +1,194 @@
+{% extends "phison_panel/base.html" %}
+{% load static %}
+{% block main %}
+<div>
+  <h2 class="font-semibold text-xl">Add New Property</h2>
+  <p class="mt-2 text-gray-500 text-xs">Fill out the following information to add a new property</p>
+  <hr class="mt-3">
+</div>
+
+<div class="mt-4 flex justify-between gap-2 flex-wrap">
+  <div class="max-w-full">
+    <h5 class="font-semibold mb-4">Property Images</h5>
+    <div class="flex flex-wrap gap-2">
+      <div class="relative flex-shrink-0 w-32 h-32">
+        <img class="object-cover rounded-2xl h-full" src="{% static 'images/property-placeholder.png' %}"
+          alt="property image">
+        <div class="flex items-center justify-center bg-white w-6 h-6 absolute top-2 right-2 rounded-md">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_114_11571)">
+              <path
+                d="M0.916748 2.74984H10.0834M4.58341 5.0415V7.33317M6.41675 5.0415V7.33317M1.83341 2.74984H9.16675L8.44258 9.26734C8.41776 9.49163 8.31107 9.69889 8.14295 9.84943C7.97482 9.99996 7.75708 10.0832 7.53141 10.0832H3.46875C3.24308 10.0832 3.02534 9.99996 2.85722 9.84943C2.68909 9.69889 2.5824 9.49163 2.55758 9.26734L1.83341 2.74984ZM3.36654 1.44221C3.44068 1.28499 3.55799 1.15209 3.70479 1.059C3.8516 0.965924 4.02184 0.916502 4.19566 0.916504H6.8045C6.9784 0.916415 7.14874 0.965796 7.29564 1.05888C7.44253 1.15197 7.55991 1.28492 7.63408 1.44221L8.25008 2.74984H2.75008L3.36654 1.44221V1.44221Z"
+                stroke="#F04438" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <defs>
+              <clipPath id="clip0_114_11571">
+                <rect width="11" height="11" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+
+      <div
+        class="flex-shring-0 border border-dashed border-gray-400 w-32 h-32 flex justify-center items-center rounded-2xl">
+        <img src="{% static 'images/add.svg' %}" alt="add image">
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-full">
+    <h5 class="font-semibold mb-4">Property Video</h5>
+    <div class="border border-dashed border-gray-400 w-32 h-32 flex justify-center items-center rounded-2xl">
+      <img src="{% static 'images/add.svg' %}" alt="add video">
+    </div>
+  </div>
+</div>
+
+<form id="paymentForm" method="post"></form>
+
+<form method="post">
+  {% csrf_token %}
+  <div class="mt-4">
+    <h5 class="font-semibold mb-4">Property Information</h5>
+    <hr>
+    <div class="flex flex-wrap mt-4 gap-3">
+        <!-- prettier-ignore -->
+        {% include 'partials/_input.html' with label="Property name" id="property_name" name="name" placeholder="G+2 Luxury Villa" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.name.value required_attribute="required" only%}
+        {% include 'partials/_input.html' with label="Number of bed rooms" id="property_bed_room_count" name="bed_room_count" placeholder="2" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.bed_room_count.value min=0 required_attribute="required" only %}
+        {% include 'partials/_input.html' with label="Number of bathrooms" id="property_bath_room_count" name="bath_room_count" placeholder="1" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.bath_room_count.value min=0 required_attribute="required" only %}
+        {% include 'partials/_input.html' with label="Number of parkings" id="property_parking_count" name="parking_count" placeholder="1" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.parking_count.value min=0 required_attribute="required" only %}
+        {% include 'partials/_input.html' with label="Property size (M<sup>2</sup>)" id="property_size" name="size" placeholder="74.47" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.size.value required_attribute="required" step_attribute="step='any'" required_attribute="required" only %}
+        <!-- TODO: Implement Location selection field -->
+        {% include 'partials/_input.html' with label="Property location" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" required_attribute="required" only %}
+        {% include 'partials/_textarea.html' with label="Property description" id="property_description" name="description" placeholder="Property description" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.description.value required_attribute="required" only %}
+        <div class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow">
+          <!-- prettier-ignore -->
+          {% include 'partials/_input.html' with label="Property pricing ($)" id="property_pricing" name="price" placeholder="2000.00" type="number" value=form.price.value required_attribute="required" step_attribute="step='0.1'" only %}
+          {% include 'partials/_checkbox.html' with label="Featured property" id="property_is_featured" name="is_featured" only %}
+        </div>
+        <div class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow">
+          <!-- prettier-ignore -->
+          {% include 'partials/_input.html' with label="Property progress" id="property_progress" name="progress" placeholder="1st Phase" type="text" value=form.progress.value required_attribute="required" only %}
+          {% include 'partials/_input_slider.html' with label="Featured property" id="num_of_bathrooms" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow items-center" only %}
+        </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <h5 class="font-semibold mb-4">Payment Information</h5>
+
+    {% if formset.non_form_errors %}
+      <div class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+        <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+        <span class="sr-only">Info</span>
+        <div>
+          <span class="font-medium">Error!</span> You must add at least one payment information.
+        </div>
+      </div>
+    {% endif %}
+
+    <hr>
+
+    <div id="hiddenFormControls">
+      <input type="hidden" name="payment_infos-TOTAL_FORMS" id="id_payment_infos-TOTAL_FORMS">
+      <input type="hidden" name="payment_infos-INITIAL_FORMS" value="0" id="id_payment_infos-INITIAL_FORMS">
+      <input type="hidden" name="payment_infos-MIN_NUM_FORMS" value="1" id="id_payment_infos-MIN_NUM_FORMS">
+      <input type="hidden" name="payment_infos-MAX_NUM_FORMS" value="1000" id="id_payment_infos-MAX_NUM_FORMS">
+    </div>
+
+    <div class="flex flex-wrap mt-4 gap-3">
+        <!-- prettier-ignore -->
+        {% include 'partials/_input.html' with label="Payment Title" id="payment_title" name="payment_title" placeholder="Initial Payment" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" required_attribute="required" form_attribute="form='paymentForm'" only %}
+        {% include 'partials/_input.html' with label="Payment Time Period" id="payment_time_period" name="payment_time_period" placeholder="2 months after initial agreement" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" required_attribute="required" form_attribute="form='paymentForm'" only %}
+        {% include 'partials/_input.html' with label="Payment Amount (%)" id="payment_amount" name="payment_amount" placeholder="Your payment amount in percentage" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" min="1" max="100" required_attribute="required" form_attribute="form='paymentForm'" only %}
+        {% include 'partials/_textarea.html' with label="Property description" id="payment_description" name="payment_description" placeholder="Payment description" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" required_attribute="required" form_attribute="form='paymentForm'" only %}
+        {% include 'partials/_neutral_button.html' with label="Add Payment" class="basis-full md:basis-1/3 lg:basis-1/4 self-end mb-2" form_attribute="form='paymentForm'" only %}
+    </div>
+  </div>
+
+  <div class="my-4">
+    <h6 class="font-semibold mb-4 text-sm">Payment Schedule</h6>
+
+    <div class="overflow-x-auto relative mb-4">
+      <table id="table" class="w-full text-xs text-left text-gray-500">
+        <thead class="text-xs text-gray-400 uppercase bg-gray-50 border-b">
+          <tr>
+            <th scope="col" class="py-3 px-6">
+              Title
+            </th>
+            <th scope="col" class="py-3 px-6">
+              Description
+            </th>
+            <th scope="col" class="py-3 px-6">
+              Time period
+            </th>
+            <th scope="col" class="py-3 px-6">
+              Amount (%)
+            </th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+
+      <hr class="mt-4">
+    </div>
+    <div class="flex justify-end gap-x-3">
+      {% include 'partials/_neutral_button.html' with label="Cancel" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4" only %}
+      {% include 'partials/_primary_button.html' with label="Save" class="basis-full md:basis-1/3 lg:basis-1/4" %}
+    </div>
+  </div>
+</form>
+{% endblock %}
+{% block inline_javascript %}
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const hiddenFormControls = document.querySelector('#hiddenFormControls');
+
+    const paymentForm = document.querySelector('#paymentForm');
+
+    paymentForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const paymentTitle = document.querySelector('#payment_title').value;
+      const paymentTimePeriod = document.querySelector('#payment_time_period').value;
+      const paymentAmount = document.querySelector('#payment_amount').value;
+      const paymentDescription = document.querySelector('#payment_description').value;
+
+      const table = document.querySelector('#tableBody');
+
+      const rowsCount = table.rows.length;
+      const row = table.insertRow(rowsCount);
+      row.classList.add('bg-white', 'border-b');
+      row.innerHTML = `
+        <th scope="row" class="py-4 px-6 font-medium text-blue-600 whitespace-nowrap">
+          ${paymentTitle}
+        </th>
+        <td class="py-4 px-6">
+          ${paymentDescription}
+        </td>
+        <td class="py-4 px-6">
+          ${paymentTimePeriod}
+        </td>
+        <td class="py-4 px-6">
+          ${paymentAmount}
+        </td>
+      `;
+
+      const totalFormsInput = document.querySelector('#id_payment_infos-TOTAL_FORMS');
+      totalFormsInput.value = rowsCount + 1;
+
+      hiddenFormControls.innerHTML = hiddenFormControls.innerHTML + `
+        <input type="text" name="payment_infos-${rowsCount}-title" maxlength="100" id="id_payment_infos-${rowsCount}-title" value="${paymentTitle}" hidden>
+        <input type="text" name="payment_infos-${rowsCount}-time_period" maxlength="100" id="id_payment_infos-${rowsCount}-time_period" value="${paymentTimePeriod}" hidden>
+        <input type="number" name="payment_infos-${rowsCount}-amount" step="0.01" id="id_payment_infos-${rowsCount}-amount" value="${paymentAmount}" hidden>
+        <textarea name="payment_infos-${rowsCount}-description" cols="40" rows="10" id="id_payment_infos-${rowsCount}-description" hidden>${paymentDescription}</textarea>
+      `;
+
+      paymentForm.reset();
+    });
+  });
+</script>
+{% endblock %}
