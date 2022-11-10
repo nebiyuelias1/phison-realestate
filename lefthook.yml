@@ -2,10 +2,10 @@ pre-commit:
   piped: true
   commands:
     linter:
-      run: flutter analyze
+      run: cd phison_realestate_mobile && flutter analyze
     sort-imports:
       glob: "*.dart"
-      run: flutter pub run import_sorter:main {staged_files}
+      run: cd phison_realestate_mobile && flutter pub run import_sorter:main {staged_files}
     pretty:
       glob: "*.dart"
       run: flutter format {staged_files} && git add {staged_files}
