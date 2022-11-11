@@ -16,4 +16,9 @@ urlpatterns = [
         TemplateView.as_view(template_name="phison_panel/buyer_list.html"),
         name="buyer_list",
     ),
+    path(
+        "buyers/new/",
+        TemplateView.as_view(template_name="phison_panel/buyer_form.html"),
+        name="new_buyer",
+    ),
 ]
