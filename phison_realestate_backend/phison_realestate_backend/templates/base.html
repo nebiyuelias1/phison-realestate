@@ -52,9 +52,18 @@
       {% endblock content %}
     </div> <!-- /container -->
 
-    {% block modal %}{% endblock modal %}
+    <dialog class="bg-gray-50 rounded-xl w-11/12 md:w-1/3 max-h-screen" id="modal">
+      <div class="flex justify-between items-center">
+        <h6 class="font-semibold text-lg" id="modalTitle"></h6>
+        <button class="border-none p-2 bg-white rounded-xl outline-none" id="closeModal">
+          <img src="{% static 'images/x.svg' %}" alt="close">
+        </button>
+      </div>
+      <div id="modalBody"></div>
+    </dialog>
 
     {% block inline_javascript %}
+
     {% comment %}
     Script tags with only code, no src (defer by default). To run
     with a "defer" so that you run inline code:
