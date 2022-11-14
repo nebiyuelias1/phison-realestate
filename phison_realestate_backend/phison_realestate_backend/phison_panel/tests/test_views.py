@@ -129,3 +129,11 @@ class TestPropertyListAjaxView:
         assert response_data[1]["id"] == properties[0].pk
         assert len(response_data[1]["images"]) > 0
         assert response_data[1]["images"][0]["id"] == property_image.pk
+
+    def test_get_properties_with_search_key(self, admin_client, view_url):
+        properties = PropertyFactory.create_batch(size=2)
+
+        response = admin_client.get(view_url + f"?q={properties[0].name}")
+
+        response_data = json.loads(json.loads(response.content))
+        assert len(response_data) == 1
