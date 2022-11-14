@@ -21,6 +21,10 @@ from .serializers import PropertyModelSerializer
 class PropertyListAjaxView(StaffMemberRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         queryset = Property.objects.all()
+        query_param = self.request.GET.get("q", "")
+        if query_param:
+            queryset = queryset.filter(name__icontains=query_param)
+
         serializer = PropertyModelSerializer(queryset, many=True)
         json_data = json.dumps(serializer.data)
         return JsonResponse(data=json_data, safe=False)
