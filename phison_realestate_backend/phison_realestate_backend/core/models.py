@@ -2,8 +2,21 @@ from django.db import models
 from django.urls import reverse
 
 
+class TimeStampedModel(models.Model):
+    """A base model for saving timing information."""
+
+    # https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.DateField.auto_now_add
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    # https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.DateField.auto_now
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
 # TODO: Add property_type to this model with options: apartment or villa
-class Property(models.Model):
+class Property(TimeStampedModel):
     """A model class that represents a property object."""
 
     name = models.CharField(null=False, blank=False, max_length=100)
@@ -24,8 +37,7 @@ class Property(models.Model):
     # The price is in USD. https://docs.djangoproject.com/en/4.1/ref/models/fields/#decimalfield
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    # By default we assume a property is not featured and also it should
-    # never be null.
+    # By default we assume a property is not featured and also it should never be null.
     is_featured = models.BooleanField(null=False, blank=True, default=False)
 
     progress = models.TextField(null=False, blank=False, max_length=100)
@@ -33,6 +45,10 @@ class Property(models.Model):
     def get_absolute_url(self):
         # TODO: Modify this URL to the detail of the property.
         return reverse("phison_panel:home")
+
+    class Meta:
+        # https://docs.djangoproject.com/en/4.1/ref/models/options/
+        ordering = ["-created_at"]
 
 
 class PropertyImage(models.Model):
