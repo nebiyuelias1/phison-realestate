@@ -1,9 +1,12 @@
+import json
 from http import HTTPStatus
 
 import pytest
 from django.urls import reverse
 
 from phison_realestate_backend.core.models import PaymentInformation, Property
+
+from .factories import PropertyFactory, PropertyImageFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -94,3 +97,35 @@ class TestPropertyListView:
         response = admin_client.get(view_url)
 
         assert response.status_code == HTTPStatus.OK
+
+
+class TestPropertyListAjaxView:
+    @pytest.fixture
+    def view_url(self):
+        return reverse("phison_panel:ajax_property_list")
+
+    def test_unauthenticated_user(self, client, view_url):
+        response = client.get(view_url)
+        # Login redirect
+        assert response.status_code == HTTPStatus.FOUND
+        login_url = reverse("account_login")
+        redirect_url = f"{login_url}?next={view_url}"
+        assert response.url == redirect_url
+
+    def test_authenticated_user(self, admin_client, view_url):
+        response = admin_client.get(view_url)
+
+        assert response.status_code == HTTPStatus.OK
+
+    def test_get_properties_existing_in_db(self, admin_client, view_url):
+        properties = PropertyFactory.create_batch(size=2)
+        property_image = PropertyImageFactory.create(property=properties[0])
+
+        response = admin_client.get(view_url)
+        assert response.status_code == HTTPStatus.OK
+        response_data = json.loads(json.loads(response.content))
+        assert len(response_data) == 2
+        assert response_data[0]["id"] == properties[1].pk
+        assert response_data[1]["id"] == properties[0].pk
+        assert len(response_data[1]["images"]) > 0
+        assert response_data[1]["images"][0]["id"] == property_image.pk
