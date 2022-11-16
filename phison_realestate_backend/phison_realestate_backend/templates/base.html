@@ -50,16 +50,16 @@
 
       {% block content %}
       {% endblock content %}
-    </div> <!-- /container -->
+    </div>
 
-    <dialog class="bg-gray-50 rounded-xl w-11/12 md:w-1/3 max-h-screen" id="modal">
+    <dialog class="bg-gray-50 rounded-xl w-11/12 md:w-1/3 overflow-hidden" id="modal">
       <div class="flex justify-between items-center">
-        <h6 class="font-semibold text-lg" id="modalTitle"></h6>
+        <h6 id="modalTitle" class="font-semibold text-lg"></h6>
         <button class="border-none p-2 bg-white rounded-xl outline-none" id="closeModal">
           <img src="{% static 'images/x.svg' %}" alt="close">
         </button>
       </div>
-      <div id="modalBody"></div>
+      <div id="modalBody" class="overflow-y-scroll max-h-96"></div>
     </dialog>
 
     {% block inline_javascript %}
