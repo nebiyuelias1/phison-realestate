@@ -4,9 +4,9 @@
 
 <nav class="md:w-64 md:fixed md:left-0 md:top-0 md:bottom-0 md:right-0 p-4 bg-white flex flex-col">
   <header class="flex justify-between">
-    <div class="w-16 flex items-center">
+    <a href="{% url 'phison_panel:home' %}" class="w-16 flex items-center">
       <img src="{% static 'images/logo.png' %}" alt="Phison Realestate logo">
-    </div>
+    </a>
 
     <button id="menuButton" class="bg-gray-100 rounded-lg p-1 hover:bg-gray-200 md:invisible">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -116,23 +116,4 @@
 
   {% endblock %}
 </main> <!-- Main Content -->
-{% endblock %}
-{% block inline_javascript %}
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const menuButton = document.querySelector('#menuButton');
-    const closeMenuButton = document.querySelector('#closeMenuButton');
-    const sideBar = document.querySelector('#sideBar');
-
-    menuButton.addEventListener('click', () => {
-      sideBar.classList.remove('hidden');
-      sideBar.classList.add('p-4', 'flex', 'flex-col');
-    });
-
-    closeMenuButton.addEventListener('click', () => {
-      sideBar.classList.add('hidden');
-      sideBar.classList.remove('p-4');
-    });
-  });
-</script>
 {% endblock %}
