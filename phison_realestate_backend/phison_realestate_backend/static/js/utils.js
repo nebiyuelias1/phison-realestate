@@ -30,3 +30,18 @@ export const showDialog = async (title, template) => {
 export const closeDialog = () => {
   modal.close();
 }
+
+export const fetchData = async (url, onLoad, onSuccess, onError) => {
+  onLoad();
+
+  const response = await fetch(url);
+
+  if (response.ok) {
+    const data = await response.json();
+    const itemList = JSON.parse(data);
+
+    onSuccess(itemList);
+  } else {
+    onError();
+  }
+};

@@ -26,7 +26,13 @@
     </div>
 
     <h5 class="mt-6 font-semibold">Customer Information</h5>
-    <a href="?open_modal=customer">
+    <div id="selectedCustomerContainer" class="mt-5 flex hidden">
+      <div id="customerCard" class="break-all"></div>
+      <button class="border-none p-2 bg-white rounded-xl outline-none ml-2 self-start" id="removeCustomerSelection">
+        <img src="{% static 'images/x.svg' %}" alt="close">
+      </button>
+    </div>
+    <div id="selectCustomer">
       <div class="mt-5 border border-gray-400 border-dashed rounded-2xl py-14 px-10 mx-6 cursor-pointer">
         <div class="text-gray-500 font-medium flex flex-col items-center">
           <img src="{% static 'images/add.svg' %}" alt="Add property">
@@ -34,7 +40,7 @@
           <p class="mt-2 text-xs text-center">Click here to select customer</p>
         </div>
       </div>
-    </a>
+    </div>
   </div>
 
   <div class="basis-2/3 flex-grow">
@@ -85,9 +91,10 @@
 </div>
 {% endblock %}
 {% block inline_javascript %}
-<script>
+<script type="module">
   import { showDialog, renderDjangoTemplate } from "/static/js/utils.js";
   import {initSelectProperty} from "/static/js/select_property.js";
+  import {initSelectCustomer} from "/static/js/select_customer.js";
 
   window.addEventListener('DOMContentLoaded', () => {
     const selectedPropertyContainer = document.querySelector('#selectedPropertyContainer');
@@ -98,10 +105,24 @@
       initSelectProperty();
     });
 
+    const selectCustomer = document.querySelector('#selectCustomer');
+    selectCustomer.addEventListener('click', async() => {
+      const template = await renderDjangoTemplate('_select_customer.html');
+      await showDialog('Select Customer', template);
+      initSelectCustomer();
+    });
+
     const removePropertySelectionBtn = document.querySelector('#removePropertySelection');
     removePropertySelectionBtn.addEventListener('click', () => {
       selectProperty.classList.remove('hidden');
       selectedPropertyContainer.classList.add('hidden');
+    });
+
+    const selectedCustomerContainer = document.querySelector('#selectedCustomerContainer');
+    const removeCustomerSelectionBtn = document.querySelector('#removeCustomerSelection');
+    removeCustomerSelectionBtn.addEventListener('click', () => {
+      selectCustomer.classList.remove('hidden');
+      selectedCustomerContainer.classList.add('hidden');
     });
   });
 </script>
