@@ -28,7 +28,7 @@ const fetchData = async (searchKey) => {
 
     propertyList.forEach((d) => {
       htmlContent += `
-          <div class="property-card md:flex mt-4 bg-white p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
+          <div class="property-card md:flex gap-2 mt-4 bg-white p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
             <div class="relative basis-1/3 md:mr-4">
               <img class="object-cover rounded-2xl h-32 md:h-full w-full"
                 src="https://cdn.pixabay.com/photo/2015/10/20/18/57/furniture-998265_960_720.jpg" alt="Property image">
