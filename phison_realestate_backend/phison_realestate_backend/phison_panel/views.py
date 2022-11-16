@@ -12,8 +12,8 @@ from django.views.generic.list import ListView
 
 from phison_realestate_backend.core.models import Property
 
+from ..core.mixins import StaffMemberRequiredMixin
 from .forms import PaymentInformationFormSet, PropertyForm
-from .mixins import StaffMemberRequiredMixin
 from .serializers import PropertyModelSerializer
 
 

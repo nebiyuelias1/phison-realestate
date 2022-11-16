@@ -1,3 +1,6 @@
+import json
+from http import HTTPStatus
+
 import pytest
 from django.conf import settings
 from django.contrib import messages
@@ -101,3 +104,52 @@ class TestUserDetailView:
         assert isinstance(response, HttpResponseRedirect)
         assert response.status_code == 302
         assert response.url == f"{login_url}?next=/fake-url/"
+
+
+class TestNonStaffMemberListAjaxView:
+    @pytest.fixture
+    def view_url(self):
+        return reverse("users:ajax_user_list")
+
+    def test_unauthenticated_user(self, client, view_url):
+        response = client.get(view_url)
+        # Login redirect
+        assert response.status_code == HTTPStatus.FOUND
+        login_url = reverse("account_login")
+        redirect_url = f"{login_url}?next={view_url}"
+        assert response.url == redirect_url
+
+    def test_authenticated_user(self, admin_client, view_url):
+        response = admin_client.get(view_url)
+
+        assert response.status_code == HTTPStatus.OK
+
+    def test_get_user_existing_in_db(self, admin_client, view_url):
+        users = UserFactory.create_batch(2)
+        response = admin_client.get(view_url)
+        assert response.status_code == HTTPStatus.OK
+        response_data = json.loads(json.loads(response.content))
+        assert len(response_data) == 2
+        assert response_data[0]["id"] == users[0].pk
+        assert response_data[1]["id"] == users[1].pk
+
+    def test_get_user_with_search_key(self, admin_client, view_url):
+        users = UserFactory.create_batch(4)
+
+        # Search using name
+        response = admin_client.get(view_url + f"?q={users[0].name}")
+        response_data = json.loads(json.loads(response.content))
+        assert len(response_data) == 1
+        assert response_data[0]["id"] == users[0].pk
+
+        # Search using email address
+        response = admin_client.get(view_url + f"?q={users[2].email}")
+        response_data = json.loads(json.loads(response.content))
+        assert len(response_data) == 1
+        assert response_data[0]["id"] == users[2].pk
+
+        # Search using phone number
+        response = admin_client.get(view_url + f"?q={users[1].phone_number}")
+        response_data = json.loads(json.loads(response.content))
+        assert len(response_data) == 1
+        assert response_data[0]["id"] == users[1].pk
