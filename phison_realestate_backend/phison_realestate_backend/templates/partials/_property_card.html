@@ -4,13 +4,13 @@
     <img class="w-full object-cover rounded-2xl h-36" src="https://cdn.pixabay.com/photo/2015/10/20/18/57/furniture-998265_960_720.jpg" alt="Property image">
     <span class="absolute right-2 bottom-2 text-xs backdrop-blur-lg text-white p-2 rounded-lg group-hover:bg-orange-900">Apartment</span>
   </div>
-  <h3 class="mt-3 font-semibold">{{property.name}}</h3>
+  <h3 class="mt-3 font-semibold" id="propertyCardName">{{property.name}}</h3>
 
   <div class="mt-1 mb-12 flex flex-wrap justify-between">
     <div class="flex md:flex-col md:basis:1/3 flex-grow md:flex-grow-0">
       <div class="flex">
         <img class="mr-2 w-6 h-6" src="{% static 'images/bedroom.svg' %}" alt="bedroom icon">
-        <span class="text-xs font-semibold mr-1">{{property.bed_room_count}}</span>
+        <span id="propertyCardBedRoomCount" class="text-xs font-semibold mr-1">{{property.bed_room_count}}</span>
       </div>
       <p class="text-xs text-gray-500">Bedrooms</p>
     </div>
@@ -18,7 +18,7 @@
     <div class="flex md:flex-col md:basis:1/3 flex-grow md:flex-grow-0">
       <div class="flex">
         <img class="mr-2 w-6 h-6" src="{% static 'images/bathroom.svg' %}" alt="bathroom icon">
-        <span class="text-xs font-semibold mr-1">{{property.bath_room_count}}</span>
+        <span id="propertyCardBathRoomCount" class="text-xs font-semibold mr-1">{{property.bath_room_count}}</span>
       </div>
       <p class="text-xs text-gray-500">Bathrooms</p>
     </div>
@@ -26,7 +26,7 @@
     <div class="flex md:flex-col md:basis:1/3 flex-grow md:flex-grow-0">
       <div class="flex">
         <img class="mr-2 w-5 h-5" src="{% static 'images/area.svg' %}" alt="bathroom icon">
-        <span class="ml-1 text-xs font-semibold mr-1">{{property.parking_count}}</span>
+        <span id="propertyCardParkingCount" class="ml-1 text-xs font-semibold mr-1">{{property.parking_count}}</span>
       </div>
       <p class="text-xs text-gray-500">Parking</p>
     </div>
