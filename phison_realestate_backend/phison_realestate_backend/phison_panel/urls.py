@@ -6,6 +6,7 @@ from .views import (
     PropertyCreateView,
     PropertyListAjaxView,
     PropertyListView,
+    render_partial_template,
 )
 
 app_name = "phison_panel"
@@ -33,4 +34,12 @@ buyer_urls = [
     ),
 ]
 
-urlpatterns = property_urls + buyer_urls
+render_partial_urls = [
+    path(
+        "render_partial/<partial>/",
+        render_partial_template,
+        name="render_partial_template",
+    )
+]
+
+urlpatterns = property_urls + buyer_urls + render_partial_urls
