@@ -1,5 +1,7 @@
 from django import forms
-from django.forms.models import inlineformset_factory
+from django.core.exceptions import ValidationError
+from django.forms.models import BaseInlineFormSet, inlineformset_factory
+from django.utils.translation import gettext_lazy as _
 
 from phison_realestate_backend.core.models import (
     Buyer,
@@ -63,3 +65,27 @@ class BuyerPaymentScheduleForm(forms.ModelForm):
             "deadline",
             "description",
         )
+
+
+class BaseBuyerPaymentScheduleFormSet(BaseInlineFormSet):
+    def clean(self) -> None:
+        super().clean()
+
+        percentage_sum = 0
+        for form in self.forms:
+            percentage_sum += form.instance.percentage
+
+        if percentage_sum != 100:
+            raise ValidationError(
+                _("Percentage sum does not equal 100."), code="invalid sum"
+            )
+
+
+BuyerPaymentScheduleFormSet = inlineformset_factory(
+    Buyer,
+    model=BuyerPaymentSchedule,
+    form=BuyerPaymentScheduleForm,
+    formset=BaseBuyerPaymentScheduleFormSet,
+    min_num=1,
+    validate_min=True,
+)

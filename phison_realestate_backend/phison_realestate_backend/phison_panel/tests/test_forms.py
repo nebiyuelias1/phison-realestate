@@ -3,6 +3,7 @@ import pytest
 from phison_realestate_backend.phison_panel.forms import (
     BuyerForm,
     BuyerPaymentScheduleForm,
+    BuyerPaymentScheduleFormSet,
     PaymentInformationForm,
     PropertyForm,
 )
@@ -161,3 +162,45 @@ class TestBuyerPaymentScheduleForm:
         form = self.Form(self.data)
         assert form.is_valid()
         assert form.errors == {}
+
+
+class TestBuyerPaymentScheduleFormSet:
+    def setup(self):
+        self.Form = BuyerPaymentScheduleFormSet
+
+    def test_invalid_form_set(self):
+        data = {
+            "schedules-TOTAL_FORMS": 2,
+            "schedules-MIN_NUM_FORMS": 1,
+            "schedules-INITIAL_FORMS": 0,
+            "schedules-0-title": "test title",
+            "schedules-0-percentage": 23.0,
+            "schedules-0-deadline": "2023-06-04 15:23:08.367007+00:00",
+            "schedules-0-description": "test description",
+            "schedules-1-title": "test title",
+            "schedules-1-percentage": 23.0,
+            "schedules-1-deadline": "2023-06-04 15:23:08.367007+00:00",
+            "schedules-1-description": "test description",
+        }
+
+        form = self.Form(data)
+        assert form.is_valid() is False
+        assert form.non_form_errors()[0] == "Percentage sum does not equal 100."
+
+    def test_valid_form_set(self):
+        data = {
+            "schedules-TOTAL_FORMS": 2,
+            "schedules-MIN_NUM_FORMS": 1,
+            "schedules-INITIAL_FORMS": 0,
+            "schedules-0-title": "test title",
+            "schedules-0-percentage": 23.0,
+            "schedules-0-deadline": "2023-06-04 15:23:08.367007+00:00",
+            "schedules-0-description": "test description",
+            "schedules-1-title": "test title",
+            "schedules-1-percentage": 77.0,
+            "schedules-1-deadline": "2023-06-04 15:23:08.367007+00:00",
+            "schedules-1-description": "test description",
+        }
+
+        form = self.Form(data)
+        assert form.is_valid()
