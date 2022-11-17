@@ -1,7 +1,12 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from phison_realestate_backend.core.models import Buyer, PaymentInformation, Property
+from phison_realestate_backend.core.models import (
+    Buyer,
+    BuyerPaymentSchedule,
+    PaymentInformation,
+    Property,
+)
 
 
 class PropertyForm(forms.ModelForm):
@@ -46,4 +51,15 @@ class BuyerForm(forms.ModelForm):
         fields = (
             "property",
             "customer",
+        )
+
+
+class BuyerPaymentScheduleForm(forms.ModelForm):
+    class Meta:
+        model = BuyerPaymentSchedule
+        fields = (
+            "title",
+            "percentage",
+            "deadline",
+            "description",
         )
