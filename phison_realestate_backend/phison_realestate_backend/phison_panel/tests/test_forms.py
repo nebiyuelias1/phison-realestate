@@ -1,7 +1,12 @@
+import pytest
+
 from phison_realestate_backend.phison_panel.forms import (
+    BuyerForm,
     PaymentInformationForm,
     PropertyForm,
 )
+from phison_realestate_backend.phison_panel.tests.factories import PropertyFactory
+from phison_realestate_backend.users.tests.factories import UserFactory
 
 
 class TestPropertyForm:
@@ -100,3 +105,32 @@ class TestPaymentInformationForm:
         form = self.Form(data)
         assert form.is_valid() is True
         assert form.errors == {}
+
+
+@pytest.mark.django_db
+class TestBuyerForm:
+    def setup(self):
+        self.Form = BuyerForm
+
+    def test_valid_form(self):
+        property = PropertyFactory.create()
+        customer = UserFactory.create()
+
+        data = {
+            "property": property.pk,
+            "customer": customer.pk,
+        }
+
+        form = self.Form(data)
+        assert form.is_valid()
+        assert form.errors == {}
+
+    def test_invalid_form(self):
+        data = {
+            "property": 1,
+            "customer": 2,
+        }
+
+        form = self.Form(data)
+        assert form.is_valid() is False
+        assert form.errors != {}
