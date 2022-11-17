@@ -1,5 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+
+User = get_user_model()
 
 
 class TimeStampedModel(models.Model):
@@ -115,4 +118,60 @@ class PaymentInformation(models.Model):
         blank=False,
         related_name="payment_infos",
         on_delete=models.CASCADE,
+    )
+
+
+class Buyer(TimeStampedModel):
+    """A model that represents a customer that has bought a property."""
+
+    property = models.ForeignKey(
+        Property,
+        related_name="buyers",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+    )
+
+    customer = models.ForeignKey(
+        User,
+        related_name="bought_properties",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+    )
+
+    # The staff user that made the registration.
+    registered_by = models.ForeignKey(
+        User, related_name="+", null=True, blank=False, on_delete=models.SET_NULL
+    )
+
+
+class BuyerPaymentSchedule(TimeStampedModel):
+    """A model that represents payment schedule for a buyer."""
+
+    PENDING = "PE"
+    COMPLETE = "CP"
+
+    PAYMENT_STATUS_OPTIONS = [
+        (PENDING, "Pending"),
+        (COMPLETE, "Complete"),
+    ]
+
+    buyer = models.ForeignKey(
+        Buyer,
+        related_name="schedules",
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+
+    percentage = models.FloatField()
+
+    # The amount is in USD.
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    deadline = models.DateTimeField(null=False, blank=False)
+
+    status = models.CharField(
+        max_length=2, choices=PAYMENT_STATUS_OPTIONS, default=PENDING
     )
