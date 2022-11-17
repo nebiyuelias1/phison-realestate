@@ -157,6 +157,10 @@ class BuyerPaymentSchedule(TimeStampedModel):
         (COMPLETE, "Complete"),
     ]
 
+    title = models.CharField(max_length=100)
+
+    description = models.TextField()
+
     buyer = models.ForeignKey(
         Buyer,
         related_name="schedules",
