@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.models import BaseInlineFormSet, inlineformset_factory
@@ -65,6 +67,12 @@ class BuyerPaymentScheduleForm(forms.ModelForm):
             "deadline",
             "description",
         )
+
+    def save(self, commit: bool):
+        self.instance.amount = (
+            Decimal(self.instance.percentage) * self.instance.buyer.property.price
+        )
+        return super().save(commit)
 
 
 class BaseBuyerPaymentScheduleFormSet(BaseInlineFormSet):
