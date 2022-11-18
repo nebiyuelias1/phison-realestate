@@ -5,15 +5,21 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.forms import BaseForm
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 
-from phison_realestate_backend.core.models import Property
+from phison_realestate_backend.core.models import Buyer, Property
 
 from ..core.mixins import StaffMemberRequiredMixin
-from .forms import PaymentInformationFormSet, PropertyForm
+from .forms import (
+    BuyerForm,
+    BuyerPaymentScheduleFormSet,
+    PaymentInformationFormSet,
+    PropertyForm,
+)
 from .serializers import PropertyModelSerializer
 
 
@@ -67,9 +73,6 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
 
         return data
 
-    def post(self, request, *args: str, **kwargs):
-        return super().post(request, *args, **kwargs)
-
     def form_valid(self, form: BaseForm) -> HttpResponse:
         form_set = self._get_payment_information_form_set()
 
@@ -87,10 +90,36 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
 # Buyer views
 # ------------------------------------------------------------
 class BuyerCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView):
-    # TODO: Change the model and fields properties once the Buyer model is created.
-    model = Property
-    fields = ("name",)
+    model = Buyer
     template_name = "phison_panel/buyer_form.html"
+    form_class = BuyerForm
+
+    def _get_buyer_payment_schedule_form_set(self):
+        if self.request.POST:
+            return BuyerPaymentScheduleFormSet(self.request.POST)
+        else:
+            return BuyerPaymentScheduleFormSet()
+
+    def get_context_data(self, **kwargs: Any):
+        data = super().get_context_data(**kwargs)
+
+        data["formset"] = self._get_buyer_payment_schedule_form_set()
+
+        return data
+
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        form_set = self._get_buyer_payment_schedule_form_set()
+
+        if form_set.is_valid():
+            self.object = form.save()
+            form_set.instance = self.object
+            form_set.save()
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def get_success_url(self) -> str:
+        return reverse("phison_panel:buyer_list")
 
 
 # end Buyer views
