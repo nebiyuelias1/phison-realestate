@@ -4,7 +4,13 @@ from http import HTTPStatus
 import pytest
 from django.urls import reverse
 
-from phison_realestate_backend.core.models import PaymentInformation, Property
+from phison_realestate_backend.core.models import (
+    Buyer,
+    BuyerPaymentSchedule,
+    PaymentInformation,
+    Property,
+)
+from phison_realestate_backend.users.tests.factories import UserFactory
 
 from .factories import PropertyFactory, PropertyImageFactory
 
@@ -137,3 +143,66 @@ class TestPropertyListAjaxView:
 
         response_data = json.loads(json.loads(response.content))
         assert len(response_data) == 1
+
+
+class TestBuyerCreateView:
+    @pytest.fixture
+    def view_url(self):
+        return reverse("phison_panel:new_buyer")
+
+    def test_unauthenticated_user(self, client, view_url):
+        response = client.get(view_url)
+        # Login redirect
+        assert response.status_code == HTTPStatus.FOUND
+        login_url = reverse("account_login")
+        redirect_url = f"{login_url}?next={view_url}"
+        assert response.url == redirect_url
+
+    def test_authenticated_user(self, admin_client, view_url):
+        response = admin_client.get(view_url)
+
+        assert response.status_code == HTTPStatus.OK
+
+    def test_create_buyer_without_payment_schedule(self, admin_client, view_url):
+        property = PropertyFactory.create()
+        customer = UserFactory.create()
+
+        response = admin_client.post(
+            view_url,
+            data={
+                "property": property.pk,
+                "customer": customer.pk,
+            },
+        )
+
+        assert Buyer.objects.count() == 0
+        assert BuyerPaymentSchedule.objects.count() == 0
+        assert response.status_code == HTTPStatus.OK
+        assert len(response.context["formset"].non_form_errors()) == 1
+
+    def test_create_buyer_with_payment_schedule(self, admin_client, view_url):
+        property = PropertyFactory.create()
+        customer = UserFactory.create()
+
+        response = admin_client.post(
+            view_url,
+            data={
+                "property": property.pk,
+                "customer": customer.pk,
+                "schedules-TOTAL_FORMS": 2,
+                "schedules-MIN_NUM_FORMS": 1,
+                "schedules-INITIAL_FORMS": 0,
+                "schedules-0-title": "test title",
+                "schedules-0-percentage": 23.0,
+                "schedules-0-deadline": "2023-06-04 15:23:08.367007+00:00",
+                "schedules-0-description": "test description",
+                "schedules-1-title": "test title",
+                "schedules-1-percentage": 77.0,
+                "schedules-1-deadline": "2023-06-04 15:23:08.367007+00:00",
+                "schedules-1-description": "test description",
+            },
+        )
+
+        assert Buyer.objects.count() == 1
+        assert BuyerPaymentSchedule.objects.count() == 2
+        assert response.status_code == HTTPStatus.FOUND
