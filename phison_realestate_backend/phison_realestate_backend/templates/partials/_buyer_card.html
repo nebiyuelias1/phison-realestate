@@ -8,8 +8,8 @@
     <img src="{% static 'images/more-horizontal.svg' %}" alt="more options">
   </div>
 
-  <h6 class="mt-2 font-semibold text-gray-800">Jaime Bernhard</h6>
-  <p class="text-sm text-gray-600">298-974-8265</p>
+  <h6 class="mt-2 font-semibold text-gray-800">{{buyer.customer.name}}</h6>
+  <p class="text-sm text-gray-600">{{buyer.customer.phone_number}}</p>
 
   <div class="mt-2 flex w-full bg-gray-300 rounded-lg">
     <div class="bg-orange-900 text-white text-xs font-semibold py-1 px-2 rounded-lg">5th payment</div>
