@@ -85,6 +85,8 @@ const fetchData = async (searchKey) => {
         document.querySelector('#propertyCardBathRoomCount').textContent = property.bath_room_count;
         document.querySelector('#propertyCardParkingCount').textContent = property.parking_count;
 
+        document.querySelector("#propertyId").value = property.id;
+
         closeDialog();
       });
     });
