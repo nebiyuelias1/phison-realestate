@@ -2,6 +2,8 @@ import json
 from typing import Any
 
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db import models
+from django.db.models import Q
 from django.forms import BaseForm
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -95,6 +97,31 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
 class BuyerListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
     model = Buyer
     template_name = "phison_panel/buyer_list.html"
+
+    def get_queryset(self) -> models.QuerySet[Buyer]:
+        queryset = super().get_queryset()
+        filter_by = self.request.GET.get("filter_by", None)
+        if filter_by:
+            # TODO: Filter based on property type
+            queryset = queryset
+
+        q = self.request.GET.get("q", None)
+        if q:
+            queryset = queryset.filter(Q(customer__name=q) | Q(property__name=q))
+        return queryset
+
+    def get_context_data(self, **kwargs: Any):
+        data = super().get_context_data(**kwargs)
+
+        q = self.request.GET.get("q", None)
+        if q:
+            data["q"] = q
+
+        filter_by = self.request.GET.get("filter_by", None)
+        if filter_by:
+            data["filter_by"] = filter_by
+
+        return data
 
 
 class BuyerCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView):
