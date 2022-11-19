@@ -20,6 +20,9 @@ class TimeStampedModel(models.Model):
 
 # TODO: Add property_type to this model with options: apartment or villa
 class Property(TimeStampedModel):
+    APARTMENT = "AP"
+    VILLA = "VI"
+
     """A model class that represents a property object."""
 
     name = models.CharField(null=False, blank=False, max_length=100)
@@ -144,6 +147,10 @@ class Buyer(TimeStampedModel):
     registered_by = models.ForeignKey(
         User, related_name="+", null=True, blank=False, on_delete=models.SET_NULL
     )
+
+    class Meta:
+        # https://docs.djangoproject.com/en/4.1/ref/models/options/
+        ordering = ["-created_at"]
 
 
 class BuyerPaymentSchedule(TimeStampedModel):
