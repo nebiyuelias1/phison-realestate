@@ -92,6 +92,11 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
 
 # Buyer views
 # ------------------------------------------------------------
+class BuyerListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
+    model = Buyer
+    template_name = "phison_panel/buyer_list.html"
+
+
 class BuyerCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView):
     model = Buyer
     template_name = "phison_panel/buyer_form.html"

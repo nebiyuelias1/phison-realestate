@@ -206,3 +206,22 @@ class TestBuyerCreateView:
         assert Buyer.objects.count() == 1
         assert BuyerPaymentSchedule.objects.count() == 2
         assert response.status_code == HTTPStatus.FOUND
+
+
+class TestBuyerListView:
+    @pytest.fixture
+    def view_url(self):
+        return reverse("phison_panel:buyer_list")
+
+    def test_unauthenticated_user(self, client, view_url):
+        response = client.get(view_url)
+        # Login redirect
+        assert response.status_code == HTTPStatus.FOUND
+        login_url = reverse("account_login")
+        redirect_url = f"{login_url}?next={view_url}"
+        assert response.url == redirect_url
+
+    def test_authenticated_user(self, admin_client, view_url):
+        response = admin_client.get(view_url)
+
+        assert response.status_code == HTTPStatus.OK
