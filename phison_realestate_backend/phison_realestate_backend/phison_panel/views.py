@@ -93,6 +93,7 @@ class BuyerCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView)
     model = Buyer
     template_name = "phison_panel/buyer_form.html"
     form_class = BuyerForm
+    success_message = _("Buyer saved successfully")
 
     def _get_buyer_payment_schedule_form_set(self):
         if self.request.POST:
