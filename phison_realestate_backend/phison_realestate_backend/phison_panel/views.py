@@ -23,6 +23,20 @@ from .forms import (
 from .serializers import PropertyModelSerializer
 
 
+class PaginateMixin:
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs: Any):
+        data = super().get_context_data(**kwargs)
+        page = data["page_obj"]
+        data["prefix"] = range(1, min(4, page.number))
+        data["suffix"] = range(
+            max(page.number + 1, page.paginator.num_pages - 4),
+            page.paginator.num_pages + 1,
+        )
+        return data
+
+
 # Property views
 # ------------------------------------------------------------
 class PropertyListAjaxView(StaffMemberRequiredMixin, View):
@@ -38,20 +52,9 @@ class PropertyListAjaxView(StaffMemberRequiredMixin, View):
         return JsonResponse(data=json_data, safe=False)
 
 
-class PropertyListView(StaffMemberRequiredMixin, ListView):
+class PropertyListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
     model = Property
     template_name = "phison_panel/property_list.html"
-    paginate_by = 10
-
-    def get_context_data(self, **kwargs: Any):
-        data = super().get_context_data(**kwargs)
-        page = data["page_obj"]
-        data["prefix"] = range(1, min(4, page.number))
-        data["suffix"] = range(
-            max(page.number + 1, page.paginator.num_pages - 4),
-            page.paginator.num_pages + 1,
-        )
-        return data
 
 
 class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView):
