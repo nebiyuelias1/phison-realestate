@@ -13,49 +13,74 @@
 
   <hr class="my-6" />
 
-  <div class="flex justify-between items-center flex-wrap gap-2">
-    <div class="flex-shrink-0 flex gap-x-1">
-      <div class="bg-orange-100 py-1 px-2 rounded-2xl text-orange-900 flex items-center">
-        <span class="mr-1 text-sm">All Time</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
+  <form method="get">
+    <div class="flex justify-between items-center flex-wrap gap-2">
+      <div class="flex-shrink-0 flex gap-x-1">
+        {% if filter_by %}
+          <button type="submit" name="filter_by" class="bg-orange-100 py-1 px-2 rounded-2xl text-orange-900 flex items-center">
+            <span class="mr-1 text-sm">
+              {% if filter_by == "AP" %}
+              Apartment Only
+              {% elif filter_by == "VI" %}
+              Villa Only
+              {% endif %}
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        {% endif %}
+
+
+        <div class="relative">
+          <button id="filterDropdown" data-dropdown-toggle="dropdown" class="py-1 px-2 rounded-2xl flex items-center border border-solid border-gray-200 hover:bg-gray-100 focus:ring-1 focus:outline-none focus:ring-orange-300 " type="button" tabindex="0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="feather feather-chevron-down">
+            <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+
+            <span class="font-medium text-sm ml-1">More Filters</span>
+          </button>
+
+          <div id="dropdown" class="hidden mt-1 absolute z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow">
+            <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
+                {% block filter_options %} {% endblock %}
+            </ul>
+          </div>
+        </div>
       </div>
 
-      <div class="py-1 px-2 rounded-2xl flex items-center border border-solid border-gray-200">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="feather feather-chevron-down">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
+      <div class="relative flex-grow md:flex-grow-0">
+        <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="feather feather-search">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
 
-        <span class="font-medium text-sm ml-1">More Filters</span>
+        </div>
+        <input type="text" name="q"
+          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5"
+          placeholder="Search" value="{{q}}">
       </div>
     </div>
+  </form>
 
-    <div class="relative flex-grow md:flex-grow-0">
-      <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="feather feather-search">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-
-      </div>
-      <input type="password" id="id_password" name="password"
-        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5"
-        placeholder="Search">
-    </div>
-  </div>
+  {% if q %}
+    <p class="text-sm">Showing search result for "<strong>{{q}}</strong>"</p>
+  {% endif %}
 
   <div class="flex flex-wrap items-stretch gap-y-6 mt-2">
     {% for buyer in object_list %}
       <div class="pr-3 basis-1/2 md:basis-1/3 lg:basis-1/4 md:flex-grow-0 items-stretch flex-shrink">
         {% block card %} {% endblock %}
       </div>
+    {% empty %}
+    <p class="text-gray-500">No result found!</p>
     {% endfor %}
   </div>
 
@@ -67,3 +92,20 @@
 </div>
 
 {% endblock %}
+
+{% block inline_javascript %}
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const dropdownToggle = document.querySelector('[data-dropdown-toggle]');
+    dropdownToggle.addEventListener("click", (event) => {
+      const dropdown = document.querySelector(`#${dropdownToggle.dataset.dropdownToggle}`);
+      dropdown.classList.toggle("hidden");
+    });
+
+    dropdownToggle.addEventListener("blur", (event) => {
+      const dropdown = document.querySelector(`#${dropdownToggle.dataset.dropdownToggle}`);
+      setTimeout(() => dropdown.classList.toggle("hidden"), 200);
+    });
+  });
+</script>
+{% endblock inline_javascript %}
