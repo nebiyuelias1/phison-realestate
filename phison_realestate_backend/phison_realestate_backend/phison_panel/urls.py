@@ -1,8 +1,8 @@
 from django.urls import path
-from django.views.generic import TemplateView
 
 from .views import (
     BuyerCreateView,
+    BuyerListView,
     PropertyCreateView,
     PropertyListAjaxView,
     PropertyListView,
@@ -24,7 +24,7 @@ property_urls = [
 buyer_urls = [
     path(
         "buyers/",
-        TemplateView.as_view(template_name="phison_panel/buyer_list.html"),
+        BuyerListView.as_view(),
         name="buyer_list",
     ),
     path(
@@ -39,7 +39,7 @@ render_partial_urls = [
         "render_partial/<partial>/",
         render_partial_template,
         name="render_partial_template",
-    )
+    ),
 ]
 
 urlpatterns = property_urls + buyer_urls + render_partial_urls
