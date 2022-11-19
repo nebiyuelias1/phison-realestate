@@ -1,9 +1,19 @@
-{% extends "phison_panel/base_form.html" %}
+r{% extends "phison_panel/base_form.html" %}
 {% load static %}
 {% block header_title %} Add New Buyer {% endblock %}
 {% block header_description %} Fill out the following information to add a new buyer {% endblock %}
 
 {% block main_form %}
+<form id="buyerForm" method="post">
+  {% csrf_token %}
+
+  <div id="hiddenFormControls">
+    {{formset.management_form}}
+    <input id="propertyId" name="property" type="hidden">
+    <input id="customerId" name="customer" type="hidden">
+  </div>
+</form>
+
 <div class="mt-4 lg:flex lg:gap-6">
   <div class="mb-4 basis-1/3 flex-grow-0 flex-shrink lg:border-r border-solid border-r-gray-300">
     <h5 class="font-semibold">Property Information</h5>
@@ -16,16 +26,22 @@
     </div>
 
     <div id="selectProperty">
-      <div class="mt-5 border border-gray-400 border-dashed rounded-2xl py-14 px-10 mx-6 cursor-pointer">
+      <div class="mt-5 border border-gray-400 border-dashed rounded-2xl py-14 px-10 mx-6 cursor-pointer {% if form.errors.property %} border-red-500 bg-red-50 {% endif %}">
         <div class="text-gray-500 font-medium flex flex-col items-center">
           <img src="{% static 'images/add.svg' %}" alt="Add property">
           <p class="mt-4 text-center">Choose Property</p>
           <p class="mt-2 text-xs text-center">Click here to select property</p>
         </div>
       </div>
+      {% for error in form.errors.property %}
+        <p class="text-xs text-red-500 mx-6">
+          {{error}}
+        </p>
+      {% endfor %}
     </div>
 
     <h5 class="mt-6 font-semibold">Customer Information</h5>
+
     <div id="selectedCustomerContainer" class="mt-5 flex hidden">
       <div id="customerCard" class="break-all"></div>
       <button class="border-none p-2 bg-white rounded-xl outline-none ml-2 self-start" id="removeCustomerSelection">
@@ -33,23 +49,38 @@
       </button>
     </div>
     <div id="selectCustomer">
-      <div class="mt-5 border border-gray-400 border-dashed rounded-2xl py-14 px-10 mx-6 cursor-pointer">
+      <div class="mt-5 border border-gray-400 border-dashed rounded-2xl py-14 px-10 mx-6 cursor-pointer {% if form.errors.customer %} border-red-500 bg-red-50 {% endif %}">
         <div class="text-gray-500 font-medium flex flex-col items-center">
           <img src="{% static 'images/add.svg' %}" alt="Add property">
           <p class="mt-4 text-center">Choose Customer</p>
           <p class="mt-2 text-xs text-center">Click here to select customer</p>
         </div>
       </div>
+      {% for error in form.errors.customer %}
+      <p class="text-xs text-red-500 mx-6">
+        {{error}}
+      </p>
+      {% endfor %}
     </div>
   </div>
 
   <div class="basis-2/3 flex-grow">
     <h5 class="font-semibold">Add Schedule</h5>
+    {% for error in formset.non_form_errors %}
+      <div class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+        <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+        <span class="sr-only">Info</span>
+        <div>
+          <span class="font-medium">Error!</span> {{error}}
+        </div>
+      </div>
+    {% endfor %}
+    <form id="paymentForm"></form>
     <div class="flex flex-wrap mt-4 gap-3">
       <!-- prettier-ignore -->
       {% include 'partials/_input.html' with label="Payment Title" id="payment_title" name="payment_title" placeholder="Initial Payment" type="text" class="basis-full md:basis-1/2 lg:basis-1/3 flex-grow flex-shrink" required_attribute="required" form_attribute="form='paymentForm'" only %}
-      {% include 'partials/_input.html' with label="Payment Time Period" id="payment_time_period" name="payment_time_period" placeholder="2 months after initial agreement" type="text" class="basis-full md:basis-1/2 lg:basis-1/3 flex-grow flex-shrink" required_attribute="required" form_attribute="form='paymentForm'" only %}
-      {% include 'partials/_textarea.html' with label="Property description" id="payment_description" name="payment_description" placeholder="Payment description" type="text" class="basis-full md:basis-1/2 lg:basis-1/3 flex-grow flex-shrink" required_attribute="required" form_attribute="form='paymentForm'" rows="3" only %}
+      {% include 'partials/_input.html' with label="Payment Deadline" id="payment_deadline" name="payment_deadline" type="date" class="basis-full md:basis-1/2 lg:basis-1/3 flex-grow flex-shrink" required_attribute="required" form_attribute="form='paymentForm'" only %}
+      {% include 'partials/_textarea.html' with label="Property description" id="payment_description" name="payment_description" placeholder="Payment description" type="text" class="basis-full md:basis-1/2 lg:basis-1/3 flex-grow flex-shrink" required_attribute="required" rows="3" form_attribute="form='paymentForm'" only %}
       <div class="basis-full md:basis-1/2 lg:basis-1/3 flex-grow flex flex-col flex-shrink">
         {% include 'partials/_input.html' with label="Payment Amount (%)" id="payment_amount" name="payment_amount" placeholder="Your payment amount in percentage" type="number" min="1" max="100" required_attribute="required" form_attribute="form='paymentForm'" only %}
         {% include 'partials/_neutral_button.html' with label="Add Payment" class="mt-3" form_attribute="form='paymentForm'" only %}
@@ -69,7 +100,7 @@
               Description
             </th>
             <th scope="col" class="py-3 px-6">
-              Time period
+              Deadline
             </th>
             <th scope="col" class="py-3 px-6">
               Amount (%)
@@ -84,7 +115,7 @@
 
       <div class="flex justify-end gap-x-3">
         {% include 'partials/_neutral_button.html' with label="Cancel" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4" only %}
-        {% include 'partials/_primary_button.html' with label="Save" class="basis-full md:basis-1/3 lg:basis-1/4" %}
+        {% include 'partials/_primary_button.html' with label="Save" class="basis-full md:basis-1/3 lg:basis-1/4" form_attribute="form='buyerForm'" %}
       </div>
     </div>
   </div>
@@ -116,6 +147,7 @@
     removePropertySelectionBtn.addEventListener('click', () => {
       selectProperty.classList.remove('hidden');
       selectedPropertyContainer.classList.add('hidden');
+      document.querySelector('#propertyId').value = '';
     });
 
     const selectedCustomerContainer = document.querySelector('#selectedCustomerContainer');
@@ -123,6 +155,49 @@
     removeCustomerSelectionBtn.addEventListener('click', () => {
       selectCustomer.classList.remove('hidden');
       selectedCustomerContainer.classList.add('hidden');
+      document.querySelector('#customerId').value = '';
+    });
+
+    const paymentForm = document.querySelector('#paymentForm');
+    paymentForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const paymentTitle = document.querySelector('#payment_title').value;
+      const paymentDeadline = document.querySelector('#payment_deadline').value;
+      const paymentAmount = document.querySelector('#payment_amount').value;
+      const paymentDescription = document.querySelector('#payment_description').value;
+
+      const table = document.querySelector('#tableBody');
+
+      const rowsCount = table.rows.length;
+      const row = table.insertRow(rowsCount);
+      row.classList.add('bg-white', 'border-b');
+      row.innerHTML = `
+        <th scope="row" class="py-4 px-6 font-medium text-blue-600 whitespace-nowrap">
+          ${paymentTitle}
+        </th>
+        <td class="py-4 px-6">
+          ${paymentDescription}
+        </td>
+        <td class="py-4 px-6">
+          ${paymentDeadline}
+        </td>
+        <td class="py-4 px-6">
+          ${paymentAmount}
+        </td>
+      `;
+      const totalFormsInput = document.querySelector('#id_schedules-TOTAL_FORMS');
+      totalFormsInput.value = rowsCount + 1;
+
+      const hiddenFormControls = document.querySelector('#hiddenFormControls');
+      hiddenFormControls.innerHTML = hiddenFormControls.innerHTML + `
+        <input type="text" name="schedules-${rowsCount}-title" maxlength="100" id="id_schedules-${rowsCount}-title" value="${paymentTitle}" hidden>
+        <input type="date" name="schedules-${rowsCount}-deadline" maxlength="100" id="id_schedules-${rowsCount}-deadline" value="${paymentDeadline}" hidden>
+        <input type="number" name="schedules-${rowsCount}-percentage" step="0.01" id="id_schedules-${rowsCount}-percentage" value="${paymentAmount}" hidden>
+        <textarea name="schedules-${rowsCount}-description" cols="40" rows="10" id="id_schedules-${rowsCount}-description" hidden>${paymentDescription}</textarea>
+      `;
+
+      paymentForm.reset();
     });
   });
 </script>

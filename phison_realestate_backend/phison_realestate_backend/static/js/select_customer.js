@@ -55,6 +55,8 @@ const fetchCustomers = (url) => {
               </div>
               `;
 
+              document.querySelector("#customerId").value = customer.id;
+
               closeDialog();
             });
           });
