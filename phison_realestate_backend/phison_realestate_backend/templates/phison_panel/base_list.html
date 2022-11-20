@@ -5,7 +5,7 @@
   <header class="mt-3">
     <div class="flex items-center">
       <h2 class="text-xl mr-3">{% block header_title %} {% endblock %}</h2>
-      <a href="{% block add_button_link %}{% endblock %}" class="bg-orange-900 text-white rounded-lg py-1 px-2 text-sm">{% block add_button_label%}{% endblock %}</a>
+      <a id="addButton" href="{% block add_button_link %}{% endblock %}" class="bg-orange-900 text-white rounded-lg py-1 px-2 text-sm">{% block add_button_label%}{% endblock %}</a>
     </div>
     <p class="text-xs text-gray-500 mt-3">{% block header_description %}{% endblock %}</p>
   </header>
