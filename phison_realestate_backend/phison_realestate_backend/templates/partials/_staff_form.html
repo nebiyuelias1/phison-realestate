@@ -1,0 +1,13 @@
+<div>
+  {% include 'partials/_input.html' with label="Email address" id="email_address" name="email" placeholder="yohannes@gmail.com" type="email" class="mb-6" required_attribute="required" only %}
+
+  {% include 'partials/_input.html' with label="Phone number" id="phone_number" name="phone" placeholder="+251 911 11 11 11" type="tel" class="mb-6" required_attribute="required" only %}
+
+  {% include 'partials/_input.html' with label="Username" id="username" name="username" placeholder="john" type="tel" class="mb-6" required_attribute="required" only %}
+
+  {% include 'partials/_input.html' with label="Password" id="password" name="password" placeholder="" type="password" class="mb-6" required_attribute="required" only %}
+
+  {% include 'partials/_select.html' with label="Account type" id="account_type" name="account_type" class="mb-6" required_attribute="required" options="<option value='admin'>Admin</option><option class='staff'>Staff Member</option>" only %}
+
+  {% include 'partials/_primary_button.html' with label="Save" class="mx-auto" form_attribute="form='buyerForm'" %}
+</div>
