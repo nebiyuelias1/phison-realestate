@@ -15,13 +15,18 @@
 {{block.super}}
 <script type="module">
   import { showDialog, renderDjangoTemplate } from "/static/js/utils.js";
+  import { onSubmit } from "/static/js/staff_form.js";
 
   window.addEventListener('DOMContentLoaded', () => {
     const addStaffButton = document.querySelector('#addButton');
     addStaffButton.addEventListener("click", async (event) => {
       event.preventDefault();
+
       const template = await renderDjangoTemplate('_staff_form.html');
       showDialog('Add Staff Member', template);
+
+      const staffForm = document.querySelector('#staffForm');
+      staffForm.addEventListener('submit', onSubmit);
     });
   });
 </script>
