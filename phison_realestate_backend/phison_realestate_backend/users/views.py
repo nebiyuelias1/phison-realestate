@@ -1,4 +1,5 @@
 import json
+from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,8 +10,10 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 from django.views.generic.base import View
+from django.views.generic.edit import FormView
 
 from phison_realestate_backend.users.api.serializers import UserSerializer
+from phison_realestate_backend.users.forms import UserSignupForm
 
 from ..core.mixins import StaffMemberRequiredMixin
 
@@ -74,3 +77,19 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+
+class AddUserView(StaffMemberRequiredMixin, FormView):
+    form_class = UserSignupForm
+    template_name = "partials/_add_user_errors.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        self.user = form.save(self.request)
+
+        return JsonResponse({"pk": self.user.pk}, status=HTTPStatus.CREATED)
+
+
+add_user_view = AddUserView.as_view()
