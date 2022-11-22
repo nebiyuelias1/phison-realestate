@@ -22,7 +22,7 @@ User = get_user_model()
 
 class NonStaffMemberListAjaxView(StaffMemberRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        queryset = User.objects.filter(is_superuser=False, is_staff=False).all()
+        queryset = User.objects.get_non_staff_members()
         query_param = self.request.GET.get("q", "")
         if query_param:
             queryset = queryset.filter(
