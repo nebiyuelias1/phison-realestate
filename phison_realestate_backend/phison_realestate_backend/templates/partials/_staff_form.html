@@ -1,13 +1,23 @@
-<div>
-  {% include 'partials/_input.html' with label="Email address" id="email_address" name="email" placeholder="yohannes@gmail.com" type="email" class="mb-6" required_attribute="required" only %}
+<form id="staffForm" method="post">
+  {% csrf_token %}
 
-  {% include 'partials/_input.html' with label="Phone number" id="phone_number" name="phone" placeholder="+251 911 11 11 11" type="tel" class="mb-6" required_attribute="required" only %}
+  {% include 'partials/_input.html' with label="Name" id="name" name="name" placeholder="Yohannes" type="text" required_attribute="required" only %}
 
-  {% include 'partials/_input.html' with label="Username" id="username" name="username" placeholder="john" type="tel" class="mb-6" required_attribute="required" only %}
+  {% include 'partials/_input.html' with label="Email address" id="email_address" name="email" placeholder="yohannes@gmail.com" type="email" class="mt-3" required_attribute="required" only %}
 
-  {% include 'partials/_input.html' with label="Password" id="password" name="password" placeholder="" type="password" class="mb-6" required_attribute="required" only %}
+  {% include 'partials/_input.html' with label="Phone number" id="phone_number" name="phone_number" placeholder="+251 911 11 11 11" type="tel" class="mt-3" required_attribute="required" only %}
 
-  {% include 'partials/_select.html' with label="Account type" id="account_type" name="account_type" class="mb-6" required_attribute="required" options="<option value='admin'>Admin</option><option class='staff'>Staff Member</option>" only %}
+  {% include 'partials/_input.html' with label="Username" id="username" name="username" placeholder="john" type="tel" class="mt-3" required_attribute="required" only %}
 
-  {% include 'partials/_primary_button.html' with label="Save" class="mx-auto" form_attribute="form='buyerForm'" %}
-</div>
+  <div class="flex items-start my-3">
+    <div class="flex items-center h-5">
+      <input id="is_superuser" type="checkbox" name="is_superuser"
+        class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300">
+    </div>
+    <label for="is_superuser" class="ml-2 text-sm font-medium text-gray-900">Is Administrator</label>
+  </div>
+
+  <div id="errorMessage"></div>
+
+  {% include 'partials/_primary_button.html'  with label="Save" %}
+</form>

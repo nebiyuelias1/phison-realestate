@@ -2,26 +2,38 @@
 {% block header_title %}Staff List{% endblock %}
 {% block add_button_label %}Add Staff{% endblock %}
 {% block header_description %}All of your staff members{% endblock %}
+{% block filter_by_label %}
+  {% if filter_by == "is_superuser" %}
+    Admin Only
+  {% elif filter_by == "is_staff" %}
+    Staff Only
+  {% endif %}
+{% endblock %}
 {% block filter_options %}
 <li>
-  <button type="submit" name="filter_by" class="text-left block w-full py-2 px-4 hover:bg-gray-100 {% if filter_by == 'AP' %}text-gray-400{% endif %}" value="AP" {% if filter_by == 'AP' %}disabled{% endif %}>Admin Only</button>
+  <button type="submit" name="filter_by" class="text-left block w-full py-2 px-4 hover:bg-gray-100 {% if filter_by == 'is_superuser' %}text-gray-400{% endif %}" value="is_superuser" {% if filter_by == 'is_superuser' %}disabled{% endif %}>Admin Only</button>
 </li>
 <li>
-  <button type="submit" name="filter_by" class="text-left block w-full py-2 px-4 hover:bg-gray-100 {% if filter_by == 'VI' %}text-gray-400{% endif %}" value="VI" {% if filter_by == 'VI' %}disabled{% endif %}>Staff Only</button>
+  <button type="submit" name="filter_by" class="text-left block w-full py-2 px-4 hover:bg-gray-100 {% if filter_by == 'is_staff' %}text-gray-400{% endif %}" value="is_staff" {% if filter_by == 'is_staff' %}disabled{% endif %}>Staff Only</button>
 </li>
 {% endblock %}
-{% block card %}{% include 'partials/_buyer_card.html' with buyer=buyer %}{% endblock %}
+{% block card %}{% include 'partials/_staff_card.html' with staff=item %}{% endblock %}
 {% block inline_javascript %}
 {{block.super}}
 <script type="module">
   import { showDialog, renderDjangoTemplate } from "/static/js/utils.js";
+  import { onSubmit } from "/static/js/staff_form.js";
 
   window.addEventListener('DOMContentLoaded', () => {
     const addStaffButton = document.querySelector('#addButton');
     addStaffButton.addEventListener("click", async (event) => {
       event.preventDefault();
+
       const template = await renderDjangoTemplate('_staff_form.html');
       showDialog('Add Staff Member', template);
+
+      const staffForm = document.querySelector('#staffForm');
+      staffForm.addEventListener('submit', onSubmit);
     });
   });
 </script>

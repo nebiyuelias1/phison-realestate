@@ -6,19 +6,7 @@ closeModalButton.addEventListener("click", () => {
   modal.close();
 });
 
-modal.addEventListener("click", (e) => {
-  var rect = e.target.getBoundingClientRect();
-  var minX = rect.left + e.target.clientLeft;
-  var minY = rect.top + e.target.clientTop;
-  if (
-    e.clientX < minX ||
-    e.clientX >= minX + e.target.clientWidth ||
-    e.clientY < minY ||
-    e.clientY >= minY + e.target.clientHeight
-  ) {
-    modal.close();
-  }
-});
+// TODO: Find a better way of closing the modal dialog when the outside area is clicked.
 
 const menuButton = document.querySelector('#menuButton');
 const closeMenuButton = document.querySelector('#closeMenuButton');
