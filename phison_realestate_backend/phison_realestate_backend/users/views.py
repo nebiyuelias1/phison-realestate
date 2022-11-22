@@ -101,7 +101,31 @@ class StaffListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
     template_name = "phison_panel/staff_list.html"
 
     def get_queryset(self) -> QuerySet[User]:
-        return User.objects.get_staff_members()
+        queryset = User.objects.get_staff_members()
+        filter_by = self.request.GET.get("filter_by", None)
+        if filter_by:
+            if filter_by == "is_superuser":
+                queryset = queryset.filter(is_superuser=True)
+            elif filter_by == "is_staff":
+                queryset = queryset.filter(is_staff=True, is_superuser=False)
+
+        q = self.request.GET.get("q", None)
+        if q:
+            queryset = queryset.search(q)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        filter_by = self.request.GET.get("filter_by", None)
+        if filter_by:
+            data["filter_by"] = filter_by
+
+        q = self.request.GET.get("q", None)
+        if q:
+            data["q"] = q
+
+        return data
 
 
 staff_list_view = StaffListView.as_view()
