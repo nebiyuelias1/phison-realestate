@@ -10,7 +10,7 @@
   <button type="submit" name="filter_by" class="text-left block w-full py-2 px-4 hover:bg-gray-100 {% if filter_by == 'VI' %}text-gray-400{% endif %}" value="VI" {% if filter_by == 'VI' %}disabled{% endif %}>Staff Only</button>
 </li>
 {% endblock %}
-{% block card %}{% include 'partials/_buyer_card.html' with buyer=buyer %}{% endblock %}
+{% block card %}{% include 'partials/_staff_card.html' with staff=item %}{% endblock %}
 {% block inline_javascript %}
 {{block.super}}
 <script type="module">

@@ -1,5 +1,6 @@
 from django.urls import path
-from django.views.generic import TemplateView
+
+from phison_realestate_backend.users.views import staff_list_view
 
 from .views import (
     BuyerCreateView,
@@ -38,7 +39,7 @@ buyer_urls = [
 staff_urls = [
     path(
         "staff/",
-        TemplateView.as_view(template_name="phison_panel/staff_list.html"),
+        staff_list_view,
         name="staff_list",
     ),
 ]

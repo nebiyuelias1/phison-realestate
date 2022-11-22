@@ -4,14 +4,16 @@ from http import HTTPStatus
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 from django.views.generic.base import View
 from django.views.generic.edit import FormView
+from django.views.generic.list import ListView
 
+from phison_realestate_backend.phison_panel.views import PaginateMixin
 from phison_realestate_backend.users.api.serializers import UserSerializer
 from phison_realestate_backend.users.forms import UserSignupForm
 
@@ -93,3 +95,13 @@ class AddUserView(StaffMemberRequiredMixin, FormView):
 
 
 add_user_view = AddUserView.as_view()
+
+
+class StaffListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
+    template_name = "phison_panel/staff_list.html"
+
+    def get_queryset(self) -> QuerySet[User]:
+        return User.objects.get_staff_members()
+
+
+staff_list_view = StaffListView.as_view()
