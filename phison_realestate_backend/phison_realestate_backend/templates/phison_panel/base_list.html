@@ -14,16 +14,15 @@
   <hr class="my-6" />
 
   <form method="get">
+    <input type="submit" hidden />
+
     <div class="flex justify-between items-center flex-wrap gap-2">
       <div class="flex-shrink-0 flex gap-x-1">
         {% if filter_by %}
           <button type="submit" name="filter_by" class="bg-orange-100 py-1 px-2 rounded-2xl text-orange-900 flex items-center">
             <span class="mr-1 text-sm">
-              {% if filter_by == "AP" %}
-              Apartment Only
-              {% elif filter_by == "VI" %}
-              Villa Only
-              {% endif %}
+              {% block filter_by_label %}
+              {% endblock %}
             </span>
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
