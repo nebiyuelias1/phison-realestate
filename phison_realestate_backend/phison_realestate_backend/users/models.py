@@ -1,8 +1,10 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db.models import CharField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
+
+from .querysets import UserQuerySet
 
 
 class User(AbstractUser):
@@ -18,6 +20,8 @@ class User(AbstractUser):
     last_name = None  # type: ignore
 
     phone_number = PhoneNumberField(blank=True, null=True)
+
+    objects = UserManager.from_queryset(UserQuerySet)()
 
     def get_absolute_url(self):
         """Get url for user's detail view.
