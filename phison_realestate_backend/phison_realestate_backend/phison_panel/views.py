@@ -15,7 +15,7 @@ from django.views.generic.list import ListView
 
 from phison_realestate_backend.core.models import Buyer, Property
 
-from ..core.mixins import StaffMemberRequiredMixin
+from ..core.mixins import PaginateMixin, StaffMemberRequiredMixin
 from .forms import (
     BuyerForm,
     BuyerPaymentScheduleFormSet,
@@ -23,20 +23,6 @@ from .forms import (
     PropertyForm,
 )
 from .serializers import PropertyModelSerializer
-
-
-class PaginateMixin:
-    paginate_by = 10
-
-    def get_context_data(self, **kwargs: Any):
-        data = super().get_context_data(**kwargs)
-        page = data["page_obj"]
-        data["prefix"] = range(1, min(4, page.number))
-        data["suffix"] = range(
-            max(page.number + 1, page.paginator.num_pages - 4),
-            page.paginator.num_pages + 1,
-        )
-        return data
 
 
 # Property views
