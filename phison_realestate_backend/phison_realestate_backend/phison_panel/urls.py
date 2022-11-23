@@ -8,6 +8,7 @@ from .views import (
     PropertyCreateView,
     PropertyListAjaxView,
     PropertyListView,
+    UploadPropertyImageView,
     render_partial_template,
 )
 
@@ -21,6 +22,7 @@ property_urls = [
         name="new_property",
     ),
     path("ajax/properties/", PropertyListAjaxView.as_view(), name="ajax_property_list"),
+    path("ajax/upload-image/", UploadPropertyImageView.as_view(), name="upload_image"),
 ]
 
 buyer_urls = [
