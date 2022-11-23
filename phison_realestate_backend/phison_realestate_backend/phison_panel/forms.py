@@ -10,6 +10,7 @@ from phison_realestate_backend.core.models import (
     BuyerPaymentSchedule,
     PaymentInformation,
     Property,
+    PropertyImage,
 )
 
 
@@ -97,3 +98,9 @@ BuyerPaymentScheduleFormSet = inlineformset_factory(
     min_num=1,
     validate_min=True,
 )
+
+
+class PropertyImageForm(forms.ModelForm):
+    class Meta:
+        model = PropertyImage
+        fields = ("image",)

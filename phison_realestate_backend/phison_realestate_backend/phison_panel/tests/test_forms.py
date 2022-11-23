@@ -6,6 +6,7 @@ from phison_realestate_backend.phison_panel.forms import (
     BuyerPaymentScheduleFormSet,
     PaymentInformationForm,
     PropertyForm,
+    PropertyImageForm,
 )
 from phison_realestate_backend.phison_panel.tests.factories import PropertyFactory
 from phison_realestate_backend.users.tests.factories import UserFactory
@@ -204,3 +205,12 @@ class TestBuyerPaymentScheduleFormSet:
 
         form = self.Form(data)
         assert form.is_valid()
+
+
+class TestPropertyImageForm:
+    def setup(self):
+        self.Form = PropertyImageForm
+
+    def test_valid_form(self, temp_image):
+        form = self.Form(None, {"image": temp_image})
+        form.is_valid()
