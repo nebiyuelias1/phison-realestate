@@ -1,15 +1,15 @@
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-from .querysets import UserQuerySet
+from .managers import UserManager
 
 
 class User(AbstractUser):
     """
-    Default custom user model for Phison Realestate Backend.
+    Default custom user model for Phison Realestate Backend.p
     If adding fields that need to be filled at user signup,
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
@@ -21,7 +21,7 @@ class User(AbstractUser):
 
     phone_number = PhoneNumberField(blank=True, null=True)
 
-    objects = UserManager.from_queryset(UserQuerySet)()
+    objects = UserManager()
 
     def get_absolute_url(self):
         """Get url for user's detail view.
