@@ -1,4 +1,5 @@
 import json
+from http import HTTPStatus
 from typing import Any
 
 from django.contrib.messages.views import SuccessMessageMixin
@@ -10,7 +11,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 
 from phison_realestate_backend.core.models import Buyer, Property
@@ -21,6 +22,7 @@ from .forms import (
     BuyerPaymentScheduleFormSet,
     PaymentInformationFormSet,
     PropertyForm,
+    PropertyImageForm,
 )
 from .serializers import PropertyModelSerializer
 
@@ -76,10 +78,23 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
             return self.form_invalid(form)
 
 
+class UploadPropertyImageView(StaffMemberRequiredMixin, FormView):
+    form_class = PropertyImageForm
+
+    def form_valid(self, form: PropertyImageForm) -> HttpResponse:
+        form.save()
+        return JsonResponse(data={"id": form.instance.pk}, status=HTTPStatus.CREATED)
+
+    def form_invalid(self, form: PropertyImageForm) -> HttpResponse:
+        return JsonResponse(data=form.errors, status=HTTPStatus.BAD_REQUEST)
+
+
 # end Property views
 
 # Buyer views
 # ------------------------------------------------------------
+
+
 class BuyerListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
     model = Buyer
     template_name = "phison_panel/buyer_list.html"

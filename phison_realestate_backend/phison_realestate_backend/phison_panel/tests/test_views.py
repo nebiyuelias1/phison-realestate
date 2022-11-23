@@ -9,6 +9,7 @@ from phison_realestate_backend.core.models import (
     BuyerPaymentSchedule,
     PaymentInformation,
     Property,
+    PropertyImage,
 )
 from phison_realestate_backend.users.tests.factories import UserFactory
 
@@ -225,3 +226,34 @@ class TestBuyerListView:
         response = admin_client.get(view_url)
 
         assert response.status_code == HTTPStatus.OK
+
+
+class TestUploadPropertyImageView:
+    @pytest.fixture
+    def view_url(self):
+        return reverse("phison_panel:upload_image")
+
+    def test_unauthenticated_user(self, client, view_url):
+        response = client.post(view_url)
+        # Login redirect
+        assert response.status_code == HTTPStatus.FOUND
+        login_url = reverse("account_login")
+        redirect_url = f"{login_url}?next={view_url}"
+        assert response.url == redirect_url
+
+    def test_upload_image(self, admin_client, view_url, temp_image):
+        response = admin_client.post(view_url, {"image": temp_image})
+
+        assert response.status_code == HTTPStatus.CREATED
+        response_data = json.loads(response.content)
+        assert response_data is not None
+        property = PropertyImage.objects.first()
+        assert property is not None
+        assert response_data["id"] == property.pk
+
+    def test_failure(self, admin_client, view_url):
+        response = admin_client.post(view_url, {"image": "temp_image"})
+
+        assert response.status_code == HTTPStatus.BAD_REQUEST
+        response_data = json.loads(response.content)
+        assert response_data is not None
