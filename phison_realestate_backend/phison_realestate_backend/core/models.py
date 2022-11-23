@@ -57,7 +57,7 @@ class Property(TimeStampedModel):
         ordering = ["-created_at"]
 
 
-class PropertyImage(models.Model):
+class PropertyImage(TimeStampedModel):
     """A model that represents an image for a property."""
 
     # TODO: Think about resizing the image when storing it.
@@ -74,8 +74,8 @@ class PropertyImage(models.Model):
 
     property = models.ForeignKey(
         Property,
-        null=False,
-        blank=False,
+        null=True,
+        blank=True,
         related_name="images",
         on_delete=models.CASCADE,
     )
@@ -87,11 +87,11 @@ class PropertyImage(models.Model):
     width = models.IntegerField(editable=False)
 
 
-class PropertyVideo(models.Model):
+class PropertyVideo(TimeStampedModel):
     """A model that represents a video for a property."""
 
     video = models.FileField(
-        upload_to="uploads_property_videos/", null=False, blank=False
+        upload_to="uploads/property_videos/", null=True, blank=True
     )
 
     property = models.ForeignKey(
