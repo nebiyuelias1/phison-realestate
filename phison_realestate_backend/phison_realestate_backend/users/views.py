@@ -13,7 +13,7 @@ from django.views.generic.base import View
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
-from phison_realestate_backend.phison_panel.views import PaginateMixin
+from phison_realestate_backend.core.mixins import PaginateMixin
 from phison_realestate_backend.users.api.serializers import UserSerializer
 from phison_realestate_backend.users.forms import UserSignupForm
 
