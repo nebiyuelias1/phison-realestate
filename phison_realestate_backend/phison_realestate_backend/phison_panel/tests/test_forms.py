@@ -7,6 +7,7 @@ from phison_realestate_backend.phison_panel.forms import (
     PaymentInformationForm,
     PropertyForm,
     PropertyImageForm,
+    PropertyImageIdFormSet,
 )
 from phison_realestate_backend.phison_panel.tests.factories import PropertyFactory
 from phison_realestate_backend.users.tests.factories import UserFactory
@@ -214,3 +215,27 @@ class TestPropertyImageForm:
     def test_valid_form(self, temp_image):
         form = self.Form(None, {"image": temp_image})
         form.is_valid()
+
+
+class TestPropertyImageIdFormSet:
+    def setup(self):
+        self.FormSet = PropertyImageIdFormSet
+
+    def test_max_nums(self):
+        data = {
+            "form-TOTAL_FORMS": "5",
+            "form-INITIAL_FORMS": "0",
+        }
+
+        form_set = self.FormSet(data)
+        assert form_set.is_valid() is False
+        assert form_set.non_form_errors() == ["Please submit at most 4 forms."]
+
+    def test_zero_forms(self):
+        data = {
+            "form-TOTAL_FORMS": "0",
+            "form-INITIAL_FORMS": "0",
+        }
+
+        form_set = self.FormSet(data)
+        assert form_set.is_valid()

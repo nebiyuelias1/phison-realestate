@@ -79,12 +79,50 @@ class TestPropertyCreateView:
                 "payment_infos-1-time_period": "Test period 2",
                 "payment_infos-1-amount": 12.35,
                 "payment_infos-1-description": "Test description 2",
+                "form-TOTAL_FORMS": 0,
+                "form-MIN_NUM_FORMS": 0,
+                "form-INITIAL_FORMS": 0,
             },
         )
 
         assert Property.objects.count() == 1
         assert PaymentInformation.objects.count() == 2
         assert response.status_code == HTTPStatus.FOUND
+
+    def test_create_property_with_images(self, admin_client, view_url):
+        property_image = PropertyImageFactory.create()
+
+        response = admin_client.post(
+            view_url,
+            data={
+                "name": "test view",
+                "bed_room_count": 1,
+                "bath_room_count": 2,
+                "parking_count": 2,
+                "size": 44.47,
+                "description": "test description",
+                "price": 22.37,
+                "progress": "test progress",
+                "payment_infos-TOTAL_FORMS": 2,
+                "payment_infos-MIN_NUM_FORMS": 1,
+                "payment_infos-INITIAL_FORMS": 0,
+                "payment_infos-0-title": "Test Title 1",
+                "payment_infos-0-time_period": "Test period 1",
+                "payment_infos-0-amount": 12.35,
+                "payment_infos-0-description": "Test description 1",
+                "payment_infos-1-title": "Test Title 2",
+                "payment_infos-1-time_period": "Test period 2",
+                "payment_infos-1-amount": 12.35,
+                "payment_infos-1-description": "Test description 2",
+                "form-TOTAL_FORMS": 1,
+                "form-MIN_NUM_FORMS": 0,
+                "form-INITIAL_FORMS": 0,
+                "form-0-image_id": property_image.pk,
+            },
+        )
+        assert response.status_code == HTTPStatus.FOUND
+        property = Property.objects.first()
+        assert property.images.count() == 1
 
 
 class TestPropertyListView:
