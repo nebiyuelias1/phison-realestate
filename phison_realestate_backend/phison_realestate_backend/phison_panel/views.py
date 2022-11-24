@@ -14,7 +14,7 @@ from django.views.generic.base import View
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 
-from phison_realestate_backend.core.models import Buyer, Property
+from phison_realestate_backend.core.models import Buyer, Property, PropertyImage
 
 from ..core.mixins import PaginateMixin, StaffMemberRequiredMixin
 from .forms import (
@@ -23,6 +23,7 @@ from .forms import (
     PaymentInformationFormSet,
     PropertyForm,
     PropertyImageForm,
+    PropertyImageIdFormSet,
 )
 from .serializers import PropertyModelSerializer
 
@@ -59,20 +60,36 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
         else:
             return PaymentInformationFormSet()
 
+    def _get_property_image_form_set(self):
+        if self.request.POST:
+            return PropertyImageIdFormSet(self.request.POST)
+        else:
+            return PropertyImageIdFormSet()
+
+    def _save_property_images(self, form_set):
+        property_image_ids = list(
+            map(lambda x: int(x["image_id"]), form_set.cleaned_data)
+        )
+        property_images = PropertyImage.objects.filter(id__in=property_image_ids)
+        property_images.update(property=self.object)
+
     def get_context_data(self, **kwargs: Any):
         data = super().get_context_data(**kwargs)
 
         data["formset"] = self._get_payment_information_form_set()
+        data["image_formset"] = self._get_property_image_form_set()
 
         return data
 
     def form_valid(self, form: BaseForm) -> HttpResponse:
         form_set = self._get_payment_information_form_set()
+        property_image_form_set = self._get_property_image_form_set()
 
-        if form_set.is_valid():
+        if form_set.is_valid() and property_image_form_set.is_valid():
             self.object = form.save()
             form_set.instance = self.object
             form_set.save()
+            self._save_property_images(property_image_form_set)
             return super().form_valid(form)
         else:
             return self.form_invalid(form)

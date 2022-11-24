@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms import formset_factory
 from django.forms.models import BaseInlineFormSet, inlineformset_factory
 from django.utils.translation import gettext_lazy as _
 
@@ -104,3 +105,10 @@ class PropertyImageForm(forms.ModelForm):
     class Meta:
         model = PropertyImage
         fields = ("image",)
+
+
+class PropertyImageIdForm(forms.Form):
+    image_id = forms.CharField()
+
+
+PropertyImageIdFormSet = formset_factory(PropertyImageIdForm, max_num=4, absolute_max=4)
