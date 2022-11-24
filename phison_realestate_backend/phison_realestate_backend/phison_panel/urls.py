@@ -22,7 +22,11 @@ property_urls = [
         name="new_property",
     ),
     path("ajax/properties/", PropertyListAjaxView.as_view(), name="ajax_property_list"),
-    path("ajax/upload-image/", UploadPropertyImageView.as_view(), name="upload_image"),
+    path(
+        "ajax/upload-property-image/",
+        UploadPropertyImageView.as_view(),
+        name="upload_image",
+    ),
 ]
 
 buyer_urls = [

@@ -225,6 +225,7 @@ class TestPropertyImageIdFormSet:
         data = {
             "form-TOTAL_FORMS": "5",
             "form-INITIAL_FORMS": "0",
+            "form-MIN_FORMS": "1",
         }
 
         form_set = self.FormSet(data)
@@ -235,7 +236,31 @@ class TestPropertyImageIdFormSet:
         data = {
             "form-TOTAL_FORMS": "0",
             "form-INITIAL_FORMS": "0",
+            "form-MIN_FORMS": "1",
         }
 
+        form_set = self.FormSet(data)
+        assert form_set.is_valid() is False
+        assert form_set.non_form_errors() == ["Please submit at least 1 form."]
+
+    def test_invalid_form(self):
+        data = {
+            "form-TOTAL_FORMS": "1",
+            "form-INITIAL_FORMS": "0",
+            "form-MIN_FORMS": "1",
+            "form-0-image_id": "",
+        }
+
+        form_set = self.FormSet(data)
+        assert form_set.is_valid() is False
+        assert form_set.errors == [{"image_id": ["This field is required."]}]
+
+    def test_valid_form(self):
+        data = {
+            "form-TOTAL_FORMS": "1",
+            "form-INITIAL_FORMS": "0",
+            "form-MIN_FORMS": "1",
+            "form-0-image_id": "1",
+        }
         form_set = self.FormSet(data)
         assert form_set.is_valid()
