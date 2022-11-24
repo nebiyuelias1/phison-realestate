@@ -29,6 +29,7 @@ from .forms import (
     BuyerPaymentScheduleFormSet,
     PropertyForm,
     PropertyImageForm,
+    PropertyImageIdFormSet,
 )
 from .serializers import PropertyModelSerializer
 
