@@ -79,9 +79,10 @@ class TestPropertyCreateView:
                 "payment_infos-1-time_period": "Test period 2",
                 "payment_infos-1-amount": 12.35,
                 "payment_infos-1-description": "Test description 2",
-                "form-TOTAL_FORMS": 0,
-                "form-MIN_NUM_FORMS": 0,
+                "form-TOTAL_FORMS": 1,
+                "form-MIN_NUM_FORMS": 1,
                 "form-INITIAL_FORMS": 0,
+                "form-0-image_id": 1,
             },
         )
 
@@ -115,7 +116,7 @@ class TestPropertyCreateView:
                 "payment_infos-1-amount": 12.35,
                 "payment_infos-1-description": "Test description 2",
                 "form-TOTAL_FORMS": 1,
-                "form-MIN_NUM_FORMS": 0,
+                "form-MIN_NUM_FORMS": 1,
                 "form-INITIAL_FORMS": 0,
                 "form-0-image_id": property_image.pk,
             },

@@ -111,4 +111,10 @@ class PropertyImageIdForm(forms.Form):
     image_id = forms.CharField()
 
 
-PropertyImageIdFormSet = formset_factory(PropertyImageIdForm, max_num=4, absolute_max=4)
+PropertyImageIdFormSet = formset_factory(
+    PropertyImageIdForm,
+    min_num=1,
+    validate_min=True,
+    max_num=4,
+    validate_max=True,
+)
