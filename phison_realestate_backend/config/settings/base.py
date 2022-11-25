@@ -338,3 +338,9 @@ GRAPHENE = {
 # django-tailwind settings
 # ------------------------------------------------------------------------------
 TAILWIND_APP_NAME = "phison_realestate_backend.theme"
+
+LOCATION_FIELD = {
+    "map.provider": "openstreetmap",
+    "search.provider": "nominatim",
+    "provider.openstreetmap.max_zoom": 18,
+}
