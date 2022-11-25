@@ -46,7 +46,6 @@ const onFileUploadStarted = async (file) => {
   childNode.setAttribute('class', 'image-container');
   childNode.setAttribute('data-index', propertyImagesContainer.children.length);
   childNode.innerHTML = imageUploadTemplate;
-
   const imageTag = childNode.querySelector('#propertyImage');
   const url = URL.createObjectURL(file);
   imageTag.setAttribute('src', url);
