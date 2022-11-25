@@ -48,19 +48,21 @@
         {% include 'partials/_input.html' with label="Number of bathrooms" id="property_bath_room_count" name="bath_room_count" placeholder="1" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.bath_room_count.value min=0 required_attribute="required" only %}
         {% include 'partials/_input.html' with label="Number of parkings" id="property_parking_count" name="parking_count" placeholder="1" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.parking_count.value min=0 required_attribute="required" only %}
         {% include 'partials/_input.html' with label="Property size (M<sup>2</sup>)" id="property_size" name="size" placeholder="74.47" type="number" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.size.value required_attribute="required" step_attribute="step='any'" required_attribute="required" only %}
+        {% include 'partials/_input.html' with label="Property Video" id="property_video" name="video" placeholder="https://www.youtube.com/watch?v=xGVxYZClIwU" type="url" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.video.value only%}
         <!-- TODO: Implement Location selection field -->
-        {% include 'partials/_input.html' with label="Property location" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" required_attribute="required" only %}
-        {% include 'partials/_textarea.html' with label="Property description" id="property_description" name="description" placeholder="Property description" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.description.value required_attribute="required" only %}
-        <div class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow">
-          <!-- prettier-ignore -->
-          {% include 'partials/_input.html' with label="Property pricing ($)" id="property_pricing" name="price" placeholder="2000.00" type="number" value=form.price.value required_attribute="required" step_attribute="step='0.1'" only %}
-          {% include 'partials/_checkbox.html' with label="Featured property" id="property_is_featured" name="is_featured" only %}
-        </div>
         <div class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow">
           <!-- prettier-ignore -->
           {% include 'partials/_input.html' with label="Property progress" id="property_progress" name="progress" placeholder="1st Phase" type="text" value=form.progress.value required_attribute="required" only %}
           {% include 'partials/_input_slider.html' with label="Featured property" id="num_of_bathrooms" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow items-center" only %}
         </div>
+
+        <div class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow">
+          <!-- prettier-ignore -->
+          {% include 'partials/_input.html' with label="Property pricing ($)" id="property_pricing" name="price" placeholder="2000.00" type="number" value=form.price.value required_attribute="required" step_attribute="step='0.1'" only %}
+          {% include 'partials/_checkbox.html' with label="Featured property" id="property_is_featured" name="is_featured" only %}
+        </div>
+        {% include 'partials/_input.html' with label="Property location" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" required_attribute="required" only %}
+        {% include 'partials/_textarea.html' with label="Property description" id="property_description" name="description" placeholder="Property description" type="text" class="basis-full md:basis-1/3 lg:basis-1/4 flex-grow" value=form.description.value required_attribute="required" only %}
     </div>
   </div>
 
