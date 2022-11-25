@@ -28,7 +28,7 @@ jobs:
     
     # Run linting and run our unit tests
     - name: Lint and test code
-      run: cd phison_realestate_mobile && flutter pub get && flutter analyze && flutter test
+      run: cd phison_realestate_mobile && flutter pub get && flutter analyze
         
 #     # Decode the keystore file containing the signing key
 #     - name: Decode Keystore
