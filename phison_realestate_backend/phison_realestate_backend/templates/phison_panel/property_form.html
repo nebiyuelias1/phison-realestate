@@ -7,42 +7,24 @@
   <hr class="mt-3">
 </div>
 
-<div class="mt-4 flex justify-between gap-2 flex-wrap">
+<div class="mt-4 flex justify-between flex-wrap">
   <div class="max-w-full">
     <h5 class="font-semibold mb-4">Property Images</h5>
-    <div class="flex flex-wrap gap-2">
-      <div class="relative flex-shrink-0 w-32 h-32">
-        <img class="object-cover rounded-2xl h-full" src="{% static 'images/property-placeholder.png' %}"
-          alt="property image">
-        <div class="flex items-center justify-center bg-white w-6 h-6 absolute top-2 right-2 rounded-md">
-          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_114_11571)">
-              <path
-                d="M0.916748 2.74984H10.0834M4.58341 5.0415V7.33317M6.41675 5.0415V7.33317M1.83341 2.74984H9.16675L8.44258 9.26734C8.41776 9.49163 8.31107 9.69889 8.14295 9.84943C7.97482 9.99996 7.75708 10.0832 7.53141 10.0832H3.46875C3.24308 10.0832 3.02534 9.99996 2.85722 9.84943C2.68909 9.69889 2.5824 9.49163 2.55758 9.26734L1.83341 2.74984ZM3.36654 1.44221C3.44068 1.28499 3.55799 1.15209 3.70479 1.059C3.8516 0.965924 4.02184 0.916502 4.19566 0.916504H6.8045C6.9784 0.916415 7.14874 0.965796 7.29564 1.05888C7.44253 1.15197 7.55991 1.28492 7.63408 1.44221L8.25008 2.74984H2.75008L3.36654 1.44221V1.44221Z"
-                stroke="#F04438" stroke-linecap="round" stroke-linejoin="round" />
-            </g>
-            <defs>
-              <clipPath id="clip0_114_11571">
-                <rect width="11" height="11" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
-        </div>
-      </div>
 
+    <div class="flex flex-wrap">
+      <div class="flex flex-wrap" id="propertyImages"></div>
 
-      <div
-        class="flex-shring-0 border border-dashed border-gray-400 w-32 h-32 flex justify-center items-center rounded-2xl">
+      <input id="imageInput" type="file" hidden accept="image/*">
+
+      <button
+        id="openImagePicker"
+        class="flex-shring-0 border border-dashed border-gray-400 w-32 h-32 flex justify-center items-center rounded-2xl {% if image_formset.non_form_errors %} border-red-500 {% endif %}">
         <img src="{% static 'images/add.svg' %}" alt="add image">
-      </div>
+      </button>
     </div>
-  </div>
-
-  <div class="max-w-full">
-    <h5 class="font-semibold mb-4">Property Video</h5>
-    <div class="border border-dashed border-gray-400 w-32 h-32 flex justify-center items-center rounded-2xl">
-      <img src="{% static 'images/add.svg' %}" alt="add video">
-    </div>
+    {% if image_formset.non_form_errors %}
+    <p class="text-sm text-red-500">You must upload at least one image</p>
+    {% endif %}
   </div>
 </div>
 
@@ -50,6 +32,12 @@
 
 <form method="post">
   {% csrf_token %}
+
+  {{image_formset.management_form}}
+
+  <div id="propertyImageFormControls">
+  </div>
+
   <div class="mt-4">
     <h5 class="font-semibold mb-4">Property Information</h5>
     <hr>
@@ -143,52 +131,5 @@
 </form>
 {% endblock %}
 {% block inline_javascript %}
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const hiddenFormControls = document.querySelector('#hiddenFormControls');
-
-    const paymentForm = document.querySelector('#paymentForm');
-
-    paymentForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const paymentTitle = document.querySelector('#payment_title').value;
-      const paymentTimePeriod = document.querySelector('#payment_time_period').value;
-      const paymentAmount = document.querySelector('#payment_amount').value;
-      const paymentDescription = document.querySelector('#payment_description').value;
-
-      const table = document.querySelector('#tableBody');
-
-      const rowsCount = table.rows.length;
-      const row = table.insertRow(rowsCount);
-      row.classList.add('bg-white', 'border-b');
-      row.innerHTML = `
-        <th scope="row" class="py-4 px-6 font-medium text-blue-600 whitespace-nowrap">
-          ${paymentTitle}
-        </th>
-        <td class="py-4 px-6">
-          ${paymentDescription}
-        </td>
-        <td class="py-4 px-6">
-          ${paymentTimePeriod}
-        </td>
-        <td class="py-4 px-6">
-          ${paymentAmount}
-        </td>
-      `;
-
-      const totalFormsInput = document.querySelector('#id_payment_infos-TOTAL_FORMS');
-      totalFormsInput.value = rowsCount + 1;
-
-      hiddenFormControls.innerHTML = hiddenFormControls.innerHTML + `
-        <input type="text" name="payment_infos-${rowsCount}-title" maxlength="100" id="id_payment_infos-${rowsCount}-title" value="${paymentTitle}" hidden>
-        <input type="text" name="payment_infos-${rowsCount}-time_period" maxlength="100" id="id_payment_infos-${rowsCount}-time_period" value="${paymentTimePeriod}" hidden>
-        <input type="number" name="payment_infos-${rowsCount}-amount" step="0.01" id="id_payment_infos-${rowsCount}-amount" value="${paymentAmount}" hidden>
-        <textarea name="payment_infos-${rowsCount}-description" cols="40" rows="10" id="id_payment_infos-${rowsCount}-description" hidden>${paymentDescription}</textarea>
-      `;
-
-      paymentForm.reset();
-    });
-  });
-</script>
+<script defer src="{% static 'js/property_form.js' %}" type="module"></script>
 {% endblock %}
