@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+from embed_video.fields import EmbedVideoField
 
 User = get_user_model()
 
@@ -48,6 +49,9 @@ class Property(TimeStampedModel):
 
     progress = models.TextField(null=False, blank=False, max_length=100)
 
+    # https://github.com/jazzband/django-embed-video#quick-start
+    video = EmbedVideoField(null=True, blank=True)
+
     def get_absolute_url(self):
         # TODO: Modify this URL to the detail of the property.
         return reverse("phison_panel:home")
@@ -85,22 +89,6 @@ class PropertyImage(TimeStampedModel):
 
     # The width of the image.
     width = models.IntegerField(editable=False)
-
-
-class PropertyVideo(TimeStampedModel):
-    """A model that represents a video for a property."""
-
-    video = models.FileField(
-        upload_to="uploads/property_videos/", null=True, blank=True
-    )
-
-    property = models.ForeignKey(
-        Property,
-        null=False,
-        blank=False,
-        related_name="videos",
-        on_delete=models.CASCADE,
-    )
 
 
 class PaymentInformation(models.Model):

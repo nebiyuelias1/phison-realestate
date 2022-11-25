@@ -88,6 +88,7 @@ THIRD_PARTY_APPS = [
     "graphene_django",
     "phonenumber_field",
     "tailwind",
+    "embed_video",
 ]
 
 LOCAL_APPS = [

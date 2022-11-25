@@ -28,6 +28,7 @@ class PropertyForm(forms.ModelForm):
             "price",
             "is_featured",
             "progress",
+            "video",
         )
 
 
