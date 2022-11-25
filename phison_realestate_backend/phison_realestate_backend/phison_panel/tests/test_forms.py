@@ -1,5 +1,6 @@
 import pytest
 
+from phison_realestate_backend.core.models import Property
 from phison_realestate_backend.phison_panel.forms import (
     BuyerForm,
     BuyerPaymentScheduleForm,
@@ -40,6 +41,16 @@ class TestPropertyForm:
         form = self.Form(self.data)
         assert form.is_valid() is True
         assert form.errors == {}
+
+    @pytest.mark.django_db
+    def test_slugify(self):
+        form = self.Form(self.data)
+        form.is_valid()
+        form.save()
+        property = Property.objects.first()
+        assert property is not None
+        assert property.slug is not None
+        assert property.slug != ""
 
 
 class TestPaymentInformationForm:

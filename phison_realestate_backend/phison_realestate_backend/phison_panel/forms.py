@@ -4,6 +4,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import formset_factory
 from django.forms.models import BaseInlineFormSet, inlineformset_factory
+from django.utils.text import slugify
+from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 
 from phison_realestate_backend.core.models import (
@@ -32,6 +34,16 @@ class PropertyForm(forms.ModelForm):
             "address",
             "location",
         )
+
+    def clean(self):
+        data = super().clean()
+
+        name = data["name"]
+        timestamp = str(now().timestamp())
+        slug = f"{name}-{timestamp}"
+        self.instance.slug = slugify(slug, allow_unicode=True)
+
+        return data
 
 
 class PaymentInformationForm(forms.ModelForm):
