@@ -36,6 +36,6 @@
     <div class="rounded-full p-2 bg-white">
       <img class="w-4 h-4" src="{% static 'images/map-pin.svg' %}" alt="map pin">
     </div>
-    <p class="ml-1">St. Cikoka Timur. Kec.</p>
+    <p class="ml-1">{% if property.address %}{{property.address}}{% else %}Addis Ababa, Ethiopia{% endif %}</p>
   </div>
 </div>
