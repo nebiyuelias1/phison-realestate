@@ -11,6 +11,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import View
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 
@@ -98,6 +99,11 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+class PropertyDetailView(DetailView):
+    model = Property
+    template_name = "phison_panel/property_detail.html"
 
 
 class UploadPropertyImageView(StaffMemberRequiredMixin, FormView):
