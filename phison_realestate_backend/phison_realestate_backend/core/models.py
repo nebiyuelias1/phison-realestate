@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from embed_video.fields import EmbedVideoField
+from location_field.models.plain import PlainLocationField
 
 User = get_user_model()
 
@@ -21,10 +22,10 @@ class TimeStampedModel(models.Model):
 
 # TODO: Add property_type to this model with options: apartment or villa
 class Property(TimeStampedModel):
+    """A model class that represents a property object."""
+
     APARTMENT = "AP"
     VILLA = "VI"
-
-    """A model class that represents a property object."""
 
     name = models.CharField(null=False, blank=False, max_length=100)
 
@@ -51,6 +52,14 @@ class Property(TimeStampedModel):
 
     # https://github.com/jazzband/django-embed-video#quick-start
     video = EmbedVideoField(null=True, blank=True)
+
+    # https://github.com/caioariede/django-location-field#basic-usage-without-spatial-database
+    address = models.CharField(max_length=255, null=True, blank=True)
+
+    # https://github.com/caioariede/django-location-field#basic-usage-without-spatial-database
+    location = PlainLocationField(
+        based_fields=["address"], zoom=7, null=True, blank=True
+    )
 
     def get_absolute_url(self):
         # TODO: Modify this URL to the detail of the property.

@@ -29,6 +29,8 @@ class PropertyForm(forms.ModelForm):
             "is_featured",
             "progress",
             "video",
+            "address",
+            "location",
         )
 
 
