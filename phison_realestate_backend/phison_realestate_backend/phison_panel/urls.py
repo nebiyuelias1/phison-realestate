@@ -6,6 +6,7 @@ from .views import (
     BuyerCreateView,
     BuyerListView,
     PropertyCreateView,
+    PropertyDetailView,
     PropertyListAjaxView,
     PropertyListView,
     UploadPropertyImageView,
@@ -20,6 +21,11 @@ property_urls = [
         "properties/new/",
         PropertyCreateView.as_view(),
         name="new_property",
+    ),
+    path(
+        "property/detail/<slug:slug>/",
+        PropertyDetailView.as_view(),
+        name="property_detail",
     ),
     path("ajax/properties/", PropertyListAjaxView.as_view(), name="ajax_property_list"),
     path(
