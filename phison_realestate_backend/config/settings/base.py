@@ -89,6 +89,7 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "tailwind",
     "embed_video",
+    "location_field.apps.DefaultConfig",
 ]
 
 LOCAL_APPS = [

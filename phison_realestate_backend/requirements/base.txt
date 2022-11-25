@@ -26,3 +26,4 @@ drf-spectacular==0.24.2  # https://github.com/tfranzel/drf-spectacular
 # Django-graphne for GraphQL
 graphene-django==3.0.0 # https://github.com/graphql-python/graphene-django
 django-embed-video==1.4.8 # https://github.com/jazzband/django-embed-video
+django-location-field==2.1.0 # https://github.com/caioariede/django-location-field
