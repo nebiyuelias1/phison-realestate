@@ -61,9 +61,11 @@ class Property(TimeStampedModel):
         based_fields=["address"], zoom=7, null=True, blank=True
     )
 
+    # https://docs.djangoproject.com/en/4.1/ref/models/fields/#slugfield
+    slug = models.SlugField(allow_unicode=True, max_length=150, unique=True)
+
     def get_absolute_url(self):
-        # TODO: Modify this URL to the detail of the property.
-        return reverse("phison_panel:home")
+        return reverse("phison_panel:property_detail", kwargs={"slug": self.slug})
 
     class Meta:
         # https://docs.djangoproject.com/en/4.1/ref/models/options/
