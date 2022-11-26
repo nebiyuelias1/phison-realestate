@@ -2,7 +2,7 @@
   {% if label %}
   <label class="text-xs" for="{{id}}">{{label}}</label>
   {% endif %}
-  <select id="{{id}}" type="{{type}}" name="{{name}}"
+  <select id="{{id}}" name="{{name}}"
     class="bg-gray-50 border border-gray-300 text-gray-900 rounded-2xl focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
     {{required_attribute}} value="{% if value %}{{value}}{% endif %}" {{form_attribute}}>
     {{options}}
