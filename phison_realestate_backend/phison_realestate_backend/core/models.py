@@ -29,6 +29,11 @@ class Property(TimeStampedModel):
     APARTMENT = "AP"
     VILLA = "VI"
 
+    PROPERTY_TYPES = [
+        (APARTMENT, "Apartment"),
+        (VILLA, "Villa"),
+    ]
+
     name = models.CharField(null=False, blank=False, max_length=100)
 
     bed_room_count = models.PositiveSmallIntegerField(default=0, null=False, blank=True)
@@ -65,6 +70,10 @@ class Property(TimeStampedModel):
 
     # https://docs.djangoproject.com/en/4.1/ref/models/fields/#slugfield
     slug = models.SlugField(allow_unicode=True, max_length=150, unique=True)
+
+    property_type = models.CharField(
+        max_length=2, choices=PROPERTY_TYPES, default=APARTMENT
+    )
 
     objects = PropertyManager()
 
