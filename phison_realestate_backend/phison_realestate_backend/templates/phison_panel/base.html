@@ -57,7 +57,7 @@
 
       {% with request.resolver_match.url_name as url_name %}
         <ul class="mt-10">
-          <li class="{% if url_name == 'home' or url_name == 'new_property' %} bg-purple-900 text-white {% else %} text-gray-600 hover:bg-gray-100 {% endif %} rounded-lg p-2 font-medium mb-3">
+          <li class="{% if url_name == 'home' or url_name == 'new_property' or url_name == 'property_detail' %} bg-purple-900 text-white {% else %} text-gray-600 hover:bg-gray-100 {% endif %} rounded-lg p-2 font-medium mb-3">
             <a class="flex" href="{% url 'phison_panel:home' %}">
               <svg class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path
