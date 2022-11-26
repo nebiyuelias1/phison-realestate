@@ -33,6 +33,7 @@ class PropertyForm(forms.ModelForm):
             "video",
             "address",
             "location",
+            "property_type",
         )
 
     def save(self, commit: bool = ...):
