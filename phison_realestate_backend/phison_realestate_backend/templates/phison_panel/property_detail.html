@@ -80,6 +80,60 @@
       {% endif %}
     </div>
   </div>
+
+  <div class="grid md:grid-cols-2 gap-6 mt-6">
+    <div>
+      {% include 'partials/_property_stats.html' with property=object class="md:max-w-sm mb-8" %}
+      <!-- Description -->
+      <div class="flex items-center">
+        <p class="font-semibold tex-sm basis-28">Description</p>
+        <p class="text-gray-600 text-xs">{{object.description}}</p>
+      </div>
+
+      <!-- Location -->
+      <div class="mt-5 flex items-center">
+        <p class="font-semibold tex-sm basis-28">Location</p>
+        <p class="text-gray-600 text-xs">{{object.address}}</p>
+      </div>
+
+      <!-- Parking -->
+      <div class="mt-5 flex items-center">
+        <p class="font-semibold tex-sm basis-28">Parking</p>
+        <p class="text-gray-600 text-xs">{{object.parking_count}}</p>
+      </div>
+
+      <!-- Progress -->
+      <div class="mt-5 flex items-center">
+        <p class="font-semibold tex-sm basis-28">Status</p>
+        <p class="text-gray-600 text-xs">{{object.progress}}</p>
+      </div>
+
+      <!-- Progress -->
+      <!-- TODO: Properly display the progress here. -->
+      <div class="mt-5 flex items-center">
+        <p class="font-semibold tex-sm basis-28">Status</p>
+        <div class="text-gray-600 text-xs">
+          <div class="mt-2 flex w-full bg-gray-300 rounded-lg">
+            <div class="bg-purple-900 text-white text-xs font-semibold py-1 px-2 rounded-lg">60% completed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="font-semibold text-sm">Payment Information</p>
+
+      {% for payment_info in object.payment_infos.all %}
+        <div class="bg-white py-3 px-4 rounded-lg mt-3">
+          <div class="flex justify-between">
+            <p class="font-semibold text-xs">{{payment_info.title}}</p>
+            <p class="text-purple-900 font-semibold text-xs">{{payment_info.amount}}%</p>
+          </div>
+          <p class="text-gray-600 text-xs mt-2">{{payment_info.description}}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 {% endblock %}
 {% block inline_javascript %}
