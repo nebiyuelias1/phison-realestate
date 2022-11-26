@@ -4,7 +4,7 @@ from typing import Any
 
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import models
-from django.db.models import OuterRef, Q, Subquery
+from django.db.models import Q
 from django.forms import BaseForm
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -46,12 +46,7 @@ class PropertyListAjaxView(StaffMemberRequiredMixin, View):
 
 class PropertyListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
     template_name = "phison_panel/property_list.html"
-
-    def get_queryset(self) -> models.QuerySet[Property]:
-        property_images = PropertyImage.objects.filter(property=OuterRef("pk"))
-        return Property.objects.annotate(
-            property_image=Subquery(property_images.values("image")[:1])
-        )
+    model = Property
 
 
 class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView):
