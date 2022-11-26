@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <div class="bg-white rounded-2xl p-2 shadow-lg hover:shadow-xl group relative h-full">
   <a href="{{property.get_absolute_url}}">
     <div class="relative -mx-2 -mt-2">
@@ -27,9 +28,9 @@
       <div class="flex md:flex-col md:basis:1/3 flex-grow md:flex-grow-0">
         <div class="flex">
           <img class="mr-2 w-5 h-5" src="{% static 'images/area.svg' %}" alt="bathroom icon">
-          <span id="propertyCardParkingCount" class="ml-1 text-xs font-semibold mr-1">{{property.parking_count}}</span>
+          <span id="propertyCardParkingCount" class="ml-1 text-xs font-semibold mr-1">{{ property.size | floatformat:2 | intcomma }}</span>
         </div>
-        <p class="text-xs text-gray-500">Parking</p>
+        <p class="text-xs text-gray-500">Area(m<sup>2</sup>)</p>
       </div>
     </div>
 
