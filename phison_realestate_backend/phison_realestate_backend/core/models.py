@@ -4,6 +4,8 @@ from django.urls import reverse
 from embed_video.fields import EmbedVideoField
 from location_field.models.plain import PlainLocationField
 
+from .managers import PropertyManager
+
 User = get_user_model()
 
 
@@ -63,6 +65,8 @@ class Property(TimeStampedModel):
 
     # https://docs.djangoproject.com/en/4.1/ref/models/fields/#slugfield
     slug = models.SlugField(allow_unicode=True, max_length=150, unique=True)
+
+    objects = PropertyManager()
 
     def get_absolute_url(self):
         return reverse("phison_panel:property_detail", kwargs={"slug": self.slug})
