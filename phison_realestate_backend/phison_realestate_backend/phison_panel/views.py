@@ -48,6 +48,31 @@ class PropertyListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
     template_name = "phison_panel/property_list.html"
     model = Property
 
+    def get_queryset(self) -> models.QuerySet[Property]:
+        queryset = super().get_queryset()
+        filter_by = self.request.GET.get("filter_by", None)
+        if filter_by:
+            queryset = queryset.filter(property_type=filter_by)
+
+        q = self.request.GET.get("q", None)
+        if q:
+            queryset = queryset.filter(name__icontains=q)
+
+        return queryset
+
+    def get_context_data(self, **kwargs: Any):
+        data = super().get_context_data(**kwargs)
+
+        q = self.request.GET.get("q", None)
+        if q:
+            data["q"] = q
+
+        filter_by = self.request.GET.get("filter_by", None)
+        if filter_by:
+            data["filter_by"] = filter_by
+
+        return data
+
 
 class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView):
     model = Property
@@ -126,8 +151,7 @@ class BuyerListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
         queryset = super().get_queryset()
         filter_by = self.request.GET.get("filter_by", None)
         if filter_by:
-            # TODO: Filter based on property type
-            queryset = queryset
+            queryset = queryset.filter(property__property_type=filter_by)
 
         q = self.request.GET.get("q", None)
         if q:
