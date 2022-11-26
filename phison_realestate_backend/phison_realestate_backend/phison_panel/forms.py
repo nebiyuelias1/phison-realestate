@@ -35,15 +35,14 @@ class PropertyForm(forms.ModelForm):
             "location",
         )
 
-    def clean(self):
-        data = super().clean()
+    def save(self, commit: bool = ...):
+        if self.instance.slug is None or self.instance.slug == "":
+            name = self.cleaned_data.get("name")
+            timestamp = str(now().timestamp())
+            slug = f"{name}-{timestamp}"
+            self.instance.slug = slugify(slug, allow_unicode=True)
 
-        name = data["name"]
-        timestamp = str(now().timestamp())
-        slug = f"{name}-{timestamp}"
-        self.instance.slug = slugify(slug, allow_unicode=True)
-
-        return data
+        return super().save(commit)
 
 
 class PaymentInformationForm(forms.ModelForm):

@@ -11,6 +11,8 @@ class PropertyFactory(DjangoModelFactory):
 
     price = 2000.0
 
+    slug = Faker("name")
+
     class Meta:
         model = Property
 
