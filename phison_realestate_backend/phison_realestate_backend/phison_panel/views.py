@@ -2,6 +2,7 @@ import json
 from http import HTTPStatus
 from typing import Any
 
+from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import models
 from django.db.models import Q
@@ -27,6 +28,8 @@ from .forms import (
     PropertyImageIdFormSet,
 )
 from .serializers import PropertyModelSerializer
+
+User = get_user_model()
 
 
 # Property views
@@ -70,6 +73,10 @@ class PropertyListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
         filter_by = self.request.GET.get("filter_by", None)
         if filter_by:
             data["filter_by"] = filter_by
+
+        data["property_count"] = Property.objects.count()
+        data["customer_count"] = User.objects.get_non_staff_members().count()
+        data["buyer_count"] = Buyer.objects.count()
 
         return data
 
