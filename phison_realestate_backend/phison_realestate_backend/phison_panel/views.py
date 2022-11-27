@@ -13,7 +13,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.views.generic.list import ListView
 
 from phison_realestate_backend.core.models import Buyer, Property, PropertyImage
@@ -131,6 +131,12 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
 class PropertyDetailView(DetailView):
     model = Property
     template_name = "phison_panel/property_detail.html"
+
+
+class PropertyEditView(UpdateView):
+    form_class = PropertyForm
+    template_name = "phison_panel/property_form.html"
+    model = Property
 
 
 class UploadPropertyImageView(StaffMemberRequiredMixin, FormView):
