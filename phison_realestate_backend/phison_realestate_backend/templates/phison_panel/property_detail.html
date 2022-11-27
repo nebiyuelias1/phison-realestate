@@ -19,7 +19,11 @@
 {% block main %}
 <div>
   <header>
-    <h2 class="text-xl">{{object.name}}</h2>
+    <div class="flex">
+      <h2 class="text-xl mr-3">{{object.name}}</h2>
+      <a href="{% url 'phison_panel:property_edit' slug=object.slug %}" class="bg-orange-900 text-white rounded-lg py-1 px-2 text-sm">Edit</a>
+    </div>
+
     <p class="text-xs text-gray-500 mt-3">Property Detail Information</p>
   </header>
 
