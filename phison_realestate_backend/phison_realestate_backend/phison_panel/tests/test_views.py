@@ -83,6 +83,7 @@ class TestPropertyCreateView:
                 "form-MIN_NUM_FORMS": 1,
                 "form-INITIAL_FORMS": 0,
                 "form-0-image_id": 1,
+                "property_type": Property.APARTMENT,
             },
         )
 
@@ -119,6 +120,7 @@ class TestPropertyCreateView:
                 "form-MIN_NUM_FORMS": 1,
                 "form-INITIAL_FORMS": 0,
                 "form-0-image_id": property_image.pk,
+                "property_type": Property.APARTMENT,
             },
         )
         assert response.status_code == HTTPStatus.FOUND
