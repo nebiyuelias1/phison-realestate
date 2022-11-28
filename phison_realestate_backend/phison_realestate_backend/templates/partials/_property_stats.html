@@ -1,0 +1,28 @@
+{% load static %}
+{% load humanize %}
+
+<div class="flex flex-wrap justify-between {{class}}">
+  <div class="flex md:flex-col md:basis:1/3 flex-grow md:flex-grow-0">
+    <div class="flex">
+      <img class="mr-2 w-6 h-6" src="{% static 'images/bedroom.svg' %}" alt="bedroom icon">
+      <span id="propertyCardBedRoomCount" class="text-xs font-semibold mr-1">{{property.bed_room_count}}</span>
+    </div>
+    <p class="text-xs text-gray-500">Bedrooms</p>
+  </div>
+
+  <div class="flex md:flex-col md:basis:1/3 flex-grow md:flex-grow-0">
+    <div class="flex">
+      <img class="mr-2 w-6 h-6" src="{% static 'images/bathroom.svg' %}" alt="bathroom icon">
+      <span id="propertyCardBathRoomCount" class="text-xs font-semibold mr-1">{{property.bath_room_count}}</span>
+    </div>
+    <p class="text-xs text-gray-500">Bathrooms</p>
+  </div>
+
+  <div class="flex md:flex-col md:basis:1/3 flex-grow md:flex-grow-0">
+    <div class="flex">
+      <img class="mr-2 w-5 h-5" src="{% static 'images/area.svg' %}" alt="bathroom icon">
+      <span id="propertyCardParkingCount" class="ml-1 text-xs font-semibold mr-1">{{ property.size | floatformat:2 | intcomma }}</span>
+    </div>
+    <p class="text-xs text-gray-500">Area (m<sup>2</sup>)</p>
+  </div>
+</div>

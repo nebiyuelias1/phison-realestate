@@ -70,7 +70,7 @@ DJANGO_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "django.contrib.humanize", # Handy template tags
+    "django.contrib.humanize",  # Handy template tags
     "django.contrib.admin",
     "django.forms",
     "django_browser_reload",
@@ -89,6 +89,7 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "tailwind",
     "embed_video",
+    "location_field.apps.DefaultConfig",
 ]
 
 LOCAL_APPS = [
@@ -337,3 +338,9 @@ GRAPHENE = {
 # django-tailwind settings
 # ------------------------------------------------------------------------------
 TAILWIND_APP_NAME = "phison_realestate_backend.theme"
+
+LOCATION_FIELD = {
+    "map.provider": "openstreetmap",
+    "search.provider": "nominatim",
+    "provider.openstreetmap.max_zoom": 18,
+}

@@ -2,15 +2,17 @@ import json
 from http import HTTPStatus
 from typing import Any
 
+from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import models
-from django.db.models import OuterRef, Q, Subquery
+from django.db.models import Q
 from django.forms import BaseForm
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import View
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 
@@ -26,6 +28,8 @@ from .forms import (
     PropertyImageIdFormSet,
 )
 from .serializers import PropertyModelSerializer
+
+User = get_user_model()
 
 
 # Property views
@@ -45,12 +49,36 @@ class PropertyListAjaxView(StaffMemberRequiredMixin, View):
 
 class PropertyListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
     template_name = "phison_panel/property_list.html"
+    model = Property
 
     def get_queryset(self) -> models.QuerySet[Property]:
-        property_images = PropertyImage.objects.filter(property=OuterRef("pk"))
-        return Property.objects.annotate(
-            property_image=Subquery(property_images.values("image")[:1])
-        )
+        queryset = super().get_queryset()
+        filter_by = self.request.GET.get("filter_by", None)
+        if filter_by:
+            queryset = queryset.filter(property_type=filter_by)
+
+        q = self.request.GET.get("q", None)
+        if q:
+            queryset = queryset.filter(name__icontains=q)
+
+        return queryset
+
+    def get_context_data(self, **kwargs: Any):
+        data = super().get_context_data(**kwargs)
+
+        q = self.request.GET.get("q", None)
+        if q:
+            data["q"] = q
+
+        filter_by = self.request.GET.get("filter_by", None)
+        if filter_by:
+            data["filter_by"] = filter_by
+
+        data["property_count"] = Property.objects.count()
+        data["customer_count"] = User.objects.get_non_staff_members().count()
+        data["buyer_count"] = Buyer.objects.count()
+
+        return data
 
 
 class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView):
@@ -100,6 +128,11 @@ class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateVi
             return self.form_invalid(form)
 
 
+class PropertyDetailView(DetailView):
+    model = Property
+    template_name = "phison_panel/property_detail.html"
+
+
 class UploadPropertyImageView(StaffMemberRequiredMixin, FormView):
     form_class = PropertyImageForm
 
@@ -125,8 +158,7 @@ class BuyerListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
         queryset = super().get_queryset()
         filter_by = self.request.GET.get("filter_by", None)
         if filter_by:
-            # TODO: Filter based on property type
-            queryset = queryset
+            queryset = queryset.filter(property__property_type=filter_by)
 
         q = self.request.GET.get("q", None)
         if q:

@@ -2,6 +2,9 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from embed_video.fields import EmbedVideoField
+from location_field.models.plain import PlainLocationField
+
+from .managers import PropertyManager
 
 User = get_user_model()
 
@@ -21,10 +24,15 @@ class TimeStampedModel(models.Model):
 
 # TODO: Add property_type to this model with options: apartment or villa
 class Property(TimeStampedModel):
+    """A model class that represents a property object."""
+
     APARTMENT = "AP"
     VILLA = "VI"
 
-    """A model class that represents a property object."""
+    PROPERTY_TYPES = [
+        (APARTMENT, "Apartment"),
+        (VILLA, "Villa"),
+    ]
 
     name = models.CharField(null=False, blank=False, max_length=100)
 
@@ -52,9 +60,25 @@ class Property(TimeStampedModel):
     # https://github.com/jazzband/django-embed-video#quick-start
     video = EmbedVideoField(null=True, blank=True)
 
+    # https://github.com/caioariede/django-location-field#basic-usage-without-spatial-database
+    address = models.CharField(max_length=255, null=True, blank=True)
+
+    # https://github.com/caioariede/django-location-field#basic-usage-without-spatial-database
+    location = PlainLocationField(
+        based_fields=["address"], zoom=7, null=True, blank=True
+    )
+
+    # https://docs.djangoproject.com/en/4.1/ref/models/fields/#slugfield
+    slug = models.SlugField(allow_unicode=True, max_length=150, unique=True)
+
+    property_type = models.CharField(
+        max_length=2, choices=PROPERTY_TYPES, default=APARTMENT
+    )
+
+    objects = PropertyManager()
+
     def get_absolute_url(self):
-        # TODO: Modify this URL to the detail of the property.
-        return reverse("phison_panel:home")
+        return reverse("phison_panel:property_detail", kwargs={"slug": self.slug})
 
     class Meta:
         # https://docs.djangoproject.com/en/4.1/ref/models/options/

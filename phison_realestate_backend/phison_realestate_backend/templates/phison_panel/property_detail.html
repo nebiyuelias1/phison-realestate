@@ -1,0 +1,192 @@
+{% extends "phison_panel/base.html" %}
+{% load static %}
+{% load embed_video_tags %}
+{% block css %}
+{{block.super}}
+<style>
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+</style>
+{% endblock %}
+{% block main %}
+<div>
+  <header>
+    <h2 class="text-xl">{{object.name}}</h2>
+    <p class="text-xs text-gray-500 mt-3">Property Detail Information</p>
+  </header>
+
+  <div class="mt-2 lg:flex gap-4">
+    <div class="rounded-3xl overflow-hidden mb-4 lg:mb-0 lg:basis-4/5">
+      <div id="videoPreviewContainer" class="flex">
+        {% if object.video %}
+          {% video object.video as property_video %}
+            {% video property_video  "100% x 400" %}
+          {% endvideo %}
+        {% endif %}
+      </div>
+
+      <div id="imagePreviewContainer" class="{% if object.video != None %} hidden {% endif %} relative">
+        {% for property_image in object.images.all %}
+          <!-- Full-width images with number and caption text -->
+          <div class="hidden fade imageSlide group">
+            <p class="absolute top-0 text-xs py-2 px-3 text-white backdrop-blur-lg group-hover:bg-orange-900">{{ forloop.counter }} / {{object.images.count}}</p>
+            <img class="h-96 object-cover" src="{{property_image.image.url}}" style="width:100%">
+          </div>
+        {% endfor %}
+
+        <!-- Next and previous buttons -->
+        <a class="cursor-pointer absolute top-1/2 -translate-y-1/2 p-4 text-white font-bold text-lg select-none hover:bg-gray-500" id="prevBtn">&#10094;</a>
+        <a class="cursor-pointer absolute top-1/2 -translate-y-1/2 right-0 p-4 text-white font-bold text-lg select-none hover:bg-gray-500" id="nextBtn">&#10095;</a>
+      </div>
+    </div>
+
+    <div id="medias" class="flex lg:flex-col gap-4 lg:basis-1/5 max-h-40 lg:max-h-96 items-stretch">
+      <!-- Video -->
+      {% if object.video %}
+        {% video object.video as property_video %}
+          <div id="videoBtn" class="relative rounded-3xl overflow-hidden border-4 border-orange-800 cursor-pointer">
+            <img class="w-full h-full object-cover" src="{{ property_video.thumbnail }}" alt="property video">
+            <svg class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M27 3.375C13.9535 3.375 3.375 13.9535 3.375 27C3.375 40.0465 13.9535 50.625 27 50.625C40.0465 50.625 50.625 40.0465 50.625 27C50.625 13.9535 40.0465 3.375 27 3.375ZM34.599 27.3639L23.0818 35.7434C23.0187 35.7887 22.9443 35.8158 22.8667 35.8216C22.7892 35.8275 22.7116 35.8118 22.6423 35.7764C22.5731 35.741 22.515 35.6871 22.4744 35.6208C22.4338 35.5546 22.4122 35.4783 22.4121 35.4006V18.6521C22.4119 18.5742 22.4332 18.4978 22.4737 18.4313C22.5143 18.3647 22.5724 18.3107 22.6418 18.2752C22.7111 18.2397 22.789 18.2241 22.8666 18.2302C22.9443 18.2362 23.0188 18.2636 23.0818 18.3094L34.599 26.6836C34.6534 26.7221 34.6978 26.773 34.7285 26.8322C34.7591 26.8914 34.7751 26.9571 34.7751 27.0237C34.7751 27.0904 34.7591 27.156 34.7285 27.2152C34.6978 27.2744 34.6534 27.3254 34.599 27.3639Z" fill="white"/>
+            </svg>
+          </div>
+        {% endvideo %}
+      {% endif %}
+      <!-- Image -->
+      {% if object.property_image %}
+        <div id="imageBtn" class="relative rounded-3xl overflow-hidden border-orange-800 cursor-pointer">
+          <img class="w-full h-full object-cover" src="{% get_media_prefix %}{{object.property_image}}" alt="property image">
+          <svg class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_114_11414)">
+            <path d="M30.1399 3C30.1399 2.73478 30.0345 2.48043 29.847 2.29289C29.6595 2.10536 29.4051 2 29.1399 2H7.13989C6.87468 2 6.62032 2.10536 6.43279 2.29289C6.24525 2.48043 6.13989 2.73478 6.13989 3V4H30.1399V3Z" fill="white"/>
+            <path d="M32.1201 7C32.1201 6.73478 32.0148 6.48043 31.8272 6.29289C31.6397 6.10536 31.3853 6 31.1201 6H5.12012C4.8549 6 4.60055 6.10536 4.41301 6.29289C4.22547 6.48043 4.12012 6.73478 4.12012 7V8H32.1201V7Z" fill="white"/>
+            <path d="M32.12 10H3.88C3.38139 10 2.90321 10.1981 2.55064 10.5506C2.19807 10.9032 2 11.3814 2 11.88V30.12C2 30.6186 2.19807 31.0968 2.55064 31.4494C2.90321 31.8019 3.38139 32 3.88 32H32.12C32.6186 32 33.0968 31.8019 33.4494 31.4494C33.8019 31.0968 34 30.6186 34 30.12V11.88C34 11.3814 33.8019 10.9032 33.4494 10.5506C33.0968 10.1981 32.6186 10 32.12 10ZM8.56 13.45C9.15334 13.45 9.73336 13.6259 10.2267 13.9556C10.7201 14.2852 11.1046 14.7538 11.3316 15.3019C11.5587 15.8501 11.6181 16.4533 11.5024 17.0353C11.3866 17.6172 11.1009 18.1518 10.6813 18.5713C10.2618 18.9909 9.72721 19.2766 9.14527 19.3924C8.56333 19.5081 7.96013 19.4487 7.41195 19.2216C6.86377 18.9946 6.39524 18.6101 6.06559 18.1167C5.73595 17.6234 5.56 17.0433 5.56 16.45C5.56 15.6544 5.87607 14.8913 6.43868 14.3287C7.00129 13.7661 7.76435 13.45 8.56 13.45ZM30 28H6L13.46 20.53C13.593 20.3981 13.7727 20.3241 13.96 20.3241C14.1473 20.3241 14.327 20.3981 14.46 20.53L18.14 24.21L23.21 19C23.343 18.8681 23.5227 18.7941 23.71 18.7941C23.8973 18.7941 24.077 18.8681 24.21 19L30 24.79V28Z" fill="white"/>
+            </g>
+            <defs>
+            <clipPath id="clip0_114_11414">
+            <rect width="36" height="36" fill="white"/>
+            </clipPath>
+            </defs>
+          </svg>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6 mt-6">
+    <div>
+      {% include 'partials/_property_stats.html' with property=object class="md:max-w-sm mb-8" %}
+      <!-- Description -->
+      <div class="flex items-center">
+        <p class="font-semibold tex-sm basis-28">Description</p>
+        <p class="text-gray-600 text-xs">{{object.description}}</p>
+      </div>
+
+      <!-- Location -->
+      <div class="mt-5 flex items-center">
+        <p class="font-semibold tex-sm basis-28">Location</p>
+        <p class="text-gray-600 text-xs">{{object.address}}</p>
+      </div>
+
+      <!-- Parking -->
+      <div class="mt-5 flex items-center">
+        <p class="font-semibold tex-sm basis-28">Parking</p>
+        <p class="text-gray-600 text-xs">{{object.parking_count}}</p>
+      </div>
+
+      <!-- Progress -->
+      <div class="mt-5 flex items-center">
+        <p class="font-semibold tex-sm basis-28">Status</p>
+        <p class="text-gray-600 text-xs">{{object.progress}}</p>
+      </div>
+
+      <!-- Progress -->
+      <!-- TODO: Properly display the progress here. -->
+      <div class="mt-5 flex items-center">
+        <p class="font-semibold tex-sm basis-28">Status</p>
+        <div class="text-gray-600 text-xs">
+          <div class="mt-2 flex w-full bg-gray-300 rounded-lg">
+            <div class="bg-purple-900 text-white text-xs font-semibold py-1 px-2 rounded-lg">60% completed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="font-semibold text-sm">Payment Information</p>
+
+      {% for payment_info in object.payment_infos.all %}
+        <div class="bg-white py-3 px-4 rounded-lg mt-3">
+          <div class="flex justify-between">
+            <p class="font-semibold text-xs">{{payment_info.title}}</p>
+            <p class="text-purple-900 font-semibold text-xs">{{payment_info.amount}}%</p>
+          </div>
+          <p class="text-gray-600 text-xs mt-2">{{payment_info.description}}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block inline_javascript %}
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const imageBtn = document.querySelector('#imageBtn');
+    const videoBtn = document.querySelector('#videoBtn');
+    const videoPreviewContainer = document.querySelector('#videoPreviewContainer');
+    const imagePreviewContainer = document.querySelector('#imagePreviewContainer');
+
+    function togglePreview() {
+      if (videoBtn) {
+        videoBtn.classList.toggle("border-4");
+      }
+      if (imageBtn) {
+        imageBtn.classList.toggle("border-4");
+      }
+
+      videoPreviewContainer.classList.toggle("hidden");
+      imagePreviewContainer.classList.toggle("hidden");
+    }
+
+    if (imageBtn) {
+      imageBtn.addEventListener('click', togglePreview);
+    }
+
+    if (videoBtn) {
+      videoBtn.addEventListener('click', togglePreview);
+    }
+
+    const prevBtn = document.querySelector('#prevBtn');
+    const nextBtn = document.querySelector('#nextBtn');
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+
+    prevBtn.addEventListener('click', () => plusSlides(-1));
+    nextBtn.addEventListener('click', () => plusSlides(1));
+
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function showSlides(n) {
+      let i;
+      let slides = document.getElementsByClassName("imageSlide");
+      if (n > slides.length) {slideIndex = 1}
+      if (n < 1) {slideIndex = slides.length}
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slides[slideIndex-1].style.display = "block";
+    }
+  });
+</script>
+{% endblock %}
