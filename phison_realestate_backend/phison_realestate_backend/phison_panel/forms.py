@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import formset_factory
+from django.forms import BaseFormSet, formset_factory
 from django.forms.models import BaseInlineFormSet, inlineformset_factory
 from django.utils.text import slugify
 from django.utils.timezone import now
@@ -123,7 +123,16 @@ class PropertyImageForm(forms.ModelForm):
 
 
 class PropertyImageIdForm(forms.Form):
-    image_id = forms.CharField()
+    image_id = forms.CharField(
+        label=False, widget=forms.TextInput(attrs={"hidden": True})
+    )
+
+
+class BasePropertyImageIdFormSet(BaseFormSet):
+    def add_fields(self, form, index) -> None:
+        super().add_fields(form, index)
+        if "DELETE" in form.fields:
+            form.fields["DELETE"].widget = forms.HiddenInput()
 
 
 PropertyImageIdFormSet = formset_factory(
@@ -131,5 +140,8 @@ PropertyImageIdFormSet = formset_factory(
     min_num=1,
     validate_min=True,
     max_num=4,
+    extra=0,
     validate_max=True,
+    can_delete=True,
+    formset=BasePropertyImageIdFormSet,
 )
