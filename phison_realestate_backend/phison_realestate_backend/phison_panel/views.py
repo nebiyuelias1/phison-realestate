@@ -19,6 +19,7 @@ from django.views.generic.list import ListView
 from phison_realestate_backend.core.models import Buyer, Property, PropertyImage
 from phison_realestate_backend.phison_panel.mixins import (
     GetFormSetMixin,
+    PropertyTypeOptionsMixin,
     SavePropertyImageMixin,
 )
 
@@ -87,6 +88,7 @@ class PropertyCreateView(
     StaffMemberRequiredMixin,
     GetFormSetMixin,
     SavePropertyImageMixin,
+    PropertyTypeOptionsMixin,
     SuccessMessageMixin,
     CreateView,
 ):
@@ -129,6 +131,7 @@ class PropertyDetailView(StaffMemberRequiredMixin, DetailView):
 class PropertyEditView(
     StaffMemberRequiredMixin,
     GetFormSetMixin,
+    PropertyTypeOptionsMixin,
     SuccessMessageMixin,
     SavePropertyImageMixin,
     UpdateView,
