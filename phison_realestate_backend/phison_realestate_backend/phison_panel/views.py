@@ -17,15 +17,17 @@ from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.views.generic.list import ListView
 
 from phison_realestate_backend.core.models import Buyer, Property, PropertyImage
+from phison_realestate_backend.phison_panel.mixins import (
+    GetFormSetMixin,
+    SavePropertyImageMixin,
+)
 
 from ..core.mixins import PaginateMixin, StaffMemberRequiredMixin
 from .forms import (
     BuyerForm,
     BuyerPaymentScheduleFormSet,
-    PaymentInformationFormSet,
     PropertyForm,
     PropertyImageForm,
-    PropertyImageIdFormSet,
 )
 from .serializers import PropertyModelSerializer
 
@@ -81,62 +83,97 @@ class PropertyListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
         return data
 
 
-class PropertyCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView):
+class PropertyCreateView(
+    StaffMemberRequiredMixin,
+    GetFormSetMixin,
+    SavePropertyImageMixin,
+    SuccessMessageMixin,
+    CreateView,
+):
     model = Property
     template_name = "phison_panel/property_form.html"
     form_class = PropertyForm
     success_message = _("Property saved successfully")
 
-    def _get_payment_information_form_set(self):
-        if self.request.POST:
-            return PaymentInformationFormSet(self.request.POST)
-        else:
-            return PaymentInformationFormSet()
-
-    def _get_property_image_form_set(self):
-        if self.request.POST:
-            return PropertyImageIdFormSet(self.request.POST)
-        else:
-            return PropertyImageIdFormSet()
-
-    def _save_property_images(self, form_set):
-        property_image_ids = list(
-            map(lambda x: int(x["image_id"]), form_set.cleaned_data)
-        )
-        property_images = PropertyImage.objects.filter(id__in=property_image_ids)
-        property_images.update(property=self.object)
-
     def get_context_data(self, **kwargs: Any):
         data = super().get_context_data(**kwargs)
 
-        data["formset"] = self._get_payment_information_form_set()
-        data["image_formset"] = self._get_property_image_form_set()
+        data["formset"] = self.get_payment_information_form_set()
+        data["image_formset"] = self.get_property_image_form_set()
 
         return data
 
     def form_valid(self, form: BaseForm) -> HttpResponse:
-        form_set = self._get_payment_information_form_set()
-        property_image_form_set = self._get_property_image_form_set()
+        form_set = self.get_payment_information_form_set()
+        property_image_form_set = self.get_property_image_form_set()
 
         if form_set.is_valid() and property_image_form_set.is_valid():
             self.object = form.save()
             form_set.instance = self.object
             form_set.save()
-            self._save_property_images(property_image_form_set)
+            property_image_ids = [
+                int(property_image["image_id"])
+                for property_image in property_image_form_set.cleaned_data
+            ]
+            self.save_property_images(property_image_ids)
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
 
 
-class PropertyDetailView(DetailView):
+class PropertyDetailView(StaffMemberRequiredMixin, DetailView):
     model = Property
     template_name = "phison_panel/property_detail.html"
 
 
-class PropertyEditView(UpdateView):
+class PropertyEditView(
+    StaffMemberRequiredMixin,
+    GetFormSetMixin,
+    SuccessMessageMixin,
+    SavePropertyImageMixin,
+    UpdateView,
+):
     form_class = PropertyForm
     template_name = "phison_panel/property_form.html"
+    success_message = "Property edited successfully"
     model = Property
+
+    def form_valid(self, form: PropertyForm) -> HttpResponse:
+        image_formset_data = self._get_image_formset_initial_data()
+        image_form_set = self.get_property_image_form_set(initial=image_formset_data)
+        if image_form_set.is_valid():
+            image_ids_to_be_saved = [
+                int(property_image["image_id"])
+                for property_image in image_form_set.cleaned_data
+            ]
+            self.save_property_images(image_ids_to_be_saved)
+
+            images_ids_to_be_deleted = [
+                int(form.cleaned_data["image_id"])
+                for form in image_form_set.deleted_forms
+            ]
+            self._delete_property_images(images_ids_to_be_deleted)
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs: Any):
+        data = super().get_context_data(**kwargs)
+
+        image_formset_data = self._get_image_formset_initial_data()
+        data["image_formset"] = self.get_property_image_form_set(
+            initial=image_formset_data
+        )
+
+        return data
+
+    def _get_image_formset_initial_data(self):
+        image_ids = list(self.object.images.all().values_list("pk", flat=True))
+        image_formset_data = [{"image_id": id} for id in image_ids]
+        return image_formset_data
+
+    def _delete_property_images(self, image_ids):
+        PropertyImage.objects.filter(id__in=image_ids).delete()
 
 
 class UploadPropertyImageView(StaffMemberRequiredMixin, FormView):
