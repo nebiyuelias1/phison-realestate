@@ -5,27 +5,26 @@ const propertyImagesContainer = document.querySelector("#propertyImages");
 const hiddenFormControlContainer = document.querySelector('#propertyImageFormControls');
 const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 const totalFormInput = document.querySelector('#id_form-TOTAL_FORMS');
+const removeExistingImageBtns = document.querySelectorAll('#removePropertyImage');
 let abortController;
 
 const setHiddenFormControlValues = () => {
-  const count = hiddenFormControlContainer.childElementCount;
+  const count = hiddenFormControlContainer.querySelectorAll('[type="text"]').length;
   totalFormInput.setAttribute('value', count);
-  for (let index = 0; index < count; index++) {
-    const child = hiddenFormControlContainer.children[index];
-    child.setAttribute('name', `form-${index}-image_id`);
-  }
 }
 
 const removePropertyImage = (event) => {
   const parentContainer = event.target.closest('.image-container');
-  const index = Array.from(parentContainer.parentElement.children).indexOf(parentContainer);
+  const index = parentContainer.dataset.index;
 
   parentContainer.remove();
   if (abortController) {
     abortController.abort();
   }
 
-  hiddenFormControlContainer.children[index].remove();
+  const hiddenInput = document.querySelector(`#id_form-${index}-image_id`);
+  hiddenInput.remove();
+
   setHiddenFormControlValues();
 }
 
@@ -37,11 +36,14 @@ const onFileUploadStarted = async (file) => {
   childNode.setAttribute('class', 'image-container');
   childNode.setAttribute('data-index', propertyImagesContainer.children.length);
   childNode.innerHTML = imageUploadTemplate;
+
   const imageTag = childNode.querySelector('#propertyImage');
   const url = URL.createObjectURL(file);
   imageTag.setAttribute('src', url);
   URL.revokeObjectURL(file);
+
   propertyImagesContainer.appendChild(childNode);
+
   const removePropertyImageBtn = childNode.querySelector('#removePropertyImage');
   removePropertyImageBtn.addEventListener('click', removePropertyImage);
 
@@ -50,7 +52,9 @@ const onFileUploadStarted = async (file) => {
 
 const maybeShowOpenImagePickerBtn = () => {
   if (propertyImagesContainer.childElementCount < 4) {
-    openImagePickerBtn.classList.toggle("hidden");
+    openImagePickerBtn.classList.remove("hidden");
+  } else {
+    openImagePickerBtn.classList.add("hidden");
   }
 }
 
@@ -64,10 +68,17 @@ const onFileUploadCompleted = (childNode, jsonResponse) => {
   loadingSpinner.classList.add('hidden');
   maybeShowOpenImagePickerBtn();
 
+  const count = hiddenFormControlContainer.querySelectorAll('[type="text"]').length;
+
   const hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'text');
+  hiddenInput.setAttribute('name', `form-${count}-image_id`);
   hiddenInput.setAttribute('hidden', true);
+  hiddenInput.setAttribute('id', `id_form-${count}-image_id`);
   hiddenInput.setAttribute('value', jsonResponse.id);
+
   hiddenFormControlContainer.appendChild(hiddenInput);
+
   setHiddenFormControlValues();
 }
 
@@ -165,3 +176,15 @@ openImagePickerBtn.addEventListener("click", (event) => {
 });
 
 imageInput.addEventListener("change", uploadImage);
+
+removeExistingImageBtns.forEach((e) => e.addEventListener('click', (event) => {
+  const parentContainer = event.target.closest('.image-container');
+  const index = parentContainer.dataset.index;
+
+  parentContainer.remove();
+
+  document.querySelector(`#id_form-${index}-DELETE`).value = 'on';
+  setHiddenFormControlValues();
+
+  maybeShowOpenImagePickerBtn();
+}));
