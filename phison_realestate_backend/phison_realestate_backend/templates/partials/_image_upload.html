@@ -1,6 +1,6 @@
 {% load static %}
 <div class="relative flex-shrink-0 w-32 h-32 mr-2 mb-2">
-  <img id="propertyImage" class="object-cover rounded-2xl h-full w-full blur-sm" src="{% static 'images/property-placeholder.png' %}"
+  <img id="propertyImage" class="object-cover rounded-2xl h-full w-full {% if not image %}blur-sm{% endif %}" src="{% if image %}{{image.image.url}}{% else %}{% static 'images/property-placeholder.png' %}{% endif %}"
     alt="property image">
   <button id="removePropertyImage" class="flex items-center justify-center bg-white w-6 h-6 absolute top-2 right-2 rounded-md">
     <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,6 +17,7 @@
     </svg>
   </button>
 
+  {% if not image %}
   <div id="loadingSpinner" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center {{class}}"
     role="status">
     <svg class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-orange-900" viewBox="0 0 100 101"
@@ -30,4 +31,5 @@
     </svg>
     <span class="sr-only">Loading...</span>
   </div>
+  {% endif %}
 </div>
