@@ -4,7 +4,9 @@
   {% endif %}
   <select id="{{id}}" name="{{name}}"
     class="bg-gray-50 border border-gray-300 text-gray-900 rounded-2xl focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
-    {{required_attribute}} value="{% if value %}{{value}}{% endif %}" {{form_attribute}}>
-    {{options}}
+    {{required_attribute}} {{form_attribute}}>
+    {% for option in options %}
+    <option value="{{option.0}}" {% if value and value == option.0 %}selected{% endif %}>{{option.1}}</option>
+    {% endfor %}
   </select>
 </div>
