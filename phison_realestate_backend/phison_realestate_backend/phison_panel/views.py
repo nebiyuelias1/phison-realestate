@@ -144,18 +144,28 @@ class PropertyEditView(
     def form_valid(self, form: PropertyForm) -> HttpResponse:
         image_formset_data = self._get_image_formset_initial_data()
         image_form_set = self.get_property_image_form_set(initial=image_formset_data)
-        if image_form_set.is_valid():
+
+        payment_formset_data = self._get_payment_info_formset_initial_data()
+        payment_info_form_set = self.get_payment_information_form_set(
+            initial=payment_formset_data
+        )
+
+        if image_form_set.is_valid() and payment_info_form_set.is_valid():
             image_ids_to_be_saved = [
                 int(property_image["image_id"])
                 for property_image in image_form_set.cleaned_data
             ]
             self.save_property_images(image_ids_to_be_saved)
 
-            images_ids_to_be_deleted = [
+            image_ids_to_be_deleted = [
                 int(form.cleaned_data["image_id"])
                 for form in image_form_set.deleted_forms
             ]
-            self._delete_property_images(images_ids_to_be_deleted)
+            self._delete_property_images(image_ids_to_be_deleted)
+
+            payment_info_form_set.instance = self.object
+            payment_info_form_set.save()
+
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
@@ -168,12 +178,23 @@ class PropertyEditView(
             initial=image_formset_data
         )
 
+        payment_info_data = self._get_payment_info_formset_initial_data()
+        data["formset"] = self.get_payment_information_form_set(payment_info_data)
+
         return data
 
     def _get_image_formset_initial_data(self):
         image_ids = list(self.object.images.all().values_list("pk", flat=True))
         image_formset_data = [{"image_id": id} for id in image_ids]
         return image_formset_data
+
+    def _get_payment_info_formset_initial_data(self):
+        payment_infos = list(
+            self.object.payment_infos.all().values(
+                "title", "time_period", "amount", "description"
+            )
+        )
+        return payment_infos
 
     def _delete_property_images(self, image_ids):
         PropertyImage.objects.filter(id__in=image_ids).delete()

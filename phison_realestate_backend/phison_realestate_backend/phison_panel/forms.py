@@ -59,10 +59,12 @@ class PaymentInformationForm(forms.ModelForm):
 
 PaymentInformationFormSet = inlineformset_factory(
     Property,
+    min_num=1,
     model=PaymentInformation,
     form=PaymentInformationForm,
-    min_num=1,
     validate_min=True,
+    can_delete=True,
+    extra=0,
 )
 
 

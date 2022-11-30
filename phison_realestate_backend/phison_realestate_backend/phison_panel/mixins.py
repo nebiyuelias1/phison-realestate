@@ -10,9 +10,11 @@ from phison_realestate_backend.phison_panel.forms import (
 class GetFormSetMixin:
     def get_payment_information_form_set(self, initial=None):
         if self.request.POST:
-            return PaymentInformationFormSet(self.request.POST, initial=initial)
+            return PaymentInformationFormSet(
+                self.request.POST, instance=self.object, initial=initial
+            )
         else:
-            return PaymentInformationFormSet(initial=initial)
+            return PaymentInformationFormSet(instance=self.object, initial=initial)
 
     def get_property_image_form_set(self, initial=None):
         if self.request.POST:
