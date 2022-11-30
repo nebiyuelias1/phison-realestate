@@ -114,10 +114,17 @@
     <hr>
 
     <div id="hiddenFormControls">
-      <input type="hidden" name="payment_infos-TOTAL_FORMS" id="id_payment_infos-TOTAL_FORMS">
-      <input type="hidden" name="payment_infos-INITIAL_FORMS" value="0" id="id_payment_infos-INITIAL_FORMS">
-      <input type="hidden" name="payment_infos-MIN_NUM_FORMS" value="1" id="id_payment_infos-MIN_NUM_FORMS">
-      <input type="hidden" name="payment_infos-MAX_NUM_FORMS" value="1000" id="id_payment_infos-MAX_NUM_FORMS">
+      {{formset.management_form}}
+
+      {% if object.payment_infos.count > 0 %}
+      {% for form in formset %}
+        <div class="payment-info-form-controls">
+          {% for field in form %}
+          {{field.as_hidden}}
+          {% endfor %}
+        </div>
+      {% endfor %}
+      {% endif %}
     </div>
 
     <div class="flex flex-wrap mt-4 gap-3">
@@ -149,9 +156,42 @@
             <th scope="col" class="py-3 px-6">
               Amount (%)
             </th>
+            <th scope="col" class="py-3 px-6"></th>
           </tr>
         </thead>
         <tbody id="tableBody">
+          {% for payment_info in object.payment_infos.all %}
+          <tr class="bg-white border-b" data-index="{{forloop.counter0}}">
+            <th scope="row" class="py-4 px-6 font-medium text-blue-600 whitespace-nowrap">
+              {{payment_info.title}}
+            </th>
+            <td class="py-4 px-6">
+              {{payment_info.description}}
+            </td>
+            <td class="py-4 px-6">
+              {{payment_info.time_period}}
+            </td>
+            <td class="py-4 px-6">
+              {{payment_info.amount}}
+            </td>
+            <td class="py-4 px-6">
+              <button id="removeExistingPaymentInfo" class="flex items-center justify-center bg-white w-6 h-6 rounded-md">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_114_11571)">
+                    <path
+                      d="M0.916748 2.74984H10.0834M4.58341 5.0415V7.33317M6.41675 5.0415V7.33317M1.83341 2.74984H9.16675L8.44258 9.26734C8.41776 9.49163 8.31107 9.69889 8.14295 9.84943C7.97482 9.99996 7.75708 10.0832 7.53141 10.0832H3.46875C3.24308 10.0832 3.02534 9.99996 2.85722 9.84943C2.68909 9.69889 2.5824 9.49163 2.55758 9.26734L1.83341 2.74984ZM3.36654 1.44221C3.44068 1.28499 3.55799 1.15209 3.70479 1.059C3.8516 0.965924 4.02184 0.916502 4.19566 0.916504H6.8045C6.9784 0.916415 7.14874 0.965796 7.29564 1.05888C7.44253 1.15197 7.55991 1.28492 7.63408 1.44221L8.25008 2.74984H2.75008L3.36654 1.44221V1.44221Z"
+                      stroke="#F04438" stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_114_11571">
+                      <rect width="11" height="11" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
         </tbody>
       </table>
 
