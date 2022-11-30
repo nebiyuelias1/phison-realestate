@@ -23,6 +23,7 @@ class TestPropertyForm:
             "size": 42,
             "price": 1000,
             "progress": "Test progress",
+            "property_type": Property.APARTMENT,
         }
         self.Form = PropertyForm
         self.required_error_message = "This field is required."
