@@ -22,7 +22,6 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-# TODO: Add property_type to this model with options: apartment or villa
 class Property(TimeStampedModel):
     """A model class that represents a property object."""
 
