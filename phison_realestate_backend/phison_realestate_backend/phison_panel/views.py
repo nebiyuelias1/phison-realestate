@@ -5,7 +5,7 @@ from typing import Any
 from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import models
-from django.db.models import OuterRef, Q, Subquery
+from django.db.models import Q
 from django.forms import BaseForm
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -88,12 +88,6 @@ class PropertyListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
         data["buyer_count"] = Buyer.objects.count()
 
         return data
-
-    def get_queryset(self) -> models.QuerySet[Property]:
-        property_images = PropertyImage.objects.filter(property=OuterRef("pk"))
-        return Property.objects.annotate(
-            property_image=Subquery(property_images.values("image")[:1])
-        )
 
 
 class PropertyCreateView(
