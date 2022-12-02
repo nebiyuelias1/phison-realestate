@@ -84,7 +84,6 @@ class TestPropertyCreateView:
                 "form-MIN_NUM_FORMS": 1,
                 "form-INITIAL_FORMS": 0,
                 "form-0-image_id": 1,
-                "property_type": Property.APARTMENT,
             },
         )
 
@@ -122,7 +121,6 @@ class TestPropertyCreateView:
                 "form-MIN_NUM_FORMS": 1,
                 "form-INITIAL_FORMS": 0,
                 "form-0-image_id": property_image.pk,
-                "property_type": Property.APARTMENT,
             },
         )
         assert response.status_code == HTTPStatus.FOUND
@@ -177,8 +175,9 @@ class TestPropertyListAjaxView:
         assert len(response_data) == 2
         assert response_data[0]["id"] == properties[1].pk
         assert response_data[1]["id"] == properties[0].pk
-        assert len(response_data[1]["images"]) > 0
-        assert response_data[1]["images"][0]["id"] == property_image.pk
+        assert (
+            f'/media/{response_data[1]["property_image"]}' == property_image.image.url
+        )
 
     def test_get_properties_with_search_key(self, admin_client, view_url):
         properties = PropertyFactory.create_batch(size=2)
