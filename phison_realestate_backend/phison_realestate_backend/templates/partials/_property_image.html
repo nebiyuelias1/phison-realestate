@@ -1,0 +1,5 @@
+{% load static %}
+<div class="relative">
+  <img id="propertyImage" class="w-full object-cover rounded-2xl {{class}}" src="{% if property.property_image %}{% get_media_prefix %}{{property.property_image}}{% else %} https://cdn.pixabay.com/photo/2015/10/20/18/57/furniture-998265_960_720.jpg {% endif %}" alt="Property image">
+  <span id="propertyType" class="absolute right-2 bottom-2 text-xs backdrop-blur-lg text-white p-2 rounded-lg group-hover:bg-orange-900">{{property.get_property_type_display}}</span>
+</div>
