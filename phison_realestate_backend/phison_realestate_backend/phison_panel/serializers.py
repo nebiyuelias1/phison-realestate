@@ -1,21 +1,11 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import CharField, ModelSerializer
 
-from phison_realestate_backend.core.models import Property, PropertyImage
-
-
-class PropertyImageModelSerializer(ModelSerializer):
-    class Meta:
-        model = PropertyImage
-        fields = [
-            "id",
-            "image",
-            "height",
-            "width",
-        ]
+from phison_realestate_backend.core.models import Property
 
 
 class PropertyModelSerializer(ModelSerializer):
-    images = PropertyImageModelSerializer(many=True)
+    property_image = CharField()
+    property_type = CharField(source="get_property_type_display")
 
     class Meta:
         model = Property
@@ -28,5 +18,6 @@ class PropertyModelSerializer(ModelSerializer):
             "description",
             "size",
             "price",
-            "images",
+            "property_image",
+            "property_type",
         ]
