@@ -82,6 +82,7 @@ class Property(TimeStampedModel):
     class Meta:
         # https://docs.djangoproject.com/en/4.1/ref/models/options/
         ordering = ["-created_at"]
+        base_manager_name = "objects"
 
 
 class PropertyImage(TimeStampedModel):
