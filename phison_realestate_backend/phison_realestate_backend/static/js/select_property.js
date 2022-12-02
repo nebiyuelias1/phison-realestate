@@ -31,9 +31,9 @@ const fetchData = async (searchKey) => {
           <div class="property-card md:flex gap-2 mt-4 bg-white p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
             <div class="relative basis-1/3 md:mr-4">
               <img class="object-cover rounded-2xl h-32 md:h-full w-full"
-                src="https://cdn.pixabay.com/photo/2015/10/20/18/57/furniture-998265_960_720.jpg" alt="Property image">
+                src="/media/${d.property_image}" alt="Property image">
               <span
-                class="absolute left-2 bottom-2 text-xs backdrop-blur-lg text-white p-2 rounded-lg bg-orange-900">Villa</span>
+                class="absolute left-2 bottom-2 text-xs backdrop-blur-lg text-white p-2 rounded-lg bg-orange-900">${d.property_type}</span>
             </div>
             <div class="mt-2 md:mt-0 flex flex-col flex-grow">
               <p class="font-bold text-sm">${d.name}</p>
@@ -84,6 +84,8 @@ const fetchData = async (searchKey) => {
         document.querySelector('#propertyCardBedRoomCount').textContent = property.bed_room_count;
         document.querySelector('#propertyCardBathRoomCount').textContent = property.bath_room_count;
         document.querySelector('#propertyCardParkingCount').textContent = property.parking_count;
+        document.querySelector('#propertyImage').setAttribute('src', `/media/${property.property_image}`);
+        document.querySelector('#propertyType').textContent = property.property_type;
 
         document.querySelector("#propertyId").value = property.id;
 

@@ -1,0 +1,7 @@
+{% load static %}
+<div class="bg-gray-100 text-xs text-gray-700 rounded-2xl p-2 flex items-center group-hover:bg-black group-hover:text-white">
+  <div class="rounded-full p-2 bg-white">
+    <img class="w-4 h-4" src="{% static 'images/map-pin.svg' %}" alt="map pin">
+  </div>
+  <p class="ml-1">{% if property.address %}{{property.address}}{% else %}Addis Ababa, Ethiopia{% endif %}</p>
+</div>
