@@ -1,3 +1,4 @@
+import uuid
 from decimal import Decimal
 
 from django import forms
@@ -75,6 +76,13 @@ class BuyerForm(forms.ModelForm):
             "property",
             "customer",
         )
+
+    def save(self, commit: bool = ...):
+        if self.instance.slug is None or self.instance.slug == "":
+            slug = uuid.uuid4()
+            self.instance.slug = slugify(slug, allow_unicode=True)
+
+        return super().save(commit)
 
 
 class BuyerPaymentScheduleForm(forms.ModelForm):

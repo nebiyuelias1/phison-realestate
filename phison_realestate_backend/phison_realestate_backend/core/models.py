@@ -159,6 +159,9 @@ class Buyer(TimeStampedModel):
         User, related_name="+", null=True, blank=False, on_delete=models.SET_NULL
     )
 
+    # https://docs.djangoproject.com/en/4.1/ref/models/fields/#slugfield
+    slug = models.SlugField(allow_unicode=True, max_length=150, unique=True)
+
     class Meta:
         # https://docs.djangoproject.com/en/4.1/ref/models/options/
         ordering = ["-created_at"]
