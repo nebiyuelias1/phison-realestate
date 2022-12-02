@@ -1,19 +1,12 @@
 {% load static %}
-<div class="bg-white rounded-2xl p-2 shadow-lg hover:shadow-xl group relative h-full">
+<div class="bg-white rounded-2xl shadow-lg hover:shadow-xl group relative h-full {{class}}">
   <a href="{{property.get_absolute_url}}">
-    <div class="relative -mx-2 -mt-2">
-      <img class="w-full object-cover rounded-2xl h-36" src="{% if property.property_image %}{% get_media_prefix %}{{property.property_image}}{% else %} https://cdn.pixabay.com/photo/2015/10/20/18/57/furniture-998265_960_720.jpg {% endif %}" alt="Property image">
-      <span class="absolute right-2 bottom-2 text-xs backdrop-blur-lg text-white p-2 rounded-lg group-hover:bg-orange-900">{{property.get_property_type_display}}</span>
-    </div>
-    <h3 class="mt-3 font-semibold" id="propertyCardName">{{property.name}}</h3>
+    {% include 'partials/_property_image.html' with property=property class="h-36" only %}
 
-    {% include 'partials/_property_stats.html' with property=property class="mt-1 mb-12 " %}
-
-    <div class="bg-gray-100 text-xs text-gray-700 rounded-2xl p-2 flex items-center group-hover:bg-black group-hover:text-white absolute bottom-0 right-0 left-0">
-      <div class="rounded-full p-2 bg-white">
-        <img class="w-4 h-4" src="{% static 'images/map-pin.svg' %}" alt="map pin">
-      </div>
-      <p class="ml-1">{% if property.address %}{{property.address}}{% else %}Addis Ababa, Ethiopia{% endif %}</p>
+    <div class="p-2">
+      <h3 class="mt-3 font-semibold" id="propertyCardName">{{property.name}}</h3>
+      {% include 'partials/_property_stats.html' with property=property class="mt-1 mb-12" only %}
+      {% include 'partials/_property_address.html' with property=property class="absolute bottom-0 right-0 left-0" only %}
     </div>
   </a>
 </div>

@@ -1,26 +1,28 @@
 {% load static %}
-<div class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl group relative h-full">
-  <div class="flex justify-between items-start">
-    <img class="w-12 h-12 object-cover rounded-2xl"
-      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-      alt="Buyer profile picture">
+<a href="{% url 'phison_panel:buyer_detail' slug=buyer.slug %}">
+  <div class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl group relative h-full">
+    <div class="flex justify-between items-start">
+      <img class="w-12 h-12 object-cover rounded-2xl"
+        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
+        alt="Buyer profile picture">
 
-    <img src="{% static 'images/more-horizontal.svg' %}" alt="more options">
-  </div>
+      <img src="{% static 'images/more-horizontal.svg' %}" alt="more options">
+    </div>
 
-  <h6 class="mt-2 font-semibold text-gray-800">{{buyer.customer.name}}</h6>
-  <p class="text-sm text-gray-600">{{buyer.customer.phone_number}}</p>
+    <h6 class="mt-2 font-semibold text-gray-800">{{buyer.customer.name}}</h6>
+    <p class="text-sm text-gray-600">{{buyer.customer.phone_number}}</p>
 
-  <div class="mt-2 flex w-full bg-gray-300 rounded-lg">
-    <div class="bg-orange-900 text-white text-xs font-semibold py-1 px-2 rounded-lg">5th payment</div>
-  </div>
+    <div class="mt-2 flex w-full bg-gray-300 rounded-lg">
+      <div class="bg-orange-900 text-white text-xs font-semibold py-1 px-2 rounded-lg">5th payment</div>
+    </div>
 
-  <div class="mt-6">
-    <div class="relative">
-      <img class="object-cover rounded-2xl"
-        src="https://cdn.pixabay.com/photo/2015/10/20/18/57/furniture-998265_960_720.jpg" alt="Property image">
-      <span
-        class="absolute right-2 bottom-2 text-xs backdrop-blur-lg text-white p-2 rounded-lg group-hover:bg-orange-900">Apartment</span>
+    <div class="mt-6">
+      <div class="relative">
+        <img class="object-cover rounded-2xl"
+          src="{% get_media_prefix %}{{buyer.property.property_image}}" alt="Property image">
+        <span
+          class="absolute right-2 bottom-2 text-xs backdrop-blur-lg text-white p-2 rounded-lg group-hover:bg-orange-900">{{buyer.property.get_property_type_display}}</span>
+      </div>
     </div>
   </div>
-</div>
+</a>

@@ -1,0 +1,104 @@
+{% extends "phison_panel/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block main %}
+<div>
+  <h2 class="font-semibold text-xl">{{object.customer.name}}</h2>
+  <p class="mt-2 text-gray-500 text-xs">Buyer Detail Information</p>
+  <hr class="my-5">
+</div>
+
+<div class="flex flex-wrap gap-4">
+  <div class="basis-1/4">
+    <h5 class="font-semibold">Buyer Information</h5>
+    <div class="mt-4 p-4 bg-white rounded-lg">
+      <img class="w-24 h-24 object-cover rounded-2xl"
+        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
+        alt="Buyer profile picture">
+
+      <p class="font-semibold my-3">{{object.customer.name}}</p>
+      <p class="text-sm text-gray-600">{{object.customer.phone_number}}</p>
+      <p class="text-sm text-gray-600">{{object.customer.email}}</p>
+    </div>
+  </div>
+  <div class="basis-2/4 grow">
+    <h5 class="font-semibold">Property Bought</h5>
+    <div class="mt-4 p-4 bg-white rounded-lg group lg:flex gap-2">
+      <div class="lg:max-w-sm">
+        {% include 'partials/_property_image.html' with property=object.property class="h-full" only %}
+      </div>
+      <div class="flex flex-col justify-center flex-grow">
+        <div class="flex justify-between mt-2">
+          <h3 class="mt-4 font-semibold">{{object.property.name}}</h3>
+          <a href="{{object.property.get_absolute_url}}" class="bg-orange-800 text-white text-xs items-center flex p-1 rounded-lg gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-external-link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            View
+          </a>
+        </div>
+        {% include 'partials/_property_stats.html' with property=object.property class="my-2" only %}
+        {% include 'partials/_property_address.html' with property=object.property only %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <h5 class="font-semibold mt-8">Payment Schedule</h5>
+  <table id="table" class="w-full text-xs text-left text-gray-500">
+    <thead class="text-xs text-gray-400 uppercase bg-gray-50 border-b">
+      <tr>
+        <th scope="col" class="py-3 px-6">
+          Title
+        </th>
+        <th scope="col" class="py-3 px-6">
+          Description
+        </th>
+        <th scope="col" class="py-3 px-6">
+          Deadline
+        </th>
+        <th scope="col" class="py-3 px-6">
+          Amount (%)
+        </th>
+        <th scope="col" class="py-3 px-6">
+          Status
+        </th>
+        <th scope="col" class="py-3 px-6">
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for schedule in object.schedules.all %}
+      <tr class="bg-white border-b">
+        <th scope="row" class="py-4 px-6 font-bold text-blue-600 whitespace-nowrap">
+          {{schedule.title}}
+        </th>
+        <td class="py-4 px-6">
+          {{schedule.description}}
+        </td>
+        <td class="py-4 px-6">
+          {{schedule.deadline | date:'d M, Y'}}
+        </td>
+        <td class="py-4 px-6 font-semibold">
+          ${{schedule.amount|intcomma}} ({{schedule.percentage}}%)
+        </td>
+        <td class="py-4 px-6">
+          <span class="bg-orange-50 p-2 rounded-lg text-orange-800 font-semibold">
+            {{schedule.get_status_display}}
+          </span>
+        </td>
+        <td class="py-4 px-6">
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+{% block inline_javascript %}
+<script>
+  window.addEventListener('DOMContentLoaded', () => {});
+</script>
+{% endblock %}
