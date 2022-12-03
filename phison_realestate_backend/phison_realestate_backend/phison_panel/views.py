@@ -16,7 +16,12 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.views.generic.list import ListView
 
-from phison_realestate_backend.core.models import Buyer, Property, PropertyImage
+from phison_realestate_backend.core.models import (
+    Buyer,
+    BuyerPaymentSchedule,
+    Property,
+    PropertyImage,
+)
 from phison_realestate_backend.phison_panel.mixins import (
     GetFormSetMixin,
     PropertyTypeOptionsMixin,
@@ -29,6 +34,7 @@ from .forms import (
     BuyerPaymentScheduleFormSet,
     PropertyForm,
     PropertyImageForm,
+    UpdateBuyerPaymentScheduleForm,
 )
 from .serializers import PropertyModelSerializer
 
@@ -286,6 +292,17 @@ class BuyerDetailView(StaffMemberRequiredMixin, DetailView):
 
 
 # end Buyer views
+
+# Buyer payment schedule views
+class UpdateBuyerPaymentScheduleView(
+    StaffMemberRequiredMixin, SuccessMessageMixin, UpdateView
+):
+    model = BuyerPaymentSchedule
+    success_message = "Payment schedule updated successfully"
+    form_class = UpdateBuyerPaymentScheduleForm
+
+
+# end Buyer payment schedule views
 
 
 def render_partial_template(request, partial):
