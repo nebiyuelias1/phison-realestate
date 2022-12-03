@@ -102,6 +102,12 @@ class BuyerPaymentScheduleForm(forms.ModelForm):
         return super().save(commit)
 
 
+class UpdateBuyerPaymentScheduleForm(forms.ModelForm):
+    class Meta:
+        model = BuyerPaymentSchedule
+        fields = ("status",)
+
+
 class BaseBuyerPaymentScheduleFormSet(BaseInlineFormSet):
     def clean(self) -> None:
         super().clean()
