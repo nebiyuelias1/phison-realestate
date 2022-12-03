@@ -4,7 +4,7 @@ from django.urls import reverse
 from embed_video.fields import EmbedVideoField
 from location_field.models.plain import PlainLocationField
 
-from .managers import PropertyManager
+from .managers import BuyerManager, PropertyManager
 
 User = get_user_model()
 
@@ -162,6 +162,8 @@ class Buyer(TimeStampedModel):
 
     # https://docs.djangoproject.com/en/4.1/ref/models/fields/#slugfield
     slug = models.SlugField(allow_unicode=True, max_length=150, unique=True)
+
+    objects = BuyerManager()
 
     class Meta:
         # https://docs.djangoproject.com/en/4.1/ref/models/options/
