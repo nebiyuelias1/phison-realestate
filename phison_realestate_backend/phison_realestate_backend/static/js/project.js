@@ -21,3 +21,16 @@ closeMenuButton.addEventListener('click', () => {
   sideBar.classList.add('hidden');
   sideBar.classList.remove('p-4');
 });
+
+window.addEventListener('DOMContentLoaded', () => {
+  const dropdownToggle = document.querySelector('[data-dropdown-toggle]');
+  dropdownToggle.addEventListener("click", (_) => {
+    const dropdown = document.querySelector(`#${dropdownToggle.dataset.dropdownToggle}`);
+    dropdown.classList.toggle("hidden");
+  });
+
+  dropdownToggle.addEventListener("blur", (_) => {
+    const dropdown = document.querySelector(`#${dropdownToggle.dataset.dropdownToggle}`);
+    setTimeout(() => dropdown.classList.toggle("hidden"), 200);
+  });
+});

@@ -93,20 +93,3 @@
 </div>
 
 {% endblock %}
-
-{% block inline_javascript %}
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const dropdownToggle = document.querySelector('[data-dropdown-toggle]');
-    dropdownToggle.addEventListener("click", (event) => {
-      const dropdown = document.querySelector(`#${dropdownToggle.dataset.dropdownToggle}`);
-      dropdown.classList.toggle("hidden");
-    });
-
-    dropdownToggle.addEventListener("blur", (event) => {
-      const dropdown = document.querySelector(`#${dropdownToggle.dataset.dropdownToggle}`);
-      setTimeout(() => dropdown.classList.toggle("hidden"), 200);
-    });
-  });
-</script>
-{% endblock inline_javascript %}
