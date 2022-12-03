@@ -11,6 +11,7 @@ from .views import (
     PropertyEditView,
     PropertyListAjaxView,
     PropertyListView,
+    UpdateBuyerPaymentScheduleView,
     UploadPropertyImageView,
     render_partial_template,
 )
@@ -60,6 +61,14 @@ buyer_urls = [
     ),
 ]
 
+payment_schedule_urls = [
+    path(
+        "payment_schedule/update/<pk>/",
+        UpdateBuyerPaymentScheduleView.as_view(),
+        name="update_payment_schedule",
+    )
+]
+
 staff_urls = [
     path(
         "staff/",
@@ -76,4 +85,10 @@ render_partial_urls = [
     ),
 ]
 
-urlpatterns = property_urls + buyer_urls + render_partial_urls + staff_urls
+urlpatterns = (
+    property_urls
+    + buyer_urls
+    + render_partial_urls
+    + staff_urls
+    + payment_schedule_urls
+)
