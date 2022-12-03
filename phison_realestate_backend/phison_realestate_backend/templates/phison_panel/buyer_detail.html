@@ -82,14 +82,31 @@
           ${{schedule.amount|intcomma}} ({{schedule.percentage}}%)
         </td>
         <td class="py-4 px-6">
-          <span class="bg-orange-50 p-2 rounded-lg text-orange-800 font-semibold">
+          <span class="bg-orange-50 p-2 rounded-lg text-orange-800 font-semibold {% if schedule.status == 'CP' %}bg-green-50 text-green-800{% endif %}">
             {{schedule.get_status_display}}
           </span>
         </td>
-        <td class="py-4 px-6">
-          <button>
+        <td class="py-4 px-6 relative">
+          <button data-dropdown-toggle="dropdown">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
           </button>
+          <form action="{% url 'phison_panel:update_payment_schedule' pk=schedule.pk %}" method="post">
+            {% csrf_token %}
+            <div id="dropdown" class="hidden mt-1 absolute right-0 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow">
+              <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
+                {% if schedule.status == 'PE' %}
+                <li>
+                  <button type="submit" name="status" value="CP" class="text-left block w-full py-2 px-4 hover:bg-green-100 bg-green-50 text-green-800">Complete Payment</button>
+                </li>
+                {% endif %}
+                {% if schedule.status == 'CP' %}
+                <li>
+                  <button type="submit" name="status" value="PE" class="text-left block w-full py-2 px-4 hover:bg-orange-100 bg-orange-50 text-orange-800">Mark as Incomplete</button>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+          </form>
         </td>
       </tr>
       {% endfor %}
