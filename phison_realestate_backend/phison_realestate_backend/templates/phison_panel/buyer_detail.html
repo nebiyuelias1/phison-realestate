@@ -3,7 +3,10 @@
 {% load humanize %}
 {% block main %}
 <div>
-  <h2 class="font-semibold text-xl">{{object.customer.name}}</h2>
+  <div class="flex">
+    <h2 class="font-semibold text-xl mr-3">{{object.customer.name}}</h2>
+    <a href="{% url 'phison_panel:buyer_edit' slug=object.slug %}" class="bg-orange-900 text-white rounded-lg py-1 px-2 text-sm">Edit</a>
+  </div>
   <p class="mt-2 text-gray-500 text-xs">Buyer Detail Information</p>
   <hr class="my-5">
 </div>
