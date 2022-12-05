@@ -114,6 +114,9 @@ class BaseBuyerPaymentScheduleFormSet(BaseInlineFormSet):
 
         percentage_sum = 0
         for form in self.forms:
+            if "DELETE" in form.fields and form.cleaned_data["DELETE"]:
+                continue
+
             percentage_sum += form.instance.percentage
 
         if percentage_sum != 100:
@@ -129,6 +132,8 @@ BuyerPaymentScheduleFormSet = inlineformset_factory(
     formset=BaseBuyerPaymentScheduleFormSet,
     min_num=1,
     validate_min=True,
+    extra=0,
+    can_delete=True,
 )
 
 

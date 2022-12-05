@@ -5,6 +5,7 @@ from phison_realestate_backend.users.views import staff_list_view
 from .views import (
     BuyerCreateView,
     BuyerDetailView,
+    BuyerEditView,
     BuyerListView,
     PropertyCreateView,
     PropertyDetailView,
@@ -53,6 +54,11 @@ buyer_urls = [
         "buyer/new/",
         BuyerCreateView.as_view(),
         name="new_buyer",
+    ),
+    path(
+        "buyer/edit/<slug:slug>/",
+        BuyerEditView.as_view(),
+        name="buyer_edit",
     ),
     path(
         "buyer/detail/<slug:slug>/",

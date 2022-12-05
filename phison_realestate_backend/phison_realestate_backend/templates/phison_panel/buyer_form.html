@@ -9,8 +9,17 @@ r{% extends "phison_panel/base_form.html" %}
 
   <div id="hiddenFormControls">
     {{formset.management_form}}
-    <input id="propertyId" name="property" type="hidden">
-    <input id="customerId" name="customer" type="hidden">
+    {% if object.schedules.count > 0 %}
+      {% for form in formset %}
+        <div class="payment-schedule-form-controls">
+          {% for field in form %}
+          {{field.as_hidden}}
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% endif %}
+    <input id="propertyId" name="property" type="hidden" value="{{object.property.pk}}">
+    <input id="customerId" name="customer" type="hidden" value="{{object.customer.pk}}">
   </div>
 </form>
 
@@ -122,100 +131,55 @@ r{% extends "phison_panel/base_form.html" %}
             <th scope="col" class="py-3 px-6">
               Amount (%)
             </th>
+            <th scope="col" class="py-3 px-6">
+            </th>
           </tr>
         </thead>
         <tbody id="tableBody">
+          {% for schedule in object.schedules.all %}
+          <tr class="bg-white border-b" data-index="{{forloop.counter0}}">
+            <th scope="row" class="py-4 px-6 font-medium text-blue-600 whitespace-nowrap">
+              {{schedule.title}}
+            </th>
+            <td class="py-4 px-6">
+              {{schedule.description}}
+            </td>
+            <td class="py-4 px-6">
+              {{schedule.deadline  | date:'d M, Y'}}
+            </td>
+            <td class="py-4 px-6">
+              {{schedule.percentage}}
+            </td>
+            <td class="py-4 px-6">
+              <button id="removeExistingPaymentSchedule" class="flex items-center justify-center bg-white w-6 h-6 rounded-md">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_114_11571)">
+                    <path
+                      d="M0.916748 2.74984H10.0834M4.58341 5.0415V7.33317M6.41675 5.0415V7.33317M1.83341 2.74984H9.16675L8.44258 9.26734C8.41776 9.49163 8.31107 9.69889 8.14295 9.84943C7.97482 9.99996 7.75708 10.0832 7.53141 10.0832H3.46875C3.24308 10.0832 3.02534 9.99996 2.85722 9.84943C2.68909 9.69889 2.5824 9.49163 2.55758 9.26734L1.83341 2.74984ZM3.36654 1.44221C3.44068 1.28499 3.55799 1.15209 3.70479 1.059C3.8516 0.965924 4.02184 0.916502 4.19566 0.916504H6.8045C6.9784 0.916415 7.14874 0.965796 7.29564 1.05888C7.44253 1.15197 7.55991 1.28492 7.63408 1.44221L8.25008 2.74984H2.75008L3.36654 1.44221V1.44221Z"
+                      stroke="#F04438" stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_114_11571">
+                      <rect width="11" height="11" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
         </tbody>
       </table>
 
       <hr class="my-4">
-
-      <div class="flex justify-end gap-x-3">
-        {% include 'partials/_neutral_button.html' with label="Cancel" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4" only %}
-        {% include 'partials/_primary_button.html' with label="Save" class="basis-full md:basis-1/3 lg:basis-1/4" form_attribute="form='buyerForm'" %}
-      </div>
+    </div>
+    <div class="flex justify-end gap-x-3">
+      {% include 'partials/_neutral_button.html' with label="Cancel" id="num_of_bathrooms" placeholder="2" type="text" class="basis-full md:basis-1/3 lg:basis-1/4" only %}
+      {% include 'partials/_primary_button.html' with label="Save" class="basis-full md:basis-1/3 lg:basis-1/4" form_attribute="form='buyerForm'" %}
     </div>
   </div>
 </div>
 {% endblock %}
 {% block inline_javascript %}
-<script type="module">
-  import { showDialog, renderDjangoTemplate } from "/static/js/utils.js";
-  import {initSelectProperty} from "/static/js/select_property.js";
-  import {initSelectCustomer} from "/static/js/select_customer.js";
-
-  window.addEventListener('DOMContentLoaded', () => {
-    const selectedPropertyContainer = document.querySelector('#selectedPropertyContainer');
-    const selectProperty = document.querySelector('#selectProperty');
-    selectProperty.addEventListener('click', async () => {
-      const template = await renderDjangoTemplate('_select_property.html');
-      await showDialog('Select Property', template);
-      initSelectProperty();
-    });
-
-    const selectCustomer = document.querySelector('#selectCustomer');
-    selectCustomer.addEventListener('click', async() => {
-      const template = await renderDjangoTemplate('_select_customer.html');
-      await showDialog('Select Customer', template);
-      initSelectCustomer();
-    });
-
-    const removePropertySelectionBtn = document.querySelector('#removePropertySelection');
-    removePropertySelectionBtn.addEventListener('click', () => {
-      selectProperty.classList.remove('hidden');
-      selectedPropertyContainer.classList.add('hidden');
-      document.querySelector('#propertyId').value = '';
-    });
-
-    const selectedCustomerContainer = document.querySelector('#selectedCustomerContainer');
-    const removeCustomerSelectionBtn = document.querySelector('#removeCustomerSelection');
-    removeCustomerSelectionBtn.addEventListener('click', () => {
-      selectCustomer.classList.remove('hidden');
-      selectedCustomerContainer.classList.add('hidden');
-      document.querySelector('#customerId').value = '';
-    });
-
-    const paymentForm = document.querySelector('#paymentForm');
-    paymentForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const paymentTitle = document.querySelector('#payment_title').value;
-      const paymentDeadline = document.querySelector('#payment_deadline').value;
-      const paymentAmount = document.querySelector('#payment_amount').value;
-      const paymentDescription = document.querySelector('#payment_description').value;
-
-      const table = document.querySelector('#tableBody');
-
-      const rowsCount = table.rows.length;
-      const row = table.insertRow(rowsCount);
-      row.classList.add('bg-white', 'border-b');
-      row.innerHTML = `
-        <th scope="row" class="py-4 px-6 font-medium text-blue-600 whitespace-nowrap">
-          ${paymentTitle}
-        </th>
-        <td class="py-4 px-6">
-          ${paymentDescription}
-        </td>
-        <td class="py-4 px-6">
-          ${paymentDeadline}
-        </td>
-        <td class="py-4 px-6">
-          ${paymentAmount}
-        </td>
-      `;
-      const totalFormsInput = document.querySelector('#id_schedules-TOTAL_FORMS');
-      totalFormsInput.value = rowsCount + 1;
-
-      const hiddenFormControls = document.querySelector('#hiddenFormControls');
-      hiddenFormControls.innerHTML = hiddenFormControls.innerHTML + `
-        <input type="text" name="schedules-${rowsCount}-title" maxlength="100" id="id_schedules-${rowsCount}-title" value="${paymentTitle}" hidden>
-        <input type="date" name="schedules-${rowsCount}-deadline" maxlength="100" id="id_schedules-${rowsCount}-deadline" value="${paymentDeadline}" hidden>
-        <input type="number" name="schedules-${rowsCount}-percentage" step="0.01" id="id_schedules-${rowsCount}-percentage" value="${paymentAmount}" hidden>
-        <textarea name="schedules-${rowsCount}-description" cols="40" rows="10" id="id_schedules-${rowsCount}-description" hidden>${paymentDescription}</textarea>
-      `;
-
-      paymentForm.reset();
-    });
-  });
-</script>
+<script defer src="{% static 'js/buyer_form.js' %}" type="module"></script>
 {% endblock %}
