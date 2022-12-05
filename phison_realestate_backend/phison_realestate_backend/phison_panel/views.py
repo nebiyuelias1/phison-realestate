@@ -9,7 +9,6 @@ from django.db.models import Q
 from django.forms import BaseForm
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
@@ -31,7 +30,6 @@ from phison_realestate_backend.phison_panel.mixins import (
 from ..core.mixins import PaginateMixin, StaffMemberRequiredMixin
 from .forms import (
     BuyerForm,
-    BuyerPaymentScheduleFormSet,
     PropertyForm,
     PropertyImageForm,
     UpdateBuyerPaymentScheduleForm,
@@ -252,27 +250,23 @@ class BuyerListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
         return data
 
 
-class BuyerCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView):
+class BuyerCreateView(
+    StaffMemberRequiredMixin, SuccessMessageMixin, GetFormSetMixin, CreateView
+):
     model = Buyer
     template_name = "phison_panel/buyer_form.html"
     form_class = BuyerForm
     success_message = _("Buyer saved successfully")
 
-    def _get_buyer_payment_schedule_form_set(self):
-        if self.request.POST:
-            return BuyerPaymentScheduleFormSet(self.request.POST)
-        else:
-            return BuyerPaymentScheduleFormSet()
-
     def get_context_data(self, **kwargs: Any):
         data = super().get_context_data(**kwargs)
 
-        data["formset"] = self._get_buyer_payment_schedule_form_set()
+        data["formset"] = self.get_buyer_payment_schedule_form_set()
 
         return data
 
     def form_valid(self, form: BaseForm) -> HttpResponse:
-        form_set = self._get_buyer_payment_schedule_form_set()
+        form_set = self.get_buyer_payment_schedule_form_set()
 
         if form_set.is_valid():
             self.object = form.save()
@@ -282,13 +276,37 @@ class BuyerCreateView(StaffMemberRequiredMixin, SuccessMessageMixin, CreateView)
         else:
             return self.form_invalid(form)
 
-    def get_success_url(self) -> str:
-        return reverse("phison_panel:buyer_list")
-
 
 class BuyerDetailView(StaffMemberRequiredMixin, DetailView):
     model = Buyer
     template_name = "phison_panel/buyer_detail.html"
+
+
+class BuyerEditView(
+    StaffMemberRequiredMixin, GetFormSetMixin, SuccessMessageMixin, UpdateView
+):
+    form_class = BuyerForm
+    template_name = "phison_panel/buyer_form.html"
+    success_message = "Buyer edited successfully"
+    model = Buyer
+
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        form_set = self.get_buyer_payment_schedule_form_set()
+
+        if form_set.is_valid():
+            self.object = form.save()
+            form_set.instance = self.object
+            form_set.save()
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs: Any):
+        data = super().get_context_data(**kwargs)
+
+        data["formset"] = self.get_buyer_payment_schedule_form_set()
+
+        return data
 
 
 # end Buyer views

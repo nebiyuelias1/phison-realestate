@@ -2,6 +2,7 @@ from typing import Any
 
 from phison_realestate_backend.core.models import Property, PropertyImage
 from phison_realestate_backend.phison_panel.forms import (
+    BuyerPaymentScheduleFormSet,
     PaymentInformationFormSet,
     PropertyImageIdFormSet,
 )
@@ -21,6 +22,14 @@ class GetFormSetMixin:
             return PropertyImageIdFormSet(self.request.POST, initial=initial)
         else:
             return PropertyImageIdFormSet(initial=initial)
+
+    def get_buyer_payment_schedule_form_set(self, initial=None):
+        if self.request.POST:
+            return BuyerPaymentScheduleFormSet(
+                self.request.POST, instance=self.object, initial=initial
+            )
+        else:
+            return BuyerPaymentScheduleFormSet(instance=self.object, initial=initial)
 
 
 class SavePropertyImageMixin:
