@@ -21,7 +21,7 @@
 {% block inline_javascript %}
 {{block.super}}
 <script type="module">
-  import { showDialog, renderDjangoTemplate } from "/static/js/utils.js";
+  import { showDialog, renderDjangoTemplate, closeDialog } from "/static/js/utils.js";
   import { onSubmit } from "/static/js/staff_form.js";
 
   window.addEventListener('DOMContentLoaded', () => {
@@ -35,6 +35,30 @@
       const staffForm = document.querySelector('#staffForm');
       staffForm.addEventListener('submit', onSubmit);
     });
+
+    const deactivateAccountButtons = document.querySelectorAll('#deactivateAccountButton');
+    deactivateAccountButtons.forEach((b) => b.addEventListener('click', async (event) => {
+      event.preventDefault();
+      const template = await renderDjangoTemplate('_confirm_delete.html');
+      showDialog('Deactivate the account?', template);
+
+      const deleteConfirmationMessage = document.querySelector('#deleteConfirmationMessage');
+      deleteConfirmationMessage.textContent = 'Are you sure you want to deactivate this account?';
+
+      const formUrl = event.target.dataset.postUrl;
+      const confirmationForm = document.querySelector('#confirmDeleteForm');
+      confirmationForm.setAttribute('action', formUrl);
+
+      const redirectTo = event.target.dataset.redirectTo;
+      const redirectToHiddenInput = document.querySelector('#redirectTo');
+      redirectToHiddenInput.value = redirectTo;
+
+      const cancelConfirmDelete = document.querySelector('#cancelConfirmDelete');
+      cancelConfirmDelete.addEventListener('click', (event) => {
+        event.preventDefault();
+        closeDialog();
+      });
+    }));
   });
 </script>
 {% endblock inline_javascript %}

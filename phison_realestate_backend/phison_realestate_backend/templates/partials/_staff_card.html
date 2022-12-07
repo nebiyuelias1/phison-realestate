@@ -1,16 +1,39 @@
 {% load static %}
 <div class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl group relative h-full">
   <div class="flex justify-end">
-    <img src="{% static 'images/more-horizontal.svg' %}" alt="more options">
+    <button data-dropdown-toggle="dropdown">
+      <img src="{% static 'images/more-horizontal.svg' %}" alt="more options">
+    </button>
+    <div id="dropdown" class="hidden mt-1 absolute right-0 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow">
+      <form action="{% url 'users:toggle_account_deactivation' pk=staff.pk %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="redirect_to" value="{{ request.get_full_path }}">
+        <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
+          {% if staff.is_active %}
+          <li>
+            <button id="deactivateAccountButton" type="submit" name="status" data-redirect-to="{{ request.get_full_path }}" data-post-url="{% url 'users:toggle_account_deactivation' pk=staff.pk %}"
+              class="text-left block w-full py-2 px-4 hover:bg-red-100 bg-red-50 text-red-800">Deactivate</button>
+          </li>
+          {% else %}
+          <li>
+            <button type="submit" name="status"
+              class="text-left block w-full py-2 px-4 hover:bg-gray-100">Make Active</button>
+          </li>
+          {% endif %}
+        </ul>
+      </form>
+    </div>
   </div>
-
   <div class="mt-2 flex flex-col items-center">
-    <img class="w-24 h-24 object-cover rounded-2xl"
-    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-    alt="Buyer profile picture">
+    <img class="w-24 h-24 object-cover rounded-2xl {% if not staff.is_active %}contrast-50{% endif %}"
+      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
+      alt="Buyer profile picture">
 
     <p class="mt-2 font-semibold">{{staff.name}}</p>
     <p class="text-sm text-gray-500">{{staff.phone_number}}</p>
     <p class="text-sm text-gray-500">{{staff.email}}</p>
+    {% if not staff.is_active %}
+    <div class="bg-orange-800 text-white text-sm font-semibold p-1">Deactivated</div>
+    {% endif %}
   </div>
 </div>
