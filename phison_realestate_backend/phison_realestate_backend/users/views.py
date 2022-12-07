@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q, QuerySet
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
@@ -129,3 +130,19 @@ class StaffListView(StaffMemberRequiredMixin, PaginateMixin, ListView):
 
 
 staff_list_view = StaffListView.as_view()
+
+
+class ToggleAccountDeactivationView(StaffMemberRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get("pk")
+        user = get_object_or_404(User, pk=pk)
+
+        user.is_active = not user.is_active
+        user.save()
+
+        redirect_to = request.POST.get("redirect_to", "/")
+
+        return redirect(redirect_to)
+
+
+toggle_account_deactivation_view = ToggleAccountDeactivationView.as_view()
