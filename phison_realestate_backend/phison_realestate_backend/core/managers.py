@@ -20,11 +20,10 @@ class BuyerManager(models.Manager):
     def get_queryset(self):
         from .models import BuyerPaymentSchedule
 
-        payment_schedule = (
-            BuyerPaymentSchedule.objects.filter(buyer=models.OuterRef("pk"))
-            .order_by()
-            .values("status")
-        )
+        payment_schedule = BuyerPaymentSchedule.objects.filter(
+            buyer=models.OuterRef("pk")
+        ).values("buyer")
+
         complete_payment_schedule = payment_schedule.filter(
             status=BuyerPaymentSchedule.COMPLETE
         )

@@ -1,0 +1,13 @@
+<form id="confirmDeleteForm" method="post">
+  {% csrf_token %}
+  <input id="redirectTo" type="hidden" name="redirect_to">
+  <p id="deleteConfirmationMessage"></p>
+  <div class="flex mt-6 gap-2 justify-end">
+    <button id="cancelConfirmDelete" class="rounded-lg p-2.5 font-semibold text-sm border border-solid border-gray-200">
+      Cancel
+    </button>
+    <button class="text-white rounded-lg p-2.5 font-semibold bg-red-900" type="submit">
+      Confirm
+    </button>
+  </div>
+</form>

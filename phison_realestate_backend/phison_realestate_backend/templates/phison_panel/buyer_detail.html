@@ -3,7 +3,10 @@
 {% load humanize %}
 {% block main %}
 <div>
-  <h2 class="font-semibold text-xl">{{object.customer.name}}</h2>
+  <div class="flex">
+    <h2 class="font-semibold text-xl mr-3">{{object.customer.name}}</h2>
+    <a href="{% url 'phison_panel:buyer_edit' slug=object.slug %}" class="bg-orange-900 text-white rounded-lg py-1 px-2 text-sm">Edit</a>
+  </div>
   <p class="mt-2 text-gray-500 text-xs">Buyer Detail Information</p>
   <hr class="my-5">
 </div>
@@ -42,7 +45,7 @@
   </div>
 </div>
 
-<div>
+<div class="overflow-x-auto">
   <h5 class="font-semibold mt-8">Payment Schedule</h5>
   <table id="table" class="w-full text-xs text-left text-gray-500">
     <thead class="text-xs text-gray-400 uppercase bg-gray-50 border-b">
@@ -86,27 +89,31 @@
             {{schedule.get_status_display}}
           </span>
         </td>
-        <td class="py-4 px-6 relative">
+        <td class="py-4 px-6">
           <button data-dropdown-toggle="dropdown">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
           </button>
-          <form action="{% url 'phison_panel:update_payment_schedule' pk=schedule.pk %}" method="post">
-            {% csrf_token %}
-            <div id="dropdown" class="hidden mt-1 absolute right-0 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow">
+          <div id="dropdown" class="hidden mt-1 absolute right-0 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow">
+            <form action="{% url 'phison_panel:update_payment_schedule' pk=schedule.pk %}" method="post">
+              {% csrf_token %}
               <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
                 {% if schedule.status == 'PE' %}
                 <li>
-                  <button type="submit" name="status" value="CP" class="text-left block w-full py-2 px-4 hover:bg-green-100 bg-green-50 text-green-800">Complete Payment</button>
+                  <button type="submit" name="status" value="CP"
+                    class="text-left block w-full py-2 px-4 hover:bg-green-100 bg-green-50 text-green-800">Complete
+                    Payment</button>
                 </li>
                 {% endif %}
                 {% if schedule.status == 'CP' %}
                 <li>
-                  <button type="submit" name="status" value="PE" class="text-left block w-full py-2 px-4 hover:bg-orange-100 bg-orange-50 text-orange-800">Mark as Incomplete</button>
+                  <button type="submit" name="status" value="PE"
+                    class="text-left block w-full py-2 px-4 hover:bg-orange-100 bg-orange-50 text-orange-800">Mark as
+                    Incomplete</button>
                 </li>
                 {% endif %}
               </ul>
-            </div>
-          </form>
+            </form>
+          </div>
         </td>
       </tr>
       {% endfor %}

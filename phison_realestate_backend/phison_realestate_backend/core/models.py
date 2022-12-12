@@ -169,6 +169,9 @@ class Buyer(TimeStampedModel):
         # https://docs.djangoproject.com/en/4.1/ref/models/options/
         ordering = ["-created_at"]
 
+    def get_absolute_url(self):
+        return reverse("phison_panel:buyer_detail", kwargs={"slug": self.slug})
+
 
 class BuyerPaymentSchedule(TimeStampedModel):
     """A model that represents payment schedule for a buyer."""

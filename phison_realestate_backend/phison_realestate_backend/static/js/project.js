@@ -22,15 +22,26 @@ closeMenuButton.addEventListener('click', () => {
   sideBar.classList.remove('p-4');
 });
 
-window.addEventListener('DOMContentLoaded', () => {
-  const dropdownToggle = document.querySelector('[data-dropdown-toggle]');
-  dropdownToggle.addEventListener("click", (_) => {
-    const dropdown = document.querySelector(`#${dropdownToggle.dataset.dropdownToggle}`);
-    dropdown.classList.toggle("hidden");
-  });
+const toggleDropdown = (dropDown) => {
+  const contains = dropDown.classList.contains('hidden');
+  if (contains) {
+    dropDown.classList.remove("hidden");
+  } else {
+    dropDown.classList.add('hidden');
+  }
+}
 
-  dropdownToggle.addEventListener("blur", (_) => {
-    const dropdown = document.querySelector(`#${dropdownToggle.dataset.dropdownToggle}`);
-    setTimeout(() => dropdown.classList.toggle("hidden"), 200);
-  });
+window.addEventListener('DOMContentLoaded', () => {
+  const dropdownToggles = document.querySelectorAll('[data-dropdown-toggle]');
+  dropdownToggles.forEach((e) => e.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-dropdown-toggle]');
+    const dropDown = button.parentElement.querySelector(`#${button.dataset.dropdownToggle}`);
+    toggleDropdown(dropDown);
+  }));
+
+  dropdownToggles.forEach((e) => e.addEventListener('blur', (event) => {
+      const button = event.target.closest('[data-dropdown-toggle]');
+      const dropDown = button.parentElement.querySelector(`#${button.dataset.dropdownToggle}`);
+      setTimeout(() => toggleDropdown(dropDown), 200);
+  }));
 });
