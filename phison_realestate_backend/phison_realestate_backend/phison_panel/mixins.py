@@ -31,7 +31,6 @@ class GetFormSetMixin:
         else:
             return BuyerPaymentScheduleFormSet(instance=self.object, initial=initial)
 
-
 class SavePropertyImageMixin:
     def save_property_images(self, property_image_ids):
         property_images = PropertyImage.objects.filter(id__in=property_image_ids)

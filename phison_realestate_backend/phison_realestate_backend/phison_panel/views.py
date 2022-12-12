@@ -309,6 +309,11 @@ class BuyerEditView(
         return data
 
 
+class BuyerDetailView(StaffMemberRequiredMixin, DetailView):
+    model = Buyer
+    template_name = "phison_panel/buyer_detail.html"
+
+
 # end Buyer views
 
 # Buyer payment schedule views

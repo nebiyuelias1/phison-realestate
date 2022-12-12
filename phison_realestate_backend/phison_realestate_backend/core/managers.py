@@ -23,6 +23,7 @@ class BuyerManager(models.Manager):
         payment_schedule = BuyerPaymentSchedule.objects.filter(
             buyer=models.OuterRef("pk")
         ).values("buyer")
+
         complete_payment_schedule = payment_schedule.filter(
             status=BuyerPaymentSchedule.COMPLETE
         )
