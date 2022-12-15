@@ -33,8 +33,9 @@
       {% if staff.name %}<p class="font-semibold">{{staff.name}}</p>{% endif %}
       {% if staff.phone %}<p class="text-sm text-gray-500">{{staff.phone_number}}</p>{% endif %}
       {% if staff.email %}<p class="text-sm text-gray-500">{{staff.email}}</p>{% endif %}
+      {% if staff.is_superuser %}<div class="text-white text-sm font-semibold p-1 my-1 rounded-lg bg-orange-800">Site Admin</div>{% endif %}
       {% if not staff.is_active %}
-      <div class="bg-orange-800 text-white text-sm font-semibold p-1 my-1">Deactivated</div>
+        <div class="bg-gray-500 text-white text-sm font-semibold p-1 my-1 rounded-lg">Deactivated</div>
       {% endif %}
     </div>
   </div>
