@@ -1,4 +1,5 @@
 {% extends 'phison_panel/base_list.html' %}
+{% block title %}Home{{block.super}}{% endblock title %}
 {% block header_title %}Properties List{% endblock %}
 {% block add_button_link %}{% url 'phison_panel:new_property' %}{% endblock %}
 {% block add_button_label %}Add new property{% endblock %}

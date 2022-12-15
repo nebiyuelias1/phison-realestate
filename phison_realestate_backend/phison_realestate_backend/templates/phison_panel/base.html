@@ -84,6 +84,7 @@
             </a>
           </li>
 
+          {% if user.is_superuser %}
           <li class="{% if url_name == 'staff_list' %} bg-purple-900 text-white {% else %} text-gray-600 hover:bg-gray-100 {% endif %} rounded-lg p-2 font-medium mb-3">
             <a class="flex" href="{% url 'phison_panel:staff_list' %}">
               <svg class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -93,6 +94,7 @@
               Staff
             </a>
           </li>
+          {% endif %}
         </ul>
       {% endwith %}
 

@@ -5,12 +5,18 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}Phison Realestate Backend{% endblock title %}</title>
+    <title>{% block title %} - Phison Realestate{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Backend API and web app for administrators.">
     <meta name="author" content="Nebiyu Elias">
     {% tailwind_css %}
-    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicons/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicons/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'images/favicons/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
     {% block css %}
     <!-- Latest compiled and minified Bootstrap CSS -->
