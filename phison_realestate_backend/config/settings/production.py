@@ -82,6 +82,8 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-use-ssl
 EMAIL_USE_SSL = True
+# https://docs.djangoproject.com/en/4.1/ref/settings/#email-port
+EMAIL_PORT = 465
 
 # ADMIN
 # ------------------------------------------------------------------------------
