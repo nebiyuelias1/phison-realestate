@@ -1,6 +1,8 @@
 {% extends "phison_panel/base.html" %}
 {% load static %}
 {% load humanize %}
+{% block title %}{{object.customer.name}}{{block.super}}{% endblock title %}
+
 {% block main %}
 <div>
   <div class="flex">
