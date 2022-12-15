@@ -1,5 +1,6 @@
-r{% extends "phison_panel/base_form.html" %}
+{% extends "phison_panel/base_form.html" %}
 {% load static %}
+{% block title %}{% if object %}Edit Buyer{% else %}Add New Buyer{% endif %}{{block.super}}{% endblock title %}
 {% block header_title %} {% if object %}Edit Buyer{% else %}Add New Buyer{% endif %}{% endblock %}
 {% block header_description %} Fill out the following information to {% if object %} edit a {% else %} add a new {% endif %}buyer{% endblock %}
 
