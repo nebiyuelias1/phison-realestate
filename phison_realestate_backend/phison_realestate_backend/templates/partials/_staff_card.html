@@ -25,11 +25,9 @@
     </div>
   </div>
   <div class="mt-2 flex flex-col items-center">
-    <img class="w-24 h-24 object-cover rounded-2xl {% if not staff.is_active %}contrast-50{% endif %}"
-      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-      alt="Buyer profile picture">
+    {% include 'partials/_avatar.html' with initial=staff.name class="w-24 h-24 object-cover rounded-2xl" only %}
 
-    <div class="mt-2 flex flex-col items-center">
+    <div class="mt-2 flex flex-col items-center break-all">
       {% if staff.name %}<p class="font-semibold">{{staff.name}}</p>{% endif %}
       {% if staff.phone %}<p class="text-sm text-gray-500">{{staff.phone_number}}</p>{% endif %}
       {% if staff.email %}<p class="text-sm text-gray-500">{{staff.email}}</p>{% endif %}
