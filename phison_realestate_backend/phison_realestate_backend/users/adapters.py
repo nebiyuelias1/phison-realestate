@@ -21,6 +21,29 @@ class AccountAdapter(DefaultAccountAdapter):
 
         return user
 
+    def pre_login(
+        self,
+        request,
+        user,
+        *,
+        email_verification,
+        signal_kwargs,
+        email,
+        signup,
+        redirect_url
+    ):
+        super().pre_login(
+            request,
+            user,
+            email_verification=email_verification,
+            signup=signup,
+            redirect_url=redirect_url,
+            signal_kwargs=signal_kwargs,
+            email=email,
+        )
+        if not user.is_staff and not user.is_superuser:
+            return self.respond_user_inactive(request, user)
+
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):
     def is_open_for_signup(self, request: HttpRequest, sociallogin: Any):
