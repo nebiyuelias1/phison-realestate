@@ -74,6 +74,14 @@ EMAIL_SUBJECT_PREFIX = env(
     "DJANGO_EMAIL_SUBJECT_PREFIX",
     default="[Phison Realestate Backend]",
 )
+# https://docs.djangoproject.com/en/dev/ref/settings/#std-setting-EMAIL_HOST
+EMAIL_HOST = env("EMAIL_HOST", default="localhost")
+# https://docs.djangoproject.com/en/dev/ref/settings/#email-host-password
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
+# https://docs.djangoproject.com/en/dev/ref/settings/#email-host-user
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+# https://docs.djangoproject.com/en/dev/ref/settings/#email-use-ssl
+EMAIL_USE_SSL = True
 
 # ADMIN
 # ------------------------------------------------------------------------------
