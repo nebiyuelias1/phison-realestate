@@ -46,14 +46,24 @@
   <body class="font-body bg-gray-50">
     <div>
       {% if messages %}
+      <div class="absolute right-0 z-10">
         {% for message in messages %}
-          <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+        <div class="toast flex p-4 m-6 mb-0 text-sm {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}text-red-700 bg-red-100{% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}text-green-700 bg-green-100{% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}text-yellow-700 bg-yellow-100{% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}text-blue-700 bg-blue-100{% else %}text-gray-700 bg-gray-100{% endif %} rounded-lg" role="alert">
+          <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+          <span class="sr-only">Info</span>
+          <div>
+            <span class="font-medium">
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error!
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}Success!
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}Warning!
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}Info!{% endif %}
+            </span>
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
+        </div>
         {% endfor %}
+      </div>
       {% endif %}
-
       {% block content %}
       {% endblock content %}
     </div>

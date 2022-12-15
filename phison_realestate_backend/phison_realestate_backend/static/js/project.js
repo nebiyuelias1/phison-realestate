@@ -44,3 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => toggleDropdown(dropDown), 200);
   }));
 });
+
+document.querySelectorAll('.toast').forEach((e) => {
+  setTimeout(() => e.remove(), 5000);
+});
