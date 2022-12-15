@@ -3,9 +3,7 @@
 <a href="{% url 'phison_panel:buyer_detail' slug=buyer.slug %}">
   <div class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl group relative h-full">
     <div class="flex justify-between items-start">
-      <img class="w-12 h-12 object-cover rounded-2xl"
-        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-        alt="Buyer profile picture">
+      {% include 'partials/_avatar.html' with initial=buyer.customer.name class="w-12 h-12 object-cover rounded-2xl" only %}
 
       <img src="{% static 'images/more-horizontal.svg' %}" alt="more options">
     </div>
