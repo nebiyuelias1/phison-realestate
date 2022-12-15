@@ -23,7 +23,7 @@ const fetchCustomers = (url) => {
             htmlContent += `
               <div class="customer-card md:flex gap-2 mt-4 bg-white p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
                 <div class="mb-2 flex-shrink-0">
-                  <img class="object-cover rounded-lg h-32 w-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80" alt="Customer picture">
+                  <img class="object-cover rounded-lg h-32 w-full" src="https://avatars.dicebear.com/api/initials/${c.name}.svg" alt="Customer picture">
                 </div>
                 <div class="ml-2 break-all">
                   <p class="font-semibold">${c.name}</p>
@@ -45,7 +45,7 @@ const fetchCustomers = (url) => {
               customerCard.innerHTML = `
               <div class="gap-2 bg-white p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
                 <div class="mb-2 flex-shrink-0">
-                  <img class="object-cover rounded-lg h-32 w-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80" alt="Customer picture">
+                  <img class="object-cover rounded-lg h-32 w-full" src="https://avatars.dicebear.com/api/initials/${customer.name}.svg" alt="Customer picture">
                 </div>
                 <div class="ml-2 break-all">
                   <p class="font-semibold">${customer.name}</p>

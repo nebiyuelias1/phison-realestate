@@ -41,9 +41,11 @@
         <img class="w-full max-h-32 object-cover rounded-2xl" src="{% static 'images/sidebar-background.png' %}"
           aria-hidden="true">
 
-        <img
-          class="w-24 h-24 absolute bottom-0 left-0 right-0 mx-auto translate-y-1/2 border-4 rounded-full border-gray-50 border-solid"
-          src="{% static 'images/profile-placeholder.png' %}" alt="Profile photo">
+        {% if user.name %}
+          {% include 'partials/_avatar.html' with initial=user.name class="w-24 h-24 absolute bottom-0 left-0 right-0 mx-auto translate-y-1/2 border-4 rounded-full border-gray-50 border-solid" only %}
+        {% elif user.username %}
+          {% include 'partials/_avatar.html' with initial=user.username class="w-24 h-24 absolute bottom-0 left-0 right-0 mx-auto translate-y-1/2 border-4 rounded-full border-gray-50 border-solid" only %}
+        {% endif %}
       </div>
 
       <h3 class="text-center text-lg font-medium">
