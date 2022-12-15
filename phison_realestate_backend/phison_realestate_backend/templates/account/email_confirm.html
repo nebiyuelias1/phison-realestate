@@ -7,17 +7,19 @@
 
 
 {% block inner %}
-<h1>{% translate "Confirm E-mail Address" %}</h1>
+<h1 class="text-3xl font-semibold text-center my-4">{% translate "Confirm E-mail Address" %}</h1>
 
 {% if confirmation %}
 
 {% user_display confirmation.email_address.user as user_display %}
 
-<p>{% blocktranslate with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endblocktranslate %}</p>
+<p>{% blocktranslate with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}"><strong>{{ email }}</strong></a> is an e-mail address for user {{ user_display }}.{% endblocktranslate %}</p>
 
 <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
 {% csrf_token %}
-    <button class="btn btn-primary" type="submit">{% translate 'Confirm' %}</button>
+    <button class="bg-purple-900 w-full text-white rounded-lg p-2.5 font-semibold mt-4" type="submit">
+      {% translate "Confirm" %}
+    </button>
 </form>
 
 {% else %}
