@@ -90,6 +90,7 @@ THIRD_PARTY_APPS = [
     "tailwind",
     "embed_video",
     "location_field.apps.DefaultConfig",
+    "django_cleanup.apps.CleanupConfig",
 ]
 
 LOCAL_APPS = [
