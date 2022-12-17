@@ -207,5 +207,8 @@ class BuyerPaymentSchedule(TimeStampedModel):
         max_length=2, choices=PAYMENT_STATUS_OPTIONS, default=PENDING
     )
 
+    def __str__(self) -> str:
+        return f"[{self.get_status_display()}] {self.deadline}"
+
     def get_absolute_url(self):
         return reverse("phison_panel:buyer_detail", kwargs={"slug": self.buyer.slug})
