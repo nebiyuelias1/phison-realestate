@@ -25,7 +25,5 @@ class Command(BaseCommand):
             )
         else:
             self.stdout.write(
-                self.style.WARNING(
-                    "There are no unlinked property images to be deleted"
-                )
+                self.style.NOTICE("There are no unlinked property images to be deleted")
             )

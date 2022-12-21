@@ -1,0 +1,20 @@
+<h3>Hi {{buyer__customer__name}},</h3>
+
+<p>
+  You recently bought <strong>{% if buyer__property__property_type == 'AP'%}an apartment{% elif buyer__property__property_type == 'VI'%}a villa{% endif %}</strong> from us. We're sending this email to let you know about
+  an upcoming payment that must be paid before <strong>{{deadline | date:'d M, Y'}} GC</strong>. The total amount
+  that must be paid for this term is <strong>${{amount | floatformat:2}}</strong>. We kindly ask you to make the payment before the
+  deadline.
+</p>
+<p>
+  በቅርቡ ከእኛ <strong>{% if buyer__property__property_type == 'AP'%}አፓርታማ{% elif buyer__property__property_type == 'VI'%}ቪላ{% endif %}</strong> ገዝተዋል። ይህን ኢሜይል የላክነው ስለተቃረበ ክፍያ ለማሳወቅ ነው። ክፍያው ከ<strong>{{deadline | date:'d M, Y'}} GC</strong>
+  በፊት መከፈል አለበት። ጠቅላላ መከፈል ያለበት መጠንም <strong>${{amount | floatformat:2}}</strong> ነው። ክፍያውን እንዲከፍሉ በአክብሮት እንጠይቃለን።
+</p>
+
+<p>
+  Thank you,
+</p>
+<a href="www.phisonrealestate.com">Phison Realestate</a>
+<p>
+  +251 952787878 | +251 952797979
+</p>
