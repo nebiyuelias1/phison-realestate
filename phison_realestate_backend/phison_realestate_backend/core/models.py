@@ -207,5 +207,38 @@ class BuyerPaymentSchedule(TimeStampedModel):
         max_length=2, choices=PAYMENT_STATUS_OPTIONS, default=PENDING
     )
 
+    is_notification_sent = models.BooleanField(null=False, blank=True, default=False)
+
+    def __str__(self) -> str:
+        return f"[{self.get_status_display()}] {self.deadline}"
+
     def get_absolute_url(self):
         return reverse("phison_panel:buyer_detail", kwargs={"slug": self.buyer.slug})
+
+
+class Notification(TimeStampedModel):
+    """A model for notifying users."""
+
+    PAYMENT_DUE = "PD"
+    PAYMENT_COMPLETED = "PC"
+
+    NOTIFICATION_TYPES = [
+        (PAYMENT_DUE, "Payment Due"),
+        (PAYMENT_COMPLETED, "Payment Completed"),
+    ]
+
+    is_read = models.BooleanField(null=False, blank=True, default=False)
+
+    user = models.ForeignKey(
+        User,
+        related_name="+",
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+
+    notification_type = models.TextField(
+        choices=NOTIFICATION_TYPES, null=False, blank=False
+    )
+
+    data = models.JSONField(null=True, blank=True)
