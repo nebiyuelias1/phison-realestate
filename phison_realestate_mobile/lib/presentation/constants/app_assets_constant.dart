@@ -17,6 +17,40 @@ class PhisonColors {
     700: Color.fromRGBO(100, 55, 143, 0.8),
     900: Color.fromRGBO(0, 0, 0, 1),
   });
+
+  static const int _purplePrimaryValue = 0xFFa287bc;
+  static const purple = MaterialColor(
+    _purplePrimaryValue,
+    <int, Color>{
+      50: Color(0xFFFFEBEE),
+      100: Color(0xFFe0d7e9),
+      200: Color(0xFFd1c3dd),
+      300: Color(0xFFc1afd2),
+      400: Color(0xFFb29bc7),
+      500: Color(_purplePrimaryValue),
+      600: Color(0xFF9373b1),
+      700: Color(0xFF835fa5),
+      800: Color(0xFF744b9a),
+      900: Color(0xFF64378f),
+    },
+  );
+
+  static const int _orangePrimaryValue = 0xFFf8b379;
+  static const orange = MaterialColor(
+    _orangePrimaryValue,
+    <int, Color>{
+      50: Color(0xFFFFEBEE),
+      100: Color(0xFFfde6d2),
+      200: Color(0xFFfcd9bc),
+      300: Color(0xFFfbcda6),
+      400: Color(0xFFfac090),
+      500: Color(_orangePrimaryValue),
+      600: Color(0xFFf7a763),
+      700: Color(0xFFf69a4d),
+      800: Color(0xFFf58e36),
+      900: Color(0xFFf48120),
+    },
+  );
 }
 
 class PhisonIcons {
@@ -35,5 +69,5 @@ class PhisonIcons {
 
 class PhisonImages {
   //Images Path
-  static const String welcomeImagebg = 'assets/images/welcomeImage.png';
+  static const String welcomeImage = 'assets/images/welcomeImage.webp';
 }

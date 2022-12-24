@@ -16,17 +16,22 @@ mixin PhisonTheme {
       fontFamily: 'Poppins',
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-            elevation: MaterialStateProperty.all(0.0),
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+          elevation: MaterialStateProperty.all(0.0),
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+          ),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
             ),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.0),
-              ),
-            ),
-            foregroundColor:
-                MaterialStateProperty.all(PhisonColors.lightBackground)),
+          ),
+          backgroundColor: MaterialStateProperty.all(
+            PhisonColors.purple.shade900,
+          ),
+          foregroundColor: MaterialStateProperty.all(
+            PhisonColors.lightBackground,
+          ),
+        ),
       ),
     );
   }
