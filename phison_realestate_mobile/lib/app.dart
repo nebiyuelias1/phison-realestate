@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'welcome/view/welcome_page.dart';
 
 //project imports:
-import 'presentation/theme/phison_theme.dart';
+import 'shared/theme/phison_theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

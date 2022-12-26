@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:phison_realestate_mobile/pages/login/view/login_page.dart';
 
 import '../../presentation/constants/app_assets_constant.dart';
 
@@ -106,7 +107,13 @@ class WelcomePage extends StatelessWidget {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const LoginPage(),
+                        ),
+                      );
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
                           PhisonColors.orange.shade900),
