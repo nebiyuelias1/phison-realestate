@@ -16,7 +16,7 @@ AppBar getAppBar({required BuildContext context, required String title}) {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
         ),
       ),
     ),

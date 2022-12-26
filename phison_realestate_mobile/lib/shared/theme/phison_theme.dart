@@ -62,6 +62,9 @@ mixin PhisonTheme {
           overlayColor: MaterialStateProperty.all(Colors.grey),
         ),
       ),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: Colors.black,
+      ),
     );
   }
 }

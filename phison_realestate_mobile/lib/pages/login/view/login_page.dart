@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:phison_realestate_mobile/pages/create_account/view/create_account_page.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
+
+import '../../../shared/widgets/phone_number_input.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -18,7 +19,7 @@ class LoginPage extends StatelessWidget {
             const Text('Login by filling the following information'),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: _PhoneNumberInput(),
+              child: PhoneNumberInput(),
             ),
             const SizedBox(
               height: 20,
@@ -52,29 +53,6 @@ class LoginPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _PhoneNumberInput extends StatelessWidget {
-  const _PhoneNumberInput();
-
-  @override
-  Widget build(BuildContext context) {
-    return IntlPhoneField(
-      showCountryFlag: false,
-      dropdownIcon: const Icon(
-        Icons.phone_outlined,
-        color: Colors.black,
-      ),
-      flagsButtonMargin: const EdgeInsets.symmetric(horizontal: 8.0),
-      keyboardType: TextInputType.phone,
-      decoration: const InputDecoration(
-        hintText: 'Phone Number',
-        counterText: '',
-      ),
-      initialCountryCode: 'ET',
-      onChanged: (phone) {},
     );
   }
 }
