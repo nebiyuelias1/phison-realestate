@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phison_realestate_mobile/pages/verify_otp/view/verify_otp_page.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phone_number_input.dart';
 
@@ -32,7 +33,13 @@ class CreateAccountPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: ElevatedButton(
                 child: const Text('Continue'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const VerifyOtpPage(),
+                    ),
+                  );
+                },
               ),
             )
           ],

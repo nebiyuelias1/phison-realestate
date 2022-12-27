@@ -33,6 +33,7 @@ dependencies:
   firebase_core: ^2.1.1
   flutter:
     sdk: flutter
+  flutter_otp_text_field: ^1.1.1
   flutter_svg: ^1.1.6
   intl_phone_field: ^3.1.0
 
