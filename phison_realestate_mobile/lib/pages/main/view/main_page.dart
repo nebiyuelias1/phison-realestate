@@ -33,16 +33,41 @@ class _MainPageState extends State<MainPage> {
           ProfilePage(),
         ],
       ),
-      bottomNavigationBar: getBottomNavigationBar(
-        context: context,
-        currentIndex: _currentPage,
-        onTap: (index) {
+      bottomNavigationBar: PhisonBottomBar(
+        containerHeight: 48,
+        backgroundColor: Colors.white,
+        selectedIndex: _currentPage,
+        showElevation: true,
+        curve: Curves.easeIn,
+        onItemSelected: (index) {
           _controller.animateToPage(
             index,
-            duration: const Duration(milliseconds: 100),
+            duration: const Duration(milliseconds: 270),
             curve: Curves.easeIn,
           );
         },
+        items: <BottomNavBarItem>[
+          BottomNavBarItem(
+            icon: const Icon(Icons.home_outlined),
+            title: const Text('Home'),
+            textAlign: TextAlign.center,
+          ),
+          BottomNavBarItem(
+            icon: const Icon(Icons.explore_outlined),
+            title: const Text('Properties'),
+            textAlign: TextAlign.center,
+          ),
+          BottomNavBarItem(
+            icon: const Icon(Icons.credit_card_outlined),
+            title: const Text('Payments'),
+            textAlign: TextAlign.center,
+          ),
+          BottomNavBarItem(
+            icon: const Icon(Icons.person_outline_outlined),
+            title: const Text('Profile '),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
