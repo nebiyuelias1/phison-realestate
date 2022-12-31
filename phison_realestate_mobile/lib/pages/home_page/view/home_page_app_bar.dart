@@ -1,8 +1,9 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:phison_realestate_mobile/pages/notifications/view/notifications_page.dart';
 import 'package:phison_realestate_mobile/presentation/constants/app_assets_constant.dart';
 
-AppBar getHomePageAppBar() {
+AppBar getHomePageAppBar({required BuildContext context}) {
   return AppBar(
     toolbarHeight: 72.0,
     titleSpacing: 0,
@@ -59,7 +60,13 @@ AppBar getHomePageAppBar() {
               borderRadius: BorderRadius.circular(64.0),
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const NotificationsPage(),
+                  ),
+                );
+              },
               icon: Stack(
                 children: [
                   const Icon(
