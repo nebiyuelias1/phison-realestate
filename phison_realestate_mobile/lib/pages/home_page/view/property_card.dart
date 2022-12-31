@@ -90,7 +90,7 @@ class PropertyCard extends StatelessWidget {
                           '2',
                           style:
                               Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                   ),
                         ),
                       ],
@@ -108,7 +108,7 @@ class PropertyCard extends StatelessWidget {
                           '2',
                           style:
                               Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                   ),
                         ),
                       ],
