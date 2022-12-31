@@ -7,6 +7,7 @@ class PropertyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 320,
       padding: const EdgeInsets.all(8.0),
       margin: const EdgeInsets.only(right: 16.0),
       decoration: BoxDecoration(
@@ -52,70 +53,78 @@ class PropertyCard extends StatelessWidget {
             const SizedBox(
               width: 8.0,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(
-                  'G+1 town Luxury Villa',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.location_pin,
-                      size: 16.0,
-                      color: Colors.grey,
-                    ),
-                    Text(
-                      'Addis Ababa, Bole Beshale',
-                      style: Theme.of(context).textTheme.caption,
-                    )
-                  ],
-                ),
-                Wrap(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.bed,
-                          color: PhisonColors.purple.shade900,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    'G+1 town Luxury Villa',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const Icon(
+                        Icons.location_pin,
+                        size: 16.0,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Addis Ababa, Bole Beshale',
+                          style: Theme.of(context).textTheme.caption,
                         ),
-                        const SizedBox(
-                          width: 4.0,
-                        ),
-                        Text(
-                          '2',
-                          style:
-                              Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 24.0,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.square_foot,
-                          color: PhisonColors.purple.shade900,
-                        ),
-                        Text(
-                          '2',
-                          style:
-                              Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                        ),
-                      ],
-                    )
-                  ],
-                )
-              ],
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.bed,
+                            color: PhisonColors.purple.shade900,
+                          ),
+                          const SizedBox(
+                            width: 4.0,
+                          ),
+                          Text(
+                            '2',
+                            style:
+                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 24.0,
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.square_foot,
+                            color: PhisonColors.purple.shade900,
+                          ),
+                          Text(
+                            '2',
+                            style:
+                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
             )
           ],
         ),
