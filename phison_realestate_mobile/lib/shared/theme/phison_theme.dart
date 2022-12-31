@@ -60,6 +60,11 @@ mixin PhisonTheme {
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all(Colors.black),
           overlayColor: MaterialStateProperty.all(Colors.grey),
+          textStyle: MaterialStateProperty.all(
+            const TextStyle(
+              fontSize: 14,
+            ),
+          ),
         ),
       ),
       textSelectionTheme: const TextSelectionThemeData(

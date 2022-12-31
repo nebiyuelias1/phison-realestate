@@ -11,9 +11,51 @@ class HomePage extends StatelessWidget {
       appBar: getHomePageAppBar(context: context),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: const [
-            _FeaturedProperties(),
+        child: CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(
+              child: _FeaturedProperties(),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 8.0),
+            ),
+            SliverToBoxAdapter(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Featured Properties',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'View All',
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 8.0),
+            ),
+            SliverGrid.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 8.0,
+              crossAxisSpacing: 8.0,
+              childAspectRatio: 0.75,
+              children: const [
+                PropertyCard(
+                  isVertical: true,
+                ),
+                PropertyCard(
+                  isVertical: true,
+                ),
+                PropertyCard(
+                  isVertical: true,
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -39,9 +81,16 @@ class _FeaturedProperties extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: const [
-              PropertyCard(),
-              PropertyCard(),
+            children: [
+              Container(
+                width: 310,
+                margin: const EdgeInsets.only(right: 8.0),
+                child: const PropertyCard(),
+              ),
+              const SizedBox(
+                width: 310,
+                child: PropertyCard(),
+              ),
             ],
           ),
         ),
