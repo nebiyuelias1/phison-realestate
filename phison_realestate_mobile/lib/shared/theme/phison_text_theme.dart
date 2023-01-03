@@ -5,6 +5,7 @@ final phisonTextTheme = TextTheme(
   headline1: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
+    color: Colors.black,
   ),
   headline4: TextStyle(
     fontSize: 18,
