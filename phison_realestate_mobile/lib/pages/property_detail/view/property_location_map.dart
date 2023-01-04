@@ -44,6 +44,5 @@ class PropertyLocationMap extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }
