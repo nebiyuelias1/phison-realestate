@@ -1,9 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
-// Project imports:
-import 'welcome/view/welcome_page.dart';
-
+import 'package:phison_realestate_mobile/pages/property_detail/view/property_detail_page.dart';
 //project imports:
 import 'shared/theme/phison_theme.dart';
 
@@ -16,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'PHISON',
       theme: PhisonTheme.lightTheme,
-      home: const WelcomePage(),
+      home: const PropertyDetailPage(),
     );
   }
 }

@@ -5,6 +5,16 @@ final phisonTextTheme = TextTheme(
   headline1: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
+    color: Colors.black,
+  ),
+  headline4: TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    color: Colors.grey.shade900,
+  ),
+  headline6: const TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
   ),
   bodyText1: const TextStyle(
     fontSize: 16,
@@ -16,5 +26,9 @@ final phisonTextTheme = TextTheme(
   button: const TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 16,
+  ),
+  caption: TextStyle(
+    fontSize: 12,
+    color: Colors.grey.shade600,
   ),
 );
