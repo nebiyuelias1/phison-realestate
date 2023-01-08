@@ -38,7 +38,7 @@ class IconRow extends StatelessWidget {
 }
 
 class _Icon extends StatelessWidget {
-  const _Icon({super.key, required this.icon, required this.text});
+  const _Icon({required this.icon, required this.text});
   final IconData icon;
   final String text;
 
