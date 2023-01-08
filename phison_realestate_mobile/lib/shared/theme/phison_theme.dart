@@ -8,8 +8,7 @@ import 'phison_text_theme.dart';
 mixin PhisonTheme {
   static ThemeData get lightTheme {
     return ThemeData(
-      primaryColor: PhisonColors.purple,
-      primaryColorLight: PhisonColors.primarySwatch,
+      primarySwatch: PhisonColors.purple,
       appBarTheme: const AppBarTheme(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -69,6 +68,22 @@ mixin PhisonTheme {
       ),
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: Colors.black,
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          textStyle: MaterialStateProperty.all(
+            const TextStyle(
+              fontSize: 14,
+            ),
+          ),
+          padding: MaterialStateProperty.all(
+            const EdgeInsets.symmetric(
+              horizontal: 48.0,
+              vertical: 8.0,
+            ),
+          ),
+          foregroundColor: MaterialStateProperty.all(Colors.black),
+        ),
       ),
     );
   }
