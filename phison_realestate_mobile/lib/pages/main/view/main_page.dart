@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
       bottomNavigationBar: PhisonBottomBar(
-        containerHeight: 48,
+        containerHeight: 40,
         backgroundColor: Colors.white,
         selectedIndex: _currentPage,
         showElevation: true,
