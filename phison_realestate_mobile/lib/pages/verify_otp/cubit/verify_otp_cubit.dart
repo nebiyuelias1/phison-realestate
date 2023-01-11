@@ -14,18 +14,22 @@ class VerifyOtpCubit extends Cubit<VerifyOtpState> {
   final AuthenticationRepository _authenticationRepository;
 
   Future<void> verifyOtpFormSubmitted(
-      {required String name,
-      required String email,
-      required String phoneNumber}) async {
+      {String? name, String? email, String? phoneNumber}) async {
     try {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
-      await _authenticationRepository.verifyOtp(
-        VerifyOtpParam(
-            phoneNumber: phoneNumber,
-            email: email,
-            name: name,
-            smsCode: state.otp.value),
-      );
+      final registerUser = name != null && email != null && phoneNumber != null;
+      if (registerUser) {
+        await _authenticationRepository.verifyOtpAndRegister(
+          VerifyOtpParam(
+              phoneNumber: phoneNumber,
+              email: email,
+              name: name,
+              smsCode: state.otp.value),
+        );
+      } else {
+        await _authenticationRepository.verifyOtp(state.otp.value);
+      }
+
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on VerifyOtpFailure catch (e) {
       emit(
