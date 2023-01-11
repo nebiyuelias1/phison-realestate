@@ -6,6 +6,7 @@ import '../../../presentation/constants/app_assets_constant.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
+  static Page page() => const MaterialPage<void>(child: WelcomePage());
 
   @override
   Widget build(BuildContext context) {

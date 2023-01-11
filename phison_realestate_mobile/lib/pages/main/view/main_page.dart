@@ -10,6 +10,8 @@ class MainPage extends StatefulWidget {
 
   @override
   State<MainPage> createState() => _MainPageState();
+
+  static Page page() => const MaterialPage<void>(child: MainPage());
 }
 
 class _MainPageState extends State<MainPage> {
