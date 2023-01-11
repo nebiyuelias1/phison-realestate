@@ -10,19 +10,15 @@ import '../../../shared/widgets/phison_elevated_button.dart';
 import '../cubit/verify_otp_cubit.dart';
 
 class VerifyOtpPage extends StatelessWidget {
-  const VerifyOtpPage(
-      {super.key,
-      required this.email,
-      required this.phoneNumber,
-      required this.name});
-  final String email;
-  final String phoneNumber;
-  final String name;
+  const VerifyOtpPage({super.key, this.email, this.phoneNumber, this.name});
+  final String? email;
+  final String? phoneNumber;
+  final String? name;
 
   static Route route({
-    required String email,
-    required String phoneNumber,
-    required String name,
+    String? email,
+    String? phoneNumber,
+    String? name,
   }) =>
       MaterialPageRoute(
         builder: (context) => VerifyOtpPage(
