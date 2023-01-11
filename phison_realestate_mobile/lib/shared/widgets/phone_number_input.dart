@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 class PhoneNumberInput extends StatelessWidget {
-  const PhoneNumberInput({super.key});
+  final ValueChanged<PhoneNumber>? onChanged;
+  const PhoneNumberInput({super.key, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class PhoneNumberInput extends StatelessWidget {
         counterText: '',
       ),
       initialCountryCode: 'ET',
-      onChanged: (phone) {},
+      onChanged: onChanged,
     );
   }
 }
