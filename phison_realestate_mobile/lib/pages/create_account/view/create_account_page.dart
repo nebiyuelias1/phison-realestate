@@ -25,13 +25,18 @@ class CreateAccountPage extends StatelessWidget {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  const SnackBar(content: Text('Sign Up Failure')),
+                  SnackBar(content: Text(state.error ?? 'Sign Up Failure')),
                 );
             }
 
             if (state.status.isSubmissionSuccess) {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(VerifyOtpPage.route());
+              Navigator.of(context).push(
+                VerifyOtpPage.route(
+                  email: state.email.value,
+                  name: state.name.value,
+                  phoneNumber: state.phoneNumber.value,
+                ),
+              );
             }
           },
           child: const _CreateAccountForm(),
