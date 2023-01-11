@@ -8,7 +8,7 @@ import 'cache.dart';
 import 'models/user.dart';
 
 /// Thrown if during the sign up process if a failure occurs.
-class SignUpFailure implements Exception {}
+class VerifyPhoneNumberFailure implements Exception {}
 
 /// Thrown during the logout process if a failure occurs.
 class LogOutFailure implements Exception {}
@@ -20,12 +20,12 @@ class VerifyOtpFailure implements Exception {
   VerifyOtpFailure(this.message);
 }
 
-class CreateAccountParam extends Equatable {
+class VerifyPhoneNumberParam extends Equatable {
   final String phoneNumber;
   final VoidCallback onCodeSent;
   final ValueChanged<String> onFailure;
 
-  const CreateAccountParam({
+  const VerifyPhoneNumberParam({
     required this.onCodeSent,
     required this.phoneNumber,
     required this.onFailure,
@@ -93,10 +93,10 @@ class AuthenticationRepository {
     return _cache.read<User>(key: userCacheKey) ?? User.empty;
   }
 
-  /// Creates a new user with the provided [phoneNumber].
+  /// Verifies users phone number given [VerifyPhoneNumberParam] param.
   ///
-  /// Throws a [SignUpFailure] if an exception occurs.
-  Future<void> createAccount(CreateAccountParam param) async {
+  /// Throws a [VerifyPhoneNumberFailure] if an exception occurs.
+  Future<void> verifyPhoneNumber(VerifyPhoneNumberParam param) async {
     try {
       await _firebaseAuth.verifyPhoneNumber(
         phoneNumber: param.phoneNumber,
@@ -127,28 +127,36 @@ class AuthenticationRepository {
         codeAutoRetrievalTimeout: (verificationId) {},
       );
     } on Exception {
-      throw SignUpFailure();
+      throw VerifyPhoneNumberFailure();
     }
   }
 
-  verifyOtp(VerifyOtpParam param) async {
+  Future<void> verifyOtp(String smsCode) async {
+    await _verifyOtp(smsCode);
+  }
+
+  Future<void> verifyOtpAndRegister(VerifyOtpParam param) async {
+    await _verifyOtp(param.smsCode);
+    final token = await _firebaseAuth.currentUser?.getIdToken();
+
+    await _client.registerUser(
+      RegisterUser(
+        name: param.name,
+        email: param.email,
+        phoneNumber: param.phoneNumber,
+        token: token!,
+      ),
+    );
+  }
+
+  Future<void> _verifyOtp(String smsCode) async {
     // Create a PhoneAuthCredential with the code
     final credential = firebase_auth.PhoneAuthProvider.credential(
-        verificationId: _verificationId, smsCode: param.smsCode);
+        verificationId: _verificationId, smsCode: smsCode);
 
     try {
       // Sign the user in (or link) with the credential
       await _firebaseAuth.signInWithCredential(credential);
-      final token = await _firebaseAuth.currentUser?.getIdToken();
-
-      await _client.registerUser(
-        RegisterUser(
-          name: param.name,
-          email: param.email,
-          phoneNumber: param.phoneNumber,
-          token: token!,
-        ),
-      );
     } on firebase_auth.FirebaseAuthException catch (e) {
       var message = 'Something went wrong';
       if (e.code == 'invalid-credential') {

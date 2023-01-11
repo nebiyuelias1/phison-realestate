@@ -56,8 +56,8 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
 
     try {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
-      await _authenticationRepository.createAccount(
-        CreateAccountParam(
+      await _authenticationRepository.verifyPhoneNumber(
+        VerifyPhoneNumberParam(
           onCodeSent: () {
             emit(state.copyWith(
               status: FormzStatus.submissionSuccess,
