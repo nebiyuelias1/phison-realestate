@@ -32,8 +32,14 @@ mixin PhisonTheme {
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
-          backgroundColor: MaterialStateProperty.all(
-            PhisonColors.purple.shade900,
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (states) {
+              if (states.contains(MaterialState.disabled)) {
+                return PhisonColors.purple;
+              }
+
+              return PhisonColors.purple.shade900;
+            },
           ),
           foregroundColor: MaterialStateProperty.all(
             PhisonColors.lightBackground,
