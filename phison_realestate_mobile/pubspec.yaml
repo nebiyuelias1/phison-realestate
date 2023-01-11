@@ -30,21 +30,31 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
+  equatable: ^2.0.5
+  firebase_auth: ^4.2.5
   firebase_core: ^2.1.1
+  flow_builder: ^0.0.9
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.1
+  flutter_flavor: ^3.1.1
   flutter_map: ^3.1.0
   flutter_otp_text_field: ^1.1.1
   flutter_svg: ^1.1.6
+  formz: ^0.4.1
+  graphql: ^5.1.2
   intl_phone_field: ^3.1.0
+  json_annotation: ^4.7.0
   latlong2: ^0.8.1
   youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
+  build_runner: ^2.3.3
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
   import_sorter: ^4.6.0
+  json_serializable: ^6.5.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

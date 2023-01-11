@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phison_realestate_mobile/pages/profile/view/change_language_bottom_sheet.dart';
 import 'package:phison_realestate_mobile/presentation/constants/app_assets_constant.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
+
+import '../../app/bloc/bloc/app_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -135,9 +138,16 @@ class _LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {},
-      child: const Text('Logout'),
+    return BlocBuilder<AppBloc, AppState>(
+      builder: (context, state) {
+        return OutlinedButton(
+          onPressed: () {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            context.read<AppBloc>().add(AppLogoutRequested());
+          },
+          child: const Text('Logout'),
+        );
+      },
     );
   }
 }
