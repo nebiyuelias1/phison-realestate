@@ -12,7 +12,7 @@ import 'pages/app/view/app.dart';
 Future<void> main() async {
   FlavorConfig(
     variables: {
-      "baseUrl": "http://localhost:8000",
+      "baseUrl": "http://10.0.2.2:8000",
     },
   );
 
