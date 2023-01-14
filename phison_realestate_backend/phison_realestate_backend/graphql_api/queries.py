@@ -3,7 +3,7 @@ from django.core.exceptions import PermissionDenied
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
-from phison_realestate_backend.core.models import BuyerPaymentSchedule, Property
+from phison_realestate_backend.core.models import BuyerPaymentSchedule, Property, PropertyImage
 
 
 class BuyerPaymentScheduleNode(DjangoObjectType):
@@ -19,6 +19,17 @@ class BuyerPaymentScheduleNode(DjangoObjectType):
         )
         interfaces = (graphene.relay.Node,)
         filter_fields = ("status",)
+
+
+class PropertyImageNode(DjangoObjectType):
+    class Meta:
+        model = PropertyImage
+        interfaces = (graphene.relay.Node,)
+        fields = (
+            "image",
+            "height",
+            "width",
+        )
 
 
 class PropertyNode(DjangoObjectType):
@@ -40,6 +51,7 @@ class PropertyNode(DjangoObjectType):
             "address",
             "location",
             "property_type",
+            "images",
         )
         interfaces = (graphene.relay.Node,)
         filter_fields = ("is_featured",)
