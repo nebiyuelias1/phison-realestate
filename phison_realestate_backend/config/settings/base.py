@@ -330,7 +330,7 @@ SPECTACULAR_SETTINGS = {
 # graphne-django
 # ------------------------------------------------------------------------------
 GRAPHENE = {
-    "SCHEMA": "phison_realestate_backend.schema.schema",
+    "SCHEMA": "phison_realestate_backend.graphql_api.schema.schema",
     "MIDDLEWARE": [
         "phison_realestate_backend.graphql_api.middleware.FirebaseAuthorizationMiddleware"
     ],
