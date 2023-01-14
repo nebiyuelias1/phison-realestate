@@ -33,4 +33,5 @@ class PropertyNode(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
+    property = graphene.relay.Node.Field(PropertyNode)
     all_properties = DjangoFilterConnectionField(PropertyNode)
