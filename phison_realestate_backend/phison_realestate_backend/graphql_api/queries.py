@@ -2,7 +2,18 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
-from phison_realestate_backend.core.models import Property
+from phison_realestate_backend.core.models import Property, PropertyImage
+
+
+class PropertyImageNode(DjangoObjectType):
+    class Meta:
+        model = PropertyImage
+        interfaces = (graphene.relay.Node,)
+        fields = (
+            "image",
+            "height",
+            "width",
+        )
 
 
 class PropertyNode(DjangoObjectType):
@@ -24,6 +35,7 @@ class PropertyNode(DjangoObjectType):
             "address",
             "location",
             "property_type",
+            "images",
         )
         interfaces = (graphene.relay.Node,)
         filter_fields = ("is_featured",)
