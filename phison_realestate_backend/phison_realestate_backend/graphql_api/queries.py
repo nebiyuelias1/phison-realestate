@@ -8,6 +8,7 @@ from phison_realestate_backend.core.models import (
     Property,
     PropertyImage,
 )
+from phison_realestate_backend.users.models import User
 
 from .decorators import login_required
 
@@ -80,6 +81,16 @@ class NotificationNode(DjangoObjectType):
         filter_fields = ("is_read",)
 
 
+class UserType(DjangoObjectType):
+    class Meta:
+        model = User
+        fields = (
+            "name",
+            "phone_number",
+            "email",
+        )
+
+
 class Query(graphene.ObjectType):
     property = graphene.relay.Node.Field(PropertyNode)
     all_properties = DjangoFilterConnectionField(PropertyNode)
@@ -87,6 +98,8 @@ class Query(graphene.ObjectType):
     all_user_payment_schedules = DjangoFilterConnectionField(BuyerPaymentScheduleNode)
 
     all_user_notifications = DjangoFilterConnectionField(NotificationNode)
+
+    me = graphene.Field(UserType)
 
     @login_required
     def resolve_all_user_payment_schedules(self, info):
@@ -97,3 +110,8 @@ class Query(graphene.ObjectType):
     def resolve_all_user_notifications(self, info):
         user = info.context.user
         return Notification.objects.filter(user=user)
+
+    @login_required
+    def resolve_me(root, info):
+        user = info.context.user
+        return user
