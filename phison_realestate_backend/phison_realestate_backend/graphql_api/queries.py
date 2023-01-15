@@ -31,6 +31,20 @@ class PropertyImageNode(DjangoObjectType):
             "width",
         )
 
+class BuyerPaymentScheduleNode(DjangoObjectType):
+    class Meta:
+        model = BuyerPaymentSchedule
+        fields = (
+            "title",
+            "description",
+            "percentage",
+            "amount",
+            "deadline",
+            "status",
+        )
+        interfaces = (graphene.relay.Node,)
+        filter_fields = ("status",)
+
 
 class PropertyNode(DjangoObjectType):
     property_image = graphene.String()
