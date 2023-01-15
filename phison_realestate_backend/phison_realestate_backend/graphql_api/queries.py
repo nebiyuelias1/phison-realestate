@@ -31,6 +31,7 @@ class PropertyImageNode(DjangoObjectType):
             "width",
         )
 
+
 class BuyerPaymentScheduleNode(DjangoObjectType):
     class Meta:
         model = BuyerPaymentSchedule
