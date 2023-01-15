@@ -1,8 +1,13 @@
 import graphene
+from django.core.exceptions import PermissionDenied
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
-from phison_realestate_backend.core.models import Property, PropertyImage
+from phison_realestate_backend.core.models import (
+    BuyerPaymentSchedule,
+    Property,
+    PropertyImage,
+)
 
 
 class PropertyImageNode(DjangoObjectType):
@@ -14,6 +19,21 @@ class PropertyImageNode(DjangoObjectType):
             "height",
             "width",
         )
+
+
+class BuyerPaymentScheduleNode(DjangoObjectType):
+    class Meta:
+        model = BuyerPaymentSchedule
+        fields = (
+            "title",
+            "description",
+            "percentage",
+            "amount",
+            "deadline",
+            "status",
+        )
+        interfaces = (graphene.relay.Node,)
+        filter_fields = ("status",)
 
 
 class PropertyNode(DjangoObjectType):
@@ -47,3 +67,12 @@ class PropertyNode(DjangoObjectType):
 class Query(graphene.ObjectType):
     property = graphene.relay.Node.Field(PropertyNode)
     all_properties = DjangoFilterConnectionField(PropertyNode)
+
+    all_user_payment_schedules = DjangoFilterConnectionField(BuyerPaymentScheduleNode)
+
+    def resolve_all_user_payment_schedules(self, info):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise PermissionDenied("You must be logged in to see schedules.")
+
+        return BuyerPaymentSchedule.objects.filter(buyer__customer=user)
