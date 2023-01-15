@@ -1,13 +1,15 @@
 import graphene
-from django.core.exceptions import PermissionDenied
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
 from phison_realestate_backend.core.models import (
     BuyerPaymentSchedule,
+    Notification,
     Property,
     PropertyImage,
 )
+
+from .decorators import login_required
 
 
 class PropertyImageNode(DjangoObjectType):
@@ -64,15 +66,34 @@ class PropertyNode(DjangoObjectType):
         return root.property_image
 
 
+class NotificationNode(DjangoObjectType):
+    class Meta:
+        model = Notification
+        fields = (
+            "is_read",
+            "notification_type",
+            "data",
+            "created_at",
+            "updated_at",
+        )
+        interfaces = (graphene.relay.Node,)
+        filter_fields = ("is_read",)
+
+
 class Query(graphene.ObjectType):
     property = graphene.relay.Node.Field(PropertyNode)
     all_properties = DjangoFilterConnectionField(PropertyNode)
 
     all_user_payment_schedules = DjangoFilterConnectionField(BuyerPaymentScheduleNode)
 
+    all_user_notifications = DjangoFilterConnectionField(NotificationNode)
+
+    @login_required
     def resolve_all_user_payment_schedules(self, info):
         user = info.context.user
-        if not user.is_authenticated:
-            raise PermissionDenied("You must be logged in to see schedules.")
-
         return BuyerPaymentSchedule.objects.filter(buyer__customer=user)
+
+    @login_required
+    def resolve_all_user_notifications(self, info):
+        user = info.context.user
+        return Notification.objects.filter(user=user)
