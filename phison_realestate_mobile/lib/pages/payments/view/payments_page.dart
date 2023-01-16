@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 
-import '../../../presentation/constants/app_assets_constant.dart';
+import '../../../shared/constants/app_assets_constant.dart';
 
 class PaymentsPage extends StatelessWidget {
   const PaymentsPage({super.key});

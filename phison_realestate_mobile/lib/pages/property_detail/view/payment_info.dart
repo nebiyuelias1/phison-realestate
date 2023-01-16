@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phison_realestate_mobile/presentation/constants/app_assets_constant.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
 
 class PaymentInfo extends StatelessWidget {
   const PaymentInfo({super.key});

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import '../../presentation/constants/app_assets_constant.dart';
+import '../constants/app_assets_constant.dart';
 import 'phison_text_theme.dart';
 
 mixin PhisonTheme {

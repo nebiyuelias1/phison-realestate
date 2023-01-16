@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phison_realestate_mobile/pages/property_detail/view/payment_info.dart';
 import 'package:phison_realestate_mobile/pages/property_detail/view/property_location_map.dart';
 import 'package:phison_realestate_mobile/pages/property_detail/view/property_media_toggle.dart';
-import 'package:phison_realestate_mobile/presentation/constants/app_assets_constant.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
