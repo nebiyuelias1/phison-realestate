@@ -31,16 +31,19 @@ class HomeState extends Equatable {
     FormzStatus? featuredPropertiesStatus,
     List<Property>? featuredProperties,
     String? featuredPropertiesError,
+    FormzStatus? status,
+    List<Property>? properties,
+    String? error,
   }) {
     return HomeState(
-      error: error,
+      error: error ?? this.error,
       featuredProperties: featuredProperties ?? this.featuredProperties,
       featuredPropertiesError:
           featuredPropertiesError ?? this.featuredPropertiesError,
       featuredPropertiesStatus:
           featuredPropertiesStatus ?? this.featuredPropertiesStatus,
-      properties: properties,
-      status: status,
+      properties: properties ?? this.properties,
+      status: status ?? this.status,
     );
   }
 }

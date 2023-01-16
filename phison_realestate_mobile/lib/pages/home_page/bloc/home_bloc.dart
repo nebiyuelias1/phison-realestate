@@ -32,5 +32,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             featuredPropertiesError: e.message));
       }
     });
+    on<PropertiesQueryRequested>((event, emit) async {
+      try {
+        emit(state.copyWith(status: FormzStatus.submissionInProgress));
+
+        final result =
+            await _propertiesRepository.getProperties(isFeatured: false);
+
+        emit(
+          state.copyWith(
+            status: FormzStatus.submissionSuccess,
+            properties: result,
+          ),
+        );
+      } on QueryPropertiesFailure catch (e) {
+        emit(
+          state.copyWith(
+            status: FormzStatus.submissionFailure,
+            error: e.message,
+          ),
+        );
+      }
+    });
   }
 }
