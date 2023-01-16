@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:phison_realestate_mobile/pages/notifications/view/notifications_page.dart';
-import 'package:phison_realestate_mobile/presentation/constants/app_assets_constant.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
 
 AppBar getHomePageAppBar({required BuildContext context}) {
   return AppBar(

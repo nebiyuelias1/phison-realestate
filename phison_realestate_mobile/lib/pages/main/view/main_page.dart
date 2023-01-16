@@ -3,6 +3,7 @@ import 'package:phison_realestate_mobile/pages/home_page/view/home_page.dart';
 import 'package:phison_realestate_mobile/pages/payments/view/payments_page.dart';
 import 'package:phison_realestate_mobile/pages/profile/view/profile_page.dart';
 import 'package:phison_realestate_mobile/pages/properties/view/properties_page.dart';
+import 'package:phison_realestate_mobile/repositories/properties_repository/properties_repository.dart';
 import 'package:phison_realestate_mobile/shared/widgets/bottom_navigation_bar.dart';
 
 class MainPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentPage = 0;
   final _controller = PageController();
+  final _propertiesRepository = PropertiesRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +30,11 @@ class _MainPageState extends State<MainPage> {
             _currentPage = index;
           });
         },
-        children: const [
-          HomePage(),
-          PropertiesPage(),
-          PaymentsPage(),
-          ProfilePage(),
+        children: [
+          HomePage(propertiesRepository: _propertiesRepository),
+          const PropertiesPage(),
+          const PaymentsPage(),
+          const ProfilePage(),
         ],
       ),
       bottomNavigationBar: PhisonBottomBar(

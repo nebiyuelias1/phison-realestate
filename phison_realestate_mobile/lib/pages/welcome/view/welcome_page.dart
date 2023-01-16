@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:phison_realestate_mobile/pages/login/view/login_page.dart';
 
-import '../../../presentation/constants/app_assets_constant.dart';
+import '../../../shared/constants/app_assets_constant.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

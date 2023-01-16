@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:phison_realestate_mobile/presentation/constants/app_assets_constant.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
 
 class PropertyLocationMap extends StatelessWidget {
   const PropertyLocationMap({super.key});

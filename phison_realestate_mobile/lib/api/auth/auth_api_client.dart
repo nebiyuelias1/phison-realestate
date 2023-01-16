@@ -1,7 +1,8 @@
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:graphql/client.dart';
 import 'package:phison_realestate_mobile/api/auth/mutations/register_user_mutation.dart';
-import 'package:phison_realestate_mobile/api/models/register_user.dart';
+
+import 'models/register_user.dart';
 
 class RegisterUserFailure implements Exception {}
 

@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:phison_realestate_mobile/api/auth/auth_api_client.dart';
-import 'package:phison_realestate_mobile/api/models/register_user.dart';
 
+import '../../api/auth/models/register_user.dart';
 import 'cache.dart';
 import 'models/user.dart';
 
