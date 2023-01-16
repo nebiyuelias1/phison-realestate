@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:phison_realestate_mobile/presentation/constants/app_assets_constant.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
+import 'package:phison_realestate_mobile/shared/widgets/property_type_badge.dart';
+
+import '../../../api/property/models/property.dart';
 
 class PropertyCard extends StatelessWidget {
   final bool isVertical;
-  const PropertyCard({super.key, this.isVertical = false});
+  final Property property;
+  const PropertyCard(
+      {super.key, this.isVertical = false, required this.property});
 
   @override
   Widget build(BuildContext context) {
@@ -13,24 +18,34 @@ class PropertyCard extends StatelessWidget {
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(16.0),
       ),
-      child: isVertical ? const _VerticalLayout() : const _HorizontalLayout(),
+      child: isVertical
+          ? _VerticalLayout(property)
+          : _HorizontalLayout(
+              property: property,
+            ),
     );
   }
 }
 
 class _VerticalLayout extends StatelessWidget {
-  const _VerticalLayout();
+  final Property property;
+
+  const _VerticalLayout(this.property);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        _PropertyImage(),
-        SizedBox(
+      children: [
+        _PropertyImage(
+          property: property,
+        ),
+        const SizedBox(
           height: 8.0,
         ),
         Expanded(
-          child: _PropertyInfo(),
+          child: _PropertyInfo(
+            property: property,
+          ),
         ),
       ],
     );
@@ -38,25 +53,30 @@ class _VerticalLayout extends StatelessWidget {
 }
 
 class _HorizontalLayout extends StatelessWidget {
+  final Property property;
+
   const _HorizontalLayout({
     Key? key,
+    required this.property,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
       child: Row(
-        children: const [
+        children: [
           Flexible(
             flex: 2,
-            child: _PropertyImage(),
+            child: _PropertyImage(
+              property: property,
+            ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 8.0,
           ),
           Flexible(
             flex: 3,
-            child: _PropertyInfo(),
+            child: _PropertyInfo(property: property),
           )
         ],
       ),
@@ -65,8 +85,11 @@ class _HorizontalLayout extends StatelessWidget {
 }
 
 class _PropertyInfo extends StatelessWidget {
+  final Property property;
+
   const _PropertyInfo({
     Key? key,
+    required this.property,
   }) : super(key: key);
 
   @override
@@ -77,7 +100,7 @@ class _PropertyInfo extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
-          'G+1 town Luxury Villa',
+          property.name,
           style: Theme.of(context).textTheme.headline6,
         ),
         Row(
@@ -94,7 +117,7 @@ class _PropertyInfo extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                'Addis Ababa, Bole Beshale',
+                property.address,
                 style: Theme.of(context).textTheme.caption,
               ),
             )
@@ -112,7 +135,7 @@ class _PropertyInfo extends StatelessWidget {
                   width: 4.0,
                 ),
                 Text(
-                  '2',
+                  property.bedRoomCount.toString(),
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -129,7 +152,7 @@ class _PropertyInfo extends StatelessWidget {
                   color: PhisonColors.purple.shade900,
                 ),
                 Text(
-                  '2',
+                  property.size.toString(),
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -144,8 +167,11 @@ class _PropertyInfo extends StatelessWidget {
 }
 
 class _PropertyImage extends StatelessWidget {
+  final Property property;
+
   const _PropertyImage({
     Key? key,
+    required this.property,
   }) : super(key: key);
 
   @override
@@ -157,25 +183,21 @@ class _PropertyImage extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
-          Image.asset(
-            'assets/images/welcomeImage.png',
-            fit: BoxFit.cover,
-          ),
+          if (property.propertyImage == null)
+            Image.asset(
+              'assets/images/welcomeImage.png',
+              fit: BoxFit.cover,
+            ),
+          if (property.propertyImage != null)
+            Image.network(
+              property.propertyImage!,
+              fit: BoxFit.cover,
+            ),
           Positioned(
             bottom: 8,
             right: 8,
-            child: Container(
-              decoration: BoxDecoration(
-                color: PhisonColors.orange.shade900,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                'Apartment',
-                style: Theme.of(context).textTheme.caption!.copyWith(
-                      color: Colors.white,
-                    ),
-              ),
+            child: PropertyTypeBadge(
+              propertyType: property.propertyType,
             ),
           )
         ],
