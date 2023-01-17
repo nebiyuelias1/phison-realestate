@@ -1,3 +1,4 @@
+import 'package:phison_realestate_mobile/api/core/models/paginated_response.dart';
 import 'package:phison_realestate_mobile/api/property/property_api_client.dart';
 
 import '../../api/property/models/property.dart';
@@ -8,7 +9,11 @@ class PropertiesRepository {
   PropertiesRepository({PropertyApiClient? client})
       : _propertyApiClient = client ?? PropertyApiClient.create();
 
-  Future<List<Property>> getProperties({bool isFeatured = false}) {
-    return _propertyApiClient.queryProperties(isFeatured: isFeatured);
+  Future<PaginatedResponse<Property>> getProperties(
+      {bool isFeatured = false, String? after}) {
+    return _propertyApiClient.queryProperties(
+      isFeatured: isFeatured,
+      after: after,
+    );
   }
 }
