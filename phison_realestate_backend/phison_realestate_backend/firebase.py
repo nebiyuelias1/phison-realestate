@@ -5,7 +5,9 @@ from firebase_admin import auth, credentials, initialize_app
 
 env = environ.Env()
 
-service_account = json.loads(env.str("FIREBASE_SERVICE_ACCOUNT_KEY"))
+service_account = json.loads(
+    env.str("FIREBASE_SERVICE_ACCOUNT_KEY").replace(r"\n", "\n")
+)
 
 app = initialize_app(credential=credentials.Certificate(service_account))
 
