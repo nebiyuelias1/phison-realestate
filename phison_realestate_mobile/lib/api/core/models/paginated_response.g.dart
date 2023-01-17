@@ -12,6 +12,6 @@ PaginatedResponse<T> _$PaginatedResponseFromJson<T>(
 ) =>
     PaginatedResponse<T>(
       hasNextPage: json['hasNextPage'] as bool,
-      endCursor: json['endCursor'] as String,
+      endCursor: json['endCursor'] as String?,
       items: (json['items'] as List<dynamic>).map(fromJsonT).toList(),
     );

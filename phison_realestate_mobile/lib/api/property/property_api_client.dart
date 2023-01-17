@@ -28,7 +28,7 @@ class PropertyApiClient {
       {bool isFeatured = false, String? after}) async {
     final queryOption = QueryOptions(
         document: gql(allPropertiesQuery),
-        variables: {"isFeatured": isFeatured});
+        variables: {"isFeatured": isFeatured, "after": after});
 
     final result = await _graphQLClient.query(queryOption);
     if (result.hasException) {
@@ -39,7 +39,6 @@ class PropertyApiClient {
     Map<String, dynamic> jsonMap = {
       ...data['pageInfo'],
       'items': data['edges'],
-      'after': after
     };
     return PaginatedResponse<Property>.fromJson(
         jsonMap, (json) => Property.fromJson((json as Map)['node']));

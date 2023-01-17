@@ -6,7 +6,7 @@ part 'paginated_response.g.dart';
     createToJson: false, createFactory: true, genericArgumentFactories: true)
 class PaginatedResponse<T> {
   final bool hasNextPage;
-  final String endCursor;
+  final String? endCursor;
   final List<T> items;
 
   PaginatedResponse(
