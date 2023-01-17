@@ -1,15 +1,6 @@
-import json
+from firebase_admin import auth, initialize_app
 
-import environ
-from firebase_admin import auth, credentials, initialize_app
-
-env = environ.Env()
-
-service_account = json.loads(
-    env.str("FIREBASE_SERVICE_ACCOUNT_KEY").replace(r"\n", "\n")
-)
-
-app = initialize_app(credential=credentials.Certificate(service_account))
+app = initialize_app()
 
 
 def verify_token(token):
