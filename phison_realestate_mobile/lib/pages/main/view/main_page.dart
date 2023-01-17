@@ -32,7 +32,9 @@ class _MainPageState extends State<MainPage> {
         },
         children: [
           HomePage(propertiesRepository: _propertiesRepository),
-          const PropertiesPage(),
+          PropertiesPage(
+            propertiesRepository: _propertiesRepository,
+          ),
           const PaymentsPage(),
           const ProfilePage(),
         ],
