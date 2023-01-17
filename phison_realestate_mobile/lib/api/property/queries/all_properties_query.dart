@@ -1,6 +1,6 @@
 const allPropertiesQuery = r'''
 query AllProperties($isFeatured: Boolean, $after: String) {
-  allProperties(first: 2, isFeatured: $isFeatured, after: $after) {
+  allProperties(first: 20, isFeatured: $isFeatured, after: $after) {
     pageInfo {
       hasNextPage
       endCursor
