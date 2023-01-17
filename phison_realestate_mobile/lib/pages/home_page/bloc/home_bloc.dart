@@ -23,7 +23,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(
           state.copyWith(
             featuredPropertiesStatus: FormzStatus.submissionSuccess,
-            featuredProperties: result,
+            featuredProperties: result.items,
           ),
         );
       } on QueryPropertiesFailure catch (e) {
@@ -42,7 +42,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(
           state.copyWith(
             status: FormzStatus.submissionSuccess,
-            properties: result,
+            properties: result.items,
           ),
         );
       } on QueryPropertiesFailure catch (e) {
