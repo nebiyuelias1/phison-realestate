@@ -1,5 +1,5 @@
 const allUserPaymentScheduleQuery = r'''
-query AllUserPaymentSchedules($after) {
+query AllUserPaymentSchedules($after: String) {
   allUserPaymentSchedules(first: 20, after: $after) {
     pageInfo {
       hasNextPage
@@ -13,6 +13,17 @@ query AllUserPaymentSchedules($after) {
         percentage
         amount
         status
+        buyer {
+          property {
+            name
+            bedRoomCount
+            size
+            location
+            address
+            propertyType
+            propertyImage
+          }
+        }
       }
     }
   }

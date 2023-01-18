@@ -42,13 +42,18 @@ class PaymentScheduleApiClient {
           message: result.exception?.graphqlErrors.first.message);
     }
 
-    final data = result.data!['allUserNotifications'];
+    final data = result.data!['allUserPaymentSchedules'];
     Map<String, dynamic> jsonMap = {
       ...data['pageInfo'],
       'items': data['edges']
     };
 
-    return PaginatedResponse<PaymentSchedule>.fromJson(
-        jsonMap, (json) => PaymentSchedule.fromJson((json as Map)['node']));
+    return PaginatedResponse<PaymentSchedule>.fromJson(jsonMap, (json) {
+      final paymentScheduleJsonMap = (json as Map)['node'];
+      return PaymentSchedule.fromJson({
+        ...paymentScheduleJsonMap,
+        'property': paymentScheduleJsonMap['buyer']['property']
+      });
+    });
   }
 }
