@@ -44,9 +44,11 @@ dependencies:
   formz: ^0.4.1
   graphql: ^5.1.2
   infinite_scroll_pagination: ^3.2.0
+  intl: ^0.18.0
   intl_phone_field: ^3.1.0
   json_annotation: ^4.7.0
   latlong2: ^0.8.1
+  timeago: ^3.3.0
   youtube_player_flutter: ^8.1.2
 
 dev_dependencies:

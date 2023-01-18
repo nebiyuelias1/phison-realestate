@@ -28,3 +28,4 @@ graphene-django==3.0.0 # https://github.com/graphql-python/graphene-django
 django-embed-video==1.4.8 # https://github.com/jazzband/django-embed-video
 django-location-field==2.1.0 # https://github.com/caioariede/django-location-field
 django-cleanup==6.0.0 # https://github.com/un1t/django-cleanup
+django-filter==22.1 # https://github.com/carltongibson/django-filter
