@@ -3,6 +3,7 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
 from phison_realestate_backend.core.models import (
+    Buyer,
     BuyerPaymentSchedule,
     Notification,
     Property,
@@ -24,6 +25,13 @@ class PropertyImageNode(DjangoObjectType):
         )
 
 
+class BuyerNode(DjangoObjectType):
+    class Meta:
+        model = Buyer
+        fields = ("property",)
+        interfaces = (graphene.relay.Node,)
+
+
 class BuyerPaymentScheduleNode(DjangoObjectType):
     class Meta:
         model = BuyerPaymentSchedule
@@ -34,6 +42,7 @@ class BuyerPaymentScheduleNode(DjangoObjectType):
             "amount",
             "deadline",
             "status",
+            "buyer",
         )
         interfaces = (graphene.relay.Node,)
         filter_fields = ("status",)
