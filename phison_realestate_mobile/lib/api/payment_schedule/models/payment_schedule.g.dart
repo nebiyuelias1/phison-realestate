@@ -11,7 +11,8 @@ PaymentSchedule _$PaymentScheduleFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       description: json['description'] as String,
       deadline: DateTime.parse(json['deadline'] as String),
-      amount: (json['amount'] as num).toDouble(),
+      amount: PaymentSchedule._amountFromJson(json['amount'] as String),
       status: PaymentSchedule._paymentScheduleStatusFromJson(
           json['status'] as String),
+      property: Property.fromJson(json['property'] as Map<String, dynamic>),
     );
