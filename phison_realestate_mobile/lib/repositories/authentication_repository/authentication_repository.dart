@@ -87,6 +87,14 @@ class AuthenticationRepository {
     });
   }
 
+  /// Stream of [Future<String>?] which will emit the id
+  /// token of the current user when the authentication state changes.
+  Stream<Future<String>?> get authToken async* {
+    yield*  _firebaseAuth
+        .idTokenChanges()
+        .map((event) => event?.getIdToken());
+  }
+
   /// Returns the current cached user.
   /// Defaults to [User.empty] if there is no cached user.
   User get currentUser {
