@@ -41,7 +41,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Future<void> _fetchPage(String? pageKey) async {
     _notificationBloc.add(
       FetchNextPageRequested<NotificationQueryParam>(
-        param: NotificationQueryParam(),
+        param: NotificationQueryParam(
+          after: pageKey,
+        ),
       ),
     );
   }
