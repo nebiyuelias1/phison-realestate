@@ -24,7 +24,7 @@ class ItemsState<T> extends Equatable {
 
   ItemsState<T> copyWith({
     FormzStatus? status,
-    List<T>? properties,
+    List<T>? items,
     bool? hasNextPage,
     String? endCursor,
     String? error,
@@ -33,7 +33,7 @@ class ItemsState<T> extends Equatable {
       endCursor: endCursor ?? this.endCursor,
       error: error ?? this.error,
       hasNextPage: hasNextPage ?? this.hasNextPage,
-      items: properties ?? this.items,
+      items: items ?? this.items,
       status: status ?? this.status,
     );
   }
