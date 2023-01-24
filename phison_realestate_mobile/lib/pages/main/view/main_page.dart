@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phison_realestate_mobile/pages/home_page/view/home_page.dart';
 import 'package:phison_realestate_mobile/pages/payments/view/payments_page.dart';
 import 'package:phison_realestate_mobile/pages/profile/view/profile_page.dart';
@@ -18,10 +19,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentPage = 0;
   final _controller = PageController();
-  final _propertiesRepository = PropertiesRepository();
 
   @override
   Widget build(BuildContext context) {
+    final propertiesRepository = context.read<PropertiesRepository>();
     return Scaffold(
       body: PageView(
         controller: _controller,
@@ -31,9 +32,9 @@ class _MainPageState extends State<MainPage> {
           });
         },
         children: [
-          HomePage(propertiesRepository: _propertiesRepository),
+          HomePage(propertiesRepository: propertiesRepository),
           PropertiesPage(
-            propertiesRepository: _propertiesRepository,
+            propertiesRepository: propertiesRepository,
           ),
           const PaymentsPage(),
           const ProfilePage(),

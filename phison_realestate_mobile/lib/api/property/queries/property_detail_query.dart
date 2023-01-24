@@ -1,9 +1,10 @@
 const propertyDetailQuery = r'''
-query PropertyDetail($id: String!) {
+query PropertyDetail($id: ID!) {
   property(id: $id) {
     id
     name
     bedRoomCount
+    bathRoomCount
     size
     location
     address
@@ -11,6 +12,16 @@ query PropertyDetail($id: String!) {
     propertyImage
     video
     description
+    paymentInfos {
+		  edges {
+		    node {
+          title
+          timePeriod
+          amount
+          description
+		    }
+		  }
+		}
     images {
       edges {
         node {

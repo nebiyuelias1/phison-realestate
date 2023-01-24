@@ -68,10 +68,15 @@ class PropertyApiClient {
     final propertyImageJson = (propertyJson['images']['edges'] as List<dynamic>)
         .map((e) => e['node'])
         .toList();
+    final paymentInfoJson =
+        (propertyJson['paymentInfos']['edges'] as List<dynamic>)
+            .map((e) => e['node'])
+            .toList();
 
     return Property.fromJson({
       ...propertyJson,
       'images': propertyImageJson,
+      'paymentInfos': paymentInfoJson
     });
   }
 }

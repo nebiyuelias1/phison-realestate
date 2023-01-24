@@ -10,6 +10,7 @@ query AllProperties($isFeatured: Boolean, $after: String) {
         id
         name
         bedRoomCount
+        bathRoomCount
         size
         location
         address
