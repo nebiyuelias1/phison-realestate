@@ -20,7 +20,7 @@ class ItemsBloc<T, R> extends Bloc<ItemsEvent<R>, ItemsState<T>> {
         emit(
           state.copyWith(
               status: FormzStatus.submissionSuccess,
-              properties: result.items.cast<T>(),
+              items: result.items.cast<T>(),
               hasNextPage: result.hasNextPage,
               endCursor: result.endCursor),
         );

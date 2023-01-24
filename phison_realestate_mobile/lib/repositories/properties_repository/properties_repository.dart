@@ -16,4 +16,8 @@ class PropertiesRepository {
       after: after,
     );
   }
+
+  Future<Property> getPropertyDetail(String propertyId) async {
+    return await _propertyApiClient.queryProperty(propertyId);
+  }
 }

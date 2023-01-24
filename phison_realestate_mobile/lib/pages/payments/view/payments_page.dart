@@ -11,6 +11,7 @@ import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:intl/intl.dart' as intl;
 
 import '../../../shared/constants/app_assets_constant.dart';
+import '../../../shared/utils/format_money.dart';
 import '../../../shared/widgets/error_text.dart';
 import '../../app/bloc/bloc/app_bloc.dart';
 import '../../core/bloc/items_bloc.dart';
@@ -226,7 +227,7 @@ class _PaymentItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Text('(\$ ${_formatMoney(paymentSchedule.amount)})'),
+                  Text('(\$ ${formatMoney(paymentSchedule.amount)})'),
                 ],
               )
             ],
@@ -234,9 +235,5 @@ class _PaymentItem extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatMoney(double amount) {
-    return intl.NumberFormat("#,##0.00", "en_US").format(amount);
   }
 }
