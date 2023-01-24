@@ -1,4 +1,5 @@
 import graphene
+from django.conf import settings
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
@@ -6,6 +7,7 @@ from phison_realestate_backend.core.models import (
     Buyer,
     BuyerPaymentSchedule,
     Notification,
+    PaymentInformation,
     Property,
     PropertyImage,
 )
@@ -15,6 +17,8 @@ from .decorators import login_required
 
 
 class PropertyImageNode(DjangoObjectType):
+    image = graphene.String()
+
     class Meta:
         model = PropertyImage
         interfaces = (graphene.relay.Node,)
@@ -23,6 +27,11 @@ class PropertyImageNode(DjangoObjectType):
             "height",
             "width",
         )
+
+    def resolve_image(root, info):
+        if root.image:
+            request = info.context
+            return request.build_absolute_uri(f"{settings.MEDIA_URL}{root.image}")
 
 
 class BuyerNode(DjangoObjectType):
@@ -48,6 +57,13 @@ class BuyerPaymentScheduleNode(DjangoObjectType):
         filter_fields = ("status",)
 
 
+class PaymentInformationNode(DjangoObjectType):
+    class Meta:
+        model = PaymentInformation
+        fields = ("title", "time_period", "amount", "description")
+        interfaces = (graphene.relay.Node,)
+
+
 class PropertyNode(DjangoObjectType):
     property_image = graphene.String()
 
@@ -68,12 +84,17 @@ class PropertyNode(DjangoObjectType):
             "location",
             "property_type",
             "images",
+            "payment_infos",
         )
         interfaces = (graphene.relay.Node,)
         filter_fields = ("is_featured",)
 
     def resolve_property_image(root, info):
-        return root.property_image
+        if root.property_image:
+            request = info.context
+            return request.build_absolute_uri(
+                f"{settings.MEDIA_URL}/{root.property_image}"
+            )
 
 
 class NotificationNode(DjangoObjectType):
