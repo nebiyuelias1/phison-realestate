@@ -15,8 +15,11 @@ query AllUserPaymentSchedules($after: String) {
         status
         buyer {
           property {
+            id
             name
+            description
             bedRoomCount
+            bathRoomCount
             size
             location
             address
