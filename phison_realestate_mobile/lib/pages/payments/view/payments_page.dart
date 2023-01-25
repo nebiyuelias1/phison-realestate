@@ -12,7 +12,7 @@ import 'package:intl/intl.dart' as intl;
 
 import '../../../shared/constants/app_assets_constant.dart';
 import '../../../shared/utils/format_money.dart';
-import '../../../shared/widgets/error_text.dart';
+import '../../../shared/widgets/error_message.dart';
 import '../../app/bloc/bloc/app_bloc.dart';
 import '../../core/bloc/items_bloc.dart';
 
@@ -84,9 +84,9 @@ class _PaymentsPageState extends State<PaymentsPage> {
                   child: _PaymentItem(item),
                 ),
                 newPageErrorIndicatorBuilder: (context) =>
-                    ErrorText(error: _pagingController.error),
+                    ErrorMessage(error: _pagingController.error),
                 firstPageErrorIndicatorBuilder: (context) =>
-                    ErrorText(error: _pagingController.error),
+                    ErrorMessage(error: _pagingController.error),
               ),
             ),
           ),

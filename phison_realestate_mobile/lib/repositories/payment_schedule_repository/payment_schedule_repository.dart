@@ -19,7 +19,7 @@ class PaymentScheduleRepository
     try {
       return await _paymentScheduleApiClient.getPaymentSchedules(
           after: param.after);
-    } on QueryNotificationsFailure catch (e) {
+    } on QueryPaymentScheduleFailure catch (e) {
       throw QueryItemsFailure(message: e.message);
     }
   }

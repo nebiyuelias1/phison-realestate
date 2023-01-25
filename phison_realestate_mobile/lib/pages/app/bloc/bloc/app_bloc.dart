@@ -53,6 +53,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   Future<void> _onAuthTokenChanged(Future<String>? event) async {
     final token = await event;
-    add(AppTokenChanged(token));
+    add(AppTokenChanged(token ?? ''));
   }
 }

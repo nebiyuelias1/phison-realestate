@@ -6,6 +6,7 @@ import 'package:phison_realestate_mobile/api/notification/notification_api_clien
 import 'package:phison_realestate_mobile/pages/core/bloc/items_bloc.dart';
 import 'package:phison_realestate_mobile/repositories/notification_repository/notification_query_param.dart';
 import 'package:phison_realestate_mobile/repositories/notification_repository/notification_repository.dart';
+import 'package:phison_realestate_mobile/shared/widgets/error_message.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/intl.dart' as intl;
@@ -78,31 +79,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   child: _NotificationItem(item),
                 ),
                 newPageErrorIndicatorBuilder: (context) =>
-                    _Error(pagingController: _pagingController),
+                    ErrorMessage(error: _pagingController.error),
                 firstPageErrorIndicatorBuilder: (context) =>
-                    _Error(pagingController: _pagingController),
+                    ErrorMessage(error: _pagingController.error),
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class _Error extends StatelessWidget {
-  const _Error({
-    Key? key,
-    required PagingController<String?, Notification> pagingController,
-  })  : _pagingController = pagingController,
-        super(key: key);
-
-  final PagingController<String?, Notification> _pagingController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(_pagingController.error),
     );
   }
 }
