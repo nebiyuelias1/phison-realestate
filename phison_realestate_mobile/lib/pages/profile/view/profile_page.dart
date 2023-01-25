@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:phison_realestate_mobile/api/me/me_api_client.dart';
 import 'package:phison_realestate_mobile/repositories/me_repository/me_repository.dart';
 import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
+import 'package:phison_realestate_mobile/shared/widgets/error_message.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 
 import '../../app/bloc/bloc/app_bloc.dart';
@@ -99,9 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: CircularProgressIndicator(),
                 );
               } else if (state.status.isSubmissionFailure) {
-                return Center(
-                  child: Text(state.error!),
-                );
+                return ErrorMessage(error: state.error!);
               }
 
               return const SizedBox.shrink();
