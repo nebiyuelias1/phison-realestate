@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phison_realestate_mobile/pages/profile/view/change_language_bottom_sheet.dart';
+import 'package:formz/formz.dart';
+import 'package:phison_realestate_mobile/api/me/me_api_client.dart';
+import 'package:phison_realestate_mobile/repositories/me_repository/me_repository.dart';
 import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 
 import '../../app/bloc/bloc/app_bloc.dart';
+import '../bloc/profile_bloc.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late final MeRepository _meRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    final token = context.read<AppBloc>().state.authToken;
+    _meRepository = MeRepository(MeApiClient.create(authToken: token));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,56 +34,78 @@ class ProfilePage extends StatelessWidget {
         title: 'My Profile',
         hideLeading: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const _ProfilePhoto(),
-              const SizedBox(
-                height: 8.0,
-              ),
-              const _ProfileItem(
-                label: '+251912345678',
-                icon: Icons.phone_outlined,
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              const _ProfileItem(
-                label: 'Jhon Doe',
-                icon: Icons.person_outline,
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              const _ProfileItem(
-                label: 'jhondoe@gmail.com',
-                icon: Icons.email_outlined,
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              _ProfileItem(
-                label: 'Change Language',
-                icon: Icons.language,
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(32.0),
+      body: BlocProvider(
+        create: (context) => ProfileBloc(_meRepository)..add(GetMeRequested()),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              if (state.status.isSubmissionSuccess && state.user != null) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const _ProfilePhoto(),
+                      const SizedBox(
+                        height: 8.0,
                       ),
-                    ),
-                    builder: (context) => const ChangeLanguageBottomSheet(),
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 16.0,
-              ),
-              const _LogoutButton()
-            ],
+                      _ProfileItem(
+                        label: state.user!.phoneNumber,
+                        icon: Icons.phone_outlined,
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      _ProfileItem(
+                        label: state.user!.name,
+                        icon: Icons.person_outline,
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      _ProfileItem(
+                        label: state.user!.email,
+                        icon: Icons.email_outlined,
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      /**
+                       * TODO: Allow users to switch language.
+                      _ProfileItem(
+                        label: 'Change Language',
+                        icon: Icons.language,
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(32.0),
+                              ),
+                            ),
+                            builder: (context) => const ChangeLanguageBottomSheet(),
+                          );
+                        },
+                      ),
+                      */
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      const _LogoutButton()
+                    ],
+                  ),
+                );
+              } else if (state.status.isSubmissionInProgress) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state.status.isSubmissionFailure) {
+                return Center(
+                  child: Text(state.error!),
+                );
+              }
+
+              return const SizedBox.shrink();
+            },
           ),
         ),
       ),
@@ -102,6 +141,7 @@ class _ProfileItem extends StatelessWidget {
   const _ProfileItem({
     required this.label,
     required this.icon,
+    // ignore: unused_element
     this.onTap,
   });
 
