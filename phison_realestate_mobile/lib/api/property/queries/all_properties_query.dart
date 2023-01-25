@@ -7,13 +7,17 @@ query AllProperties($isFeatured: Boolean, $after: String) {
     }
     edges {
       node {
+        id
         name
         bedRoomCount
+        bathRoomCount
         size
         location
         address
         propertyType
         propertyImage
+        video
+        description
       }
     }
   }

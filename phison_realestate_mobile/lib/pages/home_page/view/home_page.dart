@@ -39,12 +39,6 @@ class HomePage extends StatelessWidget {
                       'Our Properties',
                       style: Theme.of(context).textTheme.headline4,
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'View All',
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -177,13 +171,13 @@ class _ProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
       child: SizedBox(
         width: 24,
         height: 24,
         child: CircularProgressIndicator(
-          color: PhisonColors.orange.shade900,
+          color: PhisonColors.purple,
         ),
       ),
     );

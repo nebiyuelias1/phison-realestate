@@ -1,6 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:phison_realestate_mobile/pages/login/view/login_page.dart';
+import 'package:phison_realestate_mobile/pages/main/view/main_page.dart';
 
 import '../../../shared/constants/app_assets_constant.dart';
 
@@ -80,7 +81,10 @@ class WelcomePage extends StatelessWidget {
                     height: 16.0,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => const MainPage())));
+                    },
                     child: const Text(
                       'Continue as Guest',
                     ),

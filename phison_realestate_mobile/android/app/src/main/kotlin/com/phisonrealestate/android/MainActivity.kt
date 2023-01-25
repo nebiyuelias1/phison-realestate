@@ -1,4 +1,4 @@
-package com.example.phison_realestate_mobile
+package com.phisonrealestate.android
 
 import io.flutter.embedding.android.FlutterActivity
 

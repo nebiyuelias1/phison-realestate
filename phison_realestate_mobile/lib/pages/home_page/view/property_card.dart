@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phison_realestate_mobile/pages/property_detail/view/property_detail_page.dart';
 import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
 import 'package:phison_realestate_mobile/shared/widgets/property_type_badge.dart';
 
@@ -12,17 +13,28 @@ class PropertyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: isVertical
-          ? _VerticalLayout(property)
-          : _HorizontalLayout(
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PropertyDetailPage(
               property: property,
             ),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: isVertical
+            ? _VerticalLayout(property)
+            : _HorizontalLayout(
+                property: property,
+              ),
+      ),
     );
   }
 }
@@ -187,11 +199,15 @@ class _PropertyImage extends StatelessWidget {
             Image.asset(
               'assets/images/welcomeImage.png',
               fit: BoxFit.cover,
+              width: double.infinity,
+              height: 130,
             ),
           if (property.propertyImage != null)
             Image.network(
               property.propertyImage!,
               fit: BoxFit.cover,
+              width: double.infinity,
+              height: 130,
             ),
           Positioned(
             bottom: 8,

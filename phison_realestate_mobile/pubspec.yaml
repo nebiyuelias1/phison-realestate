@@ -29,6 +29,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   equatable: ^2.0.5
   firebase_auth: ^4.2.5
@@ -39,18 +40,23 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_flavor: ^3.1.1
   flutter_map: ^3.1.0
+  flutter_native_splash: ^2.2.17
   flutter_otp_text_field: ^1.1.1
   flutter_svg: ^1.1.6
   formz: ^0.4.1
   graphql: ^5.1.2
   infinite_scroll_pagination: ^3.2.0
+  intl: ^0.17.0
   intl_phone_field: ^3.1.0
   json_annotation: ^4.7.0
   latlong2: ^0.8.1
+  timeago: ^3.3.0
+  youtube: ^1.0.1
   youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   build_runner: ^2.3.3
+  change_app_package_name: ^1.1.0
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
