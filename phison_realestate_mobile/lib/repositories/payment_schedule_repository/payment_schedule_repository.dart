@@ -1,5 +1,4 @@
 import 'package:phison_realestate_mobile/api/core/models/paginated_response.dart';
-import 'package:phison_realestate_mobile/api/notification/notification_api_client.dart';
 import 'package:phison_realestate_mobile/api/payment_schedule/models/payment_schedule.dart';
 import 'package:phison_realestate_mobile/api/payment_schedule/payment_schedule_api_client.dart';
 import 'package:phison_realestate_mobile/repositories/core/item_repository.dart';

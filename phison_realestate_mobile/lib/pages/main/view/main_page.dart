@@ -23,6 +23,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final propertiesRepository = context.read<PropertiesRepository>();
+
     return Scaffold(
       body: PageView(
         controller: _controller,
