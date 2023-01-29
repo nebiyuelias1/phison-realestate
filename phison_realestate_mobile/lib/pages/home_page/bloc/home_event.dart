@@ -10,3 +10,5 @@ abstract class HomeEvent extends Equatable {
 class FeaturedPropertiesQueryRequested extends HomeEvent {}
 
 class PropertiesQueryRequested extends HomeEvent {}
+
+class UnreadNotificationsCountRequested extends HomeEvent {}

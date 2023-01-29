@@ -22,4 +22,8 @@ class NotificationRepository extends ItemRepository<NotificationQueryParam> {
       throw QueryItemsFailure(message: e.message);
     }
   }
+
+  Future<bool> hasUnreadNotifications() async {
+    return await _notificationApiClient.hasUnreadNotifications();
+  }
 }

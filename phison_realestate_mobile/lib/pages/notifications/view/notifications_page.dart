@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:phison_realestate_mobile/api/notification/notification_api_client.dart';
 import 'package:phison_realestate_mobile/pages/core/bloc/items_bloc.dart';
 import 'package:phison_realestate_mobile/repositories/notification_repository/notification_query_param.dart';
 import 'package:phison_realestate_mobile/repositories/notification_repository/notification_repository.dart';
@@ -12,10 +11,14 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/intl.dart' as intl;
 
 import '../../../api/notification/models/notification.dart';
-import '../../app/bloc/bloc/app_bloc.dart';
 
 class NotificationsPage extends StatefulWidget {
-  const NotificationsPage({super.key});
+  final NotificationRepository notificationRepository;
+
+  const NotificationsPage({
+    super.key,
+    required this.notificationRepository,
+  });
 
   @override
   State<NotificationsPage> createState() => _NotificationsPageState();
@@ -29,11 +32,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   void initState() {
     super.initState();
-    final token = context.read<AppBloc>().state.authToken;
-    _notificationBloc =
-        ItemsBloc<Notification, NotificationQueryParam>(NotificationRepository(
-      client: NotificationApiClient.create(authToken: token),
-    ));
+    _notificationBloc = ItemsBloc<Notification, NotificationQueryParam>(
+        widget.notificationRepository);
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });

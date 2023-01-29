@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:phison_realestate_mobile/api/property/property_api_client.dart';
+import 'package:phison_realestate_mobile/repositories/notification_repository/notification_repository.dart';
 import 'package:phison_realestate_mobile/repositories/properties_repository/properties_repository.dart';
 
 import '../../../api/property/models/property.dart';
@@ -11,8 +12,14 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final PropertiesRepository _propertiesRepository;
+  final NotificationRepository _notificationRepository;
 
-  HomeBloc(this._propertiesRepository) : super(const HomeState()) {
+  HomeBloc(
+      {required PropertiesRepository propertiesRepository,
+      required NotificationRepository notificationRepository})
+      : _propertiesRepository = propertiesRepository,
+        _notificationRepository = notificationRepository,
+        super(const HomeState()) {
     on<FeaturedPropertiesQueryRequested>((event, emit) async {
       try {
         emit(state.copyWith(
@@ -53,6 +60,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ),
         );
       }
+    });
+    on<UnreadNotificationsCountRequested>((event, emit) async {
+      try {
+        final result = await _notificationRepository.hasUnreadNotifications();
+        emit(state.copyWith(hasUnreadNotifications: result));
+      } catch (_) {}
     });
   }
 }

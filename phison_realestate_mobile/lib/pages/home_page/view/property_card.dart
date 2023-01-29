@@ -131,6 +131,8 @@ class _PropertyInfo extends StatelessWidget {
               child: Text(
                 property.address,
                 style: Theme.of(context).textTheme.caption,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             )
           ],

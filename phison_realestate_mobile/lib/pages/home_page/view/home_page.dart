@@ -1,28 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:phison_realestate_mobile/api/notification/notification_api_client.dart';
 import 'package:phison_realestate_mobile/pages/home_page/bloc/home_bloc.dart';
 import 'package:phison_realestate_mobile/pages/home_page/view/home_page_app_bar.dart';
 import 'package:phison_realestate_mobile/pages/home_page/view/property_card.dart';
+import 'package:phison_realestate_mobile/repositories/notification_repository/notification_repository.dart';
 import 'package:phison_realestate_mobile/repositories/properties_repository/properties_repository.dart';
 import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
 
-class HomePage extends StatelessWidget {
+import '../../app/bloc/bloc/app_bloc.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage(
       {super.key, required PropertiesRepository propertiesRepository})
       : _propertiesRepository = propertiesRepository;
   final PropertiesRepository _propertiesRepository;
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late final NotificationRepository _notificationRepository;
+  @override
+  void initState() {
+    super.initState();
+    final token = context.read<AppBloc>().state.authToken;
+    _notificationRepository = NotificationRepository(
+        client: NotificationApiClient.create(authToken: token));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: getHomePageAppBar(context: context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: BlocProvider(
-          create: (context) => HomeBloc(_propertiesRepository)
-            ..add(FeaturedPropertiesQueryRequested())
-            ..add(PropertiesQueryRequested()),
+    return BlocProvider(
+      create: (context) => HomeBloc(
+        propertiesRepository: widget._propertiesRepository,
+        notificationRepository: _notificationRepository,
+      )
+        ..add(FeaturedPropertiesQueryRequested())
+        ..add(PropertiesQueryRequested())
+        ..add(UnreadNotificationsCountRequested()),
+      child: Scaffold(
+        appBar: getHomePageAppBar(
+          context: context,
+          notificationRepository: _notificationRepository,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: CustomScrollView(
             slivers: [
               const SliverToBoxAdapter(

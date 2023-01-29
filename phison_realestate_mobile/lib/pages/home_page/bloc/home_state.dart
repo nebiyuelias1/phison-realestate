@@ -8,6 +8,7 @@ class HomeState extends Equatable {
     this.properties = const [],
     this.status = FormzStatus.pure,
     this.error,
+    this.hasUnreadNotifications = false,
   });
   final List<Property> featuredProperties;
   final FormzStatus featuredPropertiesStatus;
@@ -17,6 +18,8 @@ class HomeState extends Equatable {
   final FormzStatus status;
   final String? error;
 
+  final bool hasUnreadNotifications;
+
   @override
   List<Object?> get props => [
         featuredProperties,
@@ -25,16 +28,17 @@ class HomeState extends Equatable {
         properties,
         status,
         error,
+        hasUnreadNotifications,
       ];
 
-  HomeState copyWith({
-    FormzStatus? featuredPropertiesStatus,
-    List<Property>? featuredProperties,
-    String? featuredPropertiesError,
-    FormzStatus? status,
-    List<Property>? properties,
-    String? error,
-  }) {
+  HomeState copyWith(
+      {FormzStatus? featuredPropertiesStatus,
+      List<Property>? featuredProperties,
+      String? featuredPropertiesError,
+      FormzStatus? status,
+      List<Property>? properties,
+      String? error,
+      bool? hasUnreadNotifications}) {
     return HomeState(
       error: error ?? this.error,
       featuredProperties: featuredProperties ?? this.featuredProperties,
@@ -44,6 +48,8 @@ class HomeState extends Equatable {
           featuredPropertiesStatus ?? this.featuredPropertiesStatus,
       properties: properties ?? this.properties,
       status: status ?? this.status,
+      hasUnreadNotifications:
+          hasUnreadNotifications ?? this.hasUnreadNotifications,
     );
   }
 }

@@ -53,4 +53,16 @@ class NotificationApiClient {
     return PaginatedResponse<Notification>.fromJson(
         jsonMap, (json) => Notification.fromJson((json as Map)['node']));
   }
+
+  Future<bool> hasUnreadNotifications() async {
+    final queryOption = QueryOptions(
+        document: gql(allNotificationsQuery),
+        variables: const {"isRead": false});
+
+    final result = await _graphQLClient.query(queryOption);
+
+    final data = result.data!['allUserNotifications'];
+
+    return data['edges'].length > 0;
+  }
 }
