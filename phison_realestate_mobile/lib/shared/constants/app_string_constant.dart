@@ -9,12 +9,7 @@ class PhisonStrings {
   static const String owSignUpBtnText = 'Sign Me Up';
 
 //2 - oca = onboarding create account page so everytext will start oca
-  static const String ocaHeadingText = 'Create Account';
-  static const String ocaSubheadingText =
-      'Create your account by filling the following information';
-  static const String ocaPhoneNoText = '+251';
-  static const String ocaUsernameText = 'Jhon Doe';
-  static const String ocaEmailText = 'jhondoe@gmail.com';
-  static const String ocaContinueBtnText = 'Continue';
-  static const String ocaLoginBtnText = 'Login';
+
 }
+
+class PhisonErrorStrings {}
