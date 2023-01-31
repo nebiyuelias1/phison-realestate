@@ -1,10 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:phison_realestate_mobile/api/payment_schedule/models/payment_schedule.dart';
+import 'package:phison_realestate_mobile/api/payment_schedule/payment_schedule_api_client.dart';
+import 'package:phison_realestate_mobile/api/property/models/property.dart';
+import 'package:phison_realestate_mobile/repositories/payment_schedule_repository/payment_schedule_query_param.dart';
+import 'package:phison_realestate_mobile/repositories/payment_schedule_repository/payment_schedule_repository.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
+import 'package:intl/intl.dart' as intl;
 
-import '../../../presentation/constants/app_assets_constant.dart';
+import '../../../shared/constants/app_assets_constant.dart';
+import '../../../shared/utils/format_money.dart';
+import '../../../shared/widgets/error_message.dart';
+import '../../app/bloc/bloc/app_bloc.dart';
+import '../../core/bloc/items_bloc.dart';
 
-class PaymentsPage extends StatelessWidget {
+class PaymentsPage extends StatefulWidget {
   const PaymentsPage({super.key});
+
+  @override
+  State<PaymentsPage> createState() => _PaymentsPageState();
+}
+
+class _PaymentsPageState extends State<PaymentsPage> {
+  final PagingController<String?, PaymentSchedule> _pagingController =
+      PagingController(firstPageKey: null);
+  late final ItemsBloc<PaymentSchedule, PaymentScheduleQueryParam> _itemsBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    final token = context.read<AppBloc>().state.authToken;
+    _itemsBloc = ItemsBloc<PaymentSchedule, PaymentScheduleQueryParam>(
+        PaymentScheduleRepository(
+      client: PaymentScheduleApiClient.create(authToken: token),
+    ));
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+  }
+
+  Future<void> _fetchPage(String? pageKey) async {
+    _itemsBloc.add(
+      FetchNextPageRequested<PaymentScheduleQueryParam>(
+        param: PaymentScheduleQueryParam(
+          after: pageKey,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +59,37 @@ class PaymentsPage extends StatelessWidget {
         title: 'Payments',
         hideLeading: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: const [
-            _PaymentItem(),
-          ],
+      body: BlocProvider(
+        create: (context) => _itemsBloc,
+        child: BlocListener<
+            ItemsBloc<PaymentSchedule, PaymentScheduleQueryParam>,
+            ItemsState<PaymentSchedule>>(
+          listener: (context, state) {
+            if (state.status.isSubmissionSuccess) {
+              final isLastPage = !state.hasNextPage;
+              isLastPage
+                  ? _pagingController.appendLastPage(state.items)
+                  : _pagingController.appendPage(state.items, state.endCursor);
+            } else if (state.status.isSubmissionFailure) {
+              _pagingController.error = state.error;
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: PagedListView<String?, PaymentSchedule>(
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<PaymentSchedule>(
+                itemBuilder: (context, item, index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: _PaymentItem(item),
+                ),
+                newPageErrorIndicatorBuilder: (context) =>
+                    ErrorMessage(error: _pagingController.error),
+                firstPageErrorIndicatorBuilder: (context) =>
+                    ErrorMessage(error: _pagingController.error),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -27,7 +97,9 @@ class PaymentsPage extends StatelessWidget {
 }
 
 class _PaymentItem extends StatelessWidget {
-  const _PaymentItem();
+  final PaymentSchedule paymentSchedule;
+
+  const _PaymentItem(this.paymentSchedule);
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +110,7 @@ class _PaymentItem extends StatelessWidget {
         color: Colors.grey.shade100,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,12 +120,19 @@ class _PaymentItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: Image.asset(
-                  'assets/images/welcomeImage.png',
-                  width: 56,
-                  height: 56,
-                  fit: BoxFit.cover,
-                ),
+                child: paymentSchedule.property.propertyImage == null
+                    ? Image.asset(
+                        'assets/images/welcomeImage.png',
+                        width: 56,
+                        height: 56,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        paymentSchedule.property.propertyImage!,
+                        width: 56,
+                        height: 56,
+                        fit: BoxFit.cover,
+                      ),
               ),
               const SizedBox(
                 width: 8.0,
@@ -62,19 +142,22 @@ class _PaymentItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Third Payment',
+                      paymentSchedule.title,
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
                           color: Colors.black, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      'G+1 town Luxury Apartment',
+                      paymentSchedule.property.name,
                       style: Theme.of(context).textTheme.caption!.copyWith(
                             color: Colors.black,
                             fontStyle: FontStyle.italic,
                           ),
                     ),
                     Text(
-                      'Apartment',
+                      paymentSchedule.property.propertyType ==
+                              PropertyType.villa
+                          ? 'Villa'
+                          : 'Apartment',
                       style: Theme.of(context).textTheme.caption,
                     )
                   ],
@@ -85,12 +168,16 @@ class _PaymentItem extends StatelessWidget {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: PhisonColors.orange.shade900,
+                  color: paymentSchedule.status == PaymentScheduleStatus.pending
+                      ? PhisonColors.orange.shade900
+                      : Colors.green,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 padding: const EdgeInsets.all(4.0),
                 child: Text(
-                  'Pending',
+                  paymentSchedule.status == PaymentScheduleStatus.pending
+                      ? 'Pending'
+                      : 'Completed',
                   style: Theme.of(context).textTheme.caption!.copyWith(
                         color: Colors.white,
                       ),
@@ -102,9 +189,7 @@ class _PaymentItem extends StatelessWidget {
             height: 8.0,
           ),
           Text(
-            '20% Payment upon your apartments structure completion'
-            ' with three months payment time period '
-            'from previous settlement',
+            paymentSchedule.description,
             style: Theme.of(context).textTheme.caption,
           ),
           const SizedBox(
@@ -114,7 +199,7 @@ class _PaymentItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '12/10/2022',
+                intl.DateFormat.yMMMMd().format(paymentSchedule.deadline),
                 style: Theme.of(context).textTheme.caption!.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
@@ -142,7 +227,7 @@ class _PaymentItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Text('(\$1000)'),
+                  Text('(\$ ${formatMoney(paymentSchedule.amount)})'),
                 ],
               )
             ],

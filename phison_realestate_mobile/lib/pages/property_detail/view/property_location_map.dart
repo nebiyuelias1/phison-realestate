@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:phison_realestate_mobile/presentation/constants/app_assets_constant.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
+
+import '../../../api/property/models/property.dart';
 
 class PropertyLocationMap extends StatelessWidget {
-  const PropertyLocationMap({super.key});
+  final Property property;
+  const PropertyLocationMap({
+    super.key,
+    required this.property,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +18,12 @@ class PropertyLocationMap extends StatelessWidget {
       height: 200,
       child: FlutterMap(
         options: MapOptions(
-          center: LatLng(51.509364, -0.128928),
+          center: LatLng(
+            _getLat(property.location),
+            _getLong(
+              property.location,
+            ),
+          ),
           zoom: 9.2,
         ),
         children: [
@@ -25,7 +36,10 @@ class PropertyLocationMap extends StatelessWidget {
               Marker(
                 width: 40,
                 height: 40,
-                point: LatLng(51.509364, -0.128928),
+                point: LatLng(
+                  _getLat(property.location),
+                  _getLong(property.location),
+                ),
                 builder: (ctx) => Container(
                   padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
@@ -44,5 +58,21 @@ class PropertyLocationMap extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  double _getLat(String coordinate) {
+    if (coordinate.isEmpty) {
+      return 9.0063576;
+    }
+
+    return double.parse(coordinate.split(',')[0]);
+  }
+
+  double _getLong(String coordinate) {
+    if (coordinate.isEmpty) {
+      return 38.8741525;
+    }
+
+    return double.parse(coordinate.split(',')[1]);
   }
 }

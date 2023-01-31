@@ -1,35 +1,41 @@
 import 'package:flutter/material.dart';
 
+import '../../../api/property/models/property.dart';
+
 class IconRow extends StatelessWidget {
-  const IconRow({super.key});
+  final Property property;
+  const IconRow({
+    super.key,
+    required this.property,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const [
+      children: [
         Expanded(
           child: _Icon(
             icon: Icons.square_foot,
-            text: '74.84 m\u00B2',
+            text: '${property.size} m\u00B2',
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 16.0,
         ),
         Expanded(
           child: _Icon(
             icon: Icons.bed,
-            text: '2',
+            text: property.bedRoomCount.toString(),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 16.0,
         ),
         Expanded(
           child: _Icon(
             icon: Icons.shower,
-            text: '2',
+            text: property.bathRoomCount.toString(),
           ),
         ),
       ],

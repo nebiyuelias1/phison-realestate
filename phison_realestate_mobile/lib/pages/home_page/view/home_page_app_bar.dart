@@ -1,9 +1,16 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phison_realestate_mobile/pages/notifications/view/notifications_page.dart';
-import 'package:phison_realestate_mobile/presentation/constants/app_assets_constant.dart';
+import 'package:phison_realestate_mobile/repositories/notification_repository/notification_repository.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.dart';
 
-AppBar getHomePageAppBar({required BuildContext context}) {
+import '../bloc/home_bloc.dart';
+
+AppBar getHomePageAppBar({
+  required BuildContext context,
+  required NotificationRepository notificationRepository,
+}) {
   return AppBar(
     toolbarHeight: 72.0,
     titleSpacing: 0,
@@ -63,7 +70,9 @@ AppBar getHomePageAppBar({required BuildContext context}) {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const NotificationsPage(),
+                    builder: (_) => NotificationsPage(
+                      notificationRepository: notificationRepository,
+                    ),
                   ),
                 );
               },
@@ -73,21 +82,29 @@ AppBar getHomePageAppBar({required BuildContext context}) {
                     Icons.notifications_outlined,
                     color: Colors.black,
                   ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: Container(
-                      width: 10.0,
-                      height: 10.0,
-                      decoration: BoxDecoration(
-                        color: PhisonColors.orange.shade900,
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                      ),
-                    ),
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state.hasUnreadNotifications) {
+                        return Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            width: 10.0,
+                            height: 10.0,
+                            decoration: BoxDecoration(
+                              color: PhisonColors.orange.shade900,
+                              borderRadius: BorderRadius.circular(8.0),
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+
+                      return const SizedBox.shrink();
+                    },
                   )
                 ],
               ),
