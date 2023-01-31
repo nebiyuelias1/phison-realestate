@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:phison_realestate_mobile/pages/create_account/view/create_account_page.dart';
 import 'package:phison_realestate_mobile/pages/login/cubit/login_cubit.dart';
 import 'package:phison_realestate_mobile/repositories/authentication_repository/authentication_repository.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_strings/login_strings_constant.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_elevated_button.dart';
 
@@ -16,7 +17,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context: context, title: 'Login To Your Account'),
+      appBar: getAppBar(context: context, title: LoginStrings.headingText),
       body: const Padding(
         padding: EdgeInsets.all(8.0),
         child: LoginForm(),
@@ -52,7 +53,7 @@ class LoginForm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Login by filling the following information'),
+            const Text(LoginStrings.subheadingText),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: BlocBuilder<LoginCubit, LoginState>(
@@ -71,7 +72,7 @@ class LoginForm extends StatelessWidget {
             BlocBuilder<LoginCubit, LoginState>(
               builder: (context, state) {
                 return PhisonElevatedButton(
-                  label: 'Continue',
+                  label: LoginStrings.continueBtnText,
                   showLoader: state.status.isSubmissionInProgress,
                   onPressed: state.status.isValidated &&
                           !state.status.isSubmissionInProgress
@@ -98,7 +99,7 @@ class LoginForm extends StatelessWidget {
                 );
               },
               child: const Text(
-                'Create your account',
+                LoginStrings.signupPageText,
                 style: TextStyle(
                   decoration: TextDecoration.underline,
                 ),

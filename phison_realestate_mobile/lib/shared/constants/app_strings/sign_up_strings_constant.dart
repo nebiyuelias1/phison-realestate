@@ -14,6 +14,6 @@ class SignupErrorStrings {
   static const String signupFailed = 'Sign Up Failure';
 }
 
-class SignupAmharicString {}
+class SignupAmharicStrings {}
 
-class SignupAmharicError {}
+class SignupAmharicErrorStrings {}
