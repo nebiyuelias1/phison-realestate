@@ -3,7 +3,7 @@
    <application
         android:label="Phison Realestate"
         android:name="${applicationName}"
-        android:icon="@mipmap/phison_app_icon">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
