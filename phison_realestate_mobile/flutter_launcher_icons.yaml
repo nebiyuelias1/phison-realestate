@@ -1,0 +1,6 @@
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/phison-square-logo.png"
+  min_sdk_android: 19
+  remove_alpha_ios: true
