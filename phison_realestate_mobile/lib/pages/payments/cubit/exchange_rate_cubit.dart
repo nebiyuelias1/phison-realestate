@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:phison_realestate_mobile/api/payment_schedule/payment_schedule_api_client.dart';
 import 'package:phison_realestate_mobile/repositories/payment_schedule_repository/payment_schedule_repository.dart';
