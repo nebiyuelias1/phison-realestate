@@ -22,4 +22,8 @@ class PaymentScheduleRepository
       throw QueryItemsFailure(message: e.message);
     }
   }
+
+  Future<double> getUsdToEtbExchangeRate() async {
+    return await _paymentScheduleApiClient.getUsdToEtbExchangeRate();
+  }
 }

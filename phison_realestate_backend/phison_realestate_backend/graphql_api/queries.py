@@ -1,5 +1,6 @@
 import graphene
 from django.conf import settings
+from django.core.cache import cache
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
@@ -14,6 +15,7 @@ from phison_realestate_backend.core.models import (
 from phison_realestate_backend.users.models import User
 
 from .decorators import login_required
+from .utils import get_usd_to_etb_exchange_rate
 
 
 class PropertyImageNode(DjangoObjectType):
@@ -131,6 +133,8 @@ class Query(graphene.ObjectType):
 
     me = graphene.Field(UserType)
 
+    usd_to_etb_rate = graphene.Float()
+
     @login_required
     def resolve_all_user_payment_schedules(self, info):
         user = info.context.user
@@ -145,3 +149,19 @@ class Query(graphene.ObjectType):
     def resolve_me(root, info):
         user = info.context.user
         return user
+
+    def resolve_usd_to_etb_rate(root, info):
+        key_name = "usd_to_etb_key"
+
+        rate = cache.get(key_name)
+
+        if rate:
+            return rate
+
+        rate = get_usd_to_etb_exchange_rate()
+
+        # Cache for a day
+        cache_ttl = 24 * 60 * 60
+        cache.set(key_name, rate, cache_ttl)
+
+        return rate
