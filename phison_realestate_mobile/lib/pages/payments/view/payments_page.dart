@@ -5,6 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:phison_realestate_mobile/api/payment_schedule/models/payment_schedule.dart';
 import 'package:phison_realestate_mobile/api/payment_schedule/payment_schedule_api_client.dart';
 import 'package:phison_realestate_mobile/api/property/models/property.dart';
+import 'package:phison_realestate_mobile/pages/payments/cubit/exchange_rate_cubit.dart';
 import 'package:phison_realestate_mobile/repositories/payment_schedule_repository/payment_schedule_query_param.dart';
 import 'package:phison_realestate_mobile/repositories/payment_schedule_repository/payment_schedule_repository.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
@@ -27,15 +28,22 @@ class _PaymentsPageState extends State<PaymentsPage> {
   final PagingController<String?, PaymentSchedule> _pagingController =
       PagingController(firstPageKey: null);
   late final ItemsBloc<PaymentSchedule, PaymentScheduleQueryParam> _itemsBloc;
+  late final ExchangeRateCubit _exchangeRateCubit;
 
   @override
   void initState() {
     super.initState();
     final token = context.read<AppBloc>().state.authToken;
-    _itemsBloc = ItemsBloc<PaymentSchedule, PaymentScheduleQueryParam>(
-        PaymentScheduleRepository(
+    final paymentScheduleRepository = PaymentScheduleRepository(
       client: PaymentScheduleApiClient.create(authToken: token),
-    ));
+    );
+
+    _itemsBloc = ItemsBloc<PaymentSchedule, PaymentScheduleQueryParam>(
+        paymentScheduleRepository);
+
+    _exchangeRateCubit = ExchangeRateCubit(paymentScheduleRepository)
+      ..getExchangeRate();
+
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -59,35 +67,49 @@ class _PaymentsPageState extends State<PaymentsPage> {
         title: 'Payments',
         hideLeading: true,
       ),
-      body: BlocProvider(
-        create: (context) => _itemsBloc,
-        child: BlocListener<
-            ItemsBloc<PaymentSchedule, PaymentScheduleQueryParam>,
-            ItemsState<PaymentSchedule>>(
-          listener: (context, state) {
-            if (state.status.isSubmissionSuccess) {
-              final isLastPage = !state.hasNextPage;
-              isLastPage
-                  ? _pagingController.appendLastPage(state.items)
-                  : _pagingController.appendPage(state.items, state.endCursor);
-            } else if (state.status.isSubmissionFailure) {
-              _pagingController.error = state.error;
-            }
-          },
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => _itemsBloc),
+          BlocProvider(create: (_) => _exchangeRateCubit),
+        ],
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<ItemsBloc<PaymentSchedule, PaymentScheduleQueryParam>,
+                ItemsState<PaymentSchedule>>(
+              listener: (context, state) {
+                if (state.status.isSubmissionSuccess) {
+                  final isLastPage = !state.hasNextPage;
+                  isLastPage
+                      ? _pagingController.appendLastPage(state.items)
+                      : _pagingController.appendPage(
+                          state.items, state.endCursor);
+                } else if (state.status.isSubmissionFailure) {
+                  _pagingController.error = state.error;
+                }
+              },
+            ),
+          ],
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: PagedListView<String?, PaymentSchedule>(
-              pagingController: _pagingController,
-              builderDelegate: PagedChildBuilderDelegate<PaymentSchedule>(
-                itemBuilder: (context, item, index) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: _PaymentItem(item),
-                ),
-                newPageErrorIndicatorBuilder: (context) =>
-                    ErrorMessage(error: _pagingController.error),
-                firstPageErrorIndicatorBuilder: (context) =>
-                    ErrorMessage(error: _pagingController.error),
-              ),
+            child: BlocBuilder<ExchangeRateCubit, ExchangeRateState>(
+              builder: (context, state) {
+                return PagedListView<String?, PaymentSchedule>(
+                  pagingController: _pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<PaymentSchedule>(
+                    itemBuilder: (context, item, index) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: _PaymentItem(
+                        paymentSchedule: item,
+                        usdToEtbRate: state.usdToEtbRate,
+                      ),
+                    ),
+                    newPageErrorIndicatorBuilder: (context) =>
+                        ErrorMessage(error: _pagingController.error),
+                    firstPageErrorIndicatorBuilder: (context) =>
+                        ErrorMessage(error: _pagingController.error),
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -98,8 +120,12 @@ class _PaymentsPageState extends State<PaymentsPage> {
 
 class _PaymentItem extends StatelessWidget {
   final PaymentSchedule paymentSchedule;
+  final double? usdToEtbRate;
 
-  const _PaymentItem(this.paymentSchedule);
+  const _PaymentItem({
+    required this.paymentSchedule,
+    this.usdToEtbRate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -215,10 +241,14 @@ class _PaymentItem extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.grey,
                           ),
-                          text: 'Br',
+                          text: 'Br ',
                         ),
                         TextSpan(
-                          text: ' 450,000.00',
+                          text: usdToEtbRate == null
+                              ? '--'
+                              : formatMoney(
+                                  paymentSchedule.amount * usdToEtbRate!,
+                                ),
                           style: TextStyle(
                             color: PhisonColors.purple.shade900,
                             fontWeight: FontWeight.w500,
@@ -227,7 +257,7 @@ class _PaymentItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Text('(\$ ${formatMoney(paymentSchedule.amount)})'),
+                  Text('(\$${formatMoney(paymentSchedule.amount)})'),
                 ],
               )
             ],
