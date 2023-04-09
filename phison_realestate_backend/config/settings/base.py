@@ -113,7 +113,7 @@ MIGRATION_MODULES = {"sites": "phison_realestate_backend.contrib.sites.migration
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
-    # "phison_realestate_backend.graphql_api.backends.FirebaseAuthenticationBackend",
+    "phison_realestate_backend.graphql_api.backends.FirebaseAuthenticationBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
@@ -332,7 +332,7 @@ SPECTACULAR_SETTINGS = {
 GRAPHENE = {
     "SCHEMA": "phison_realestate_backend.graphql_api.schema.schema",
     "MIDDLEWARE": [
-        # "phison_realestate_backend.graphql_api.middleware.FirebaseAuthorizationMiddleware"
+        "phison_realestate_backend.graphql_api.middleware.FirebaseAuthorizationMiddleware"
     ],
 }
 
