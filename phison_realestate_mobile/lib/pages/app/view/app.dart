@@ -2,12 +2,14 @@
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:phison_realestate_mobile/pages/app/bloc/bloc/app_bloc.dart';
 import 'package:phison_realestate_mobile/pages/main/view/main_page.dart';
 import 'package:phison_realestate_mobile/pages/welcome/view/view.dart';
 import 'package:phison_realestate_mobile/repositories/properties_repository/properties_repository.dart';
 
 //project imports:
+import '../../../generated/l10n.dart';
 import '../../../repositories/authentication_repository/authentication_repository.dart';
 import '../../../shared/theme/phison_theme.dart';
 
@@ -48,6 +50,14 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: context.select((AppBloc bloc) => bloc.state.currentLocale),
+      supportedLocales: S.delegate.supportedLocales,
       debugShowCheckedModeBanner: false,
       title: 'PHISON',
       theme: PhisonTheme.lightTheme,
