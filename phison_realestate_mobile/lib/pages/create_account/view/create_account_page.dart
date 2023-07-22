@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:phison_realestate_mobile/pages/create_account/cubit/create_account_cubit.dart';
 import 'package:phison_realestate_mobile/pages/verify_otp/view/verify_otp_page.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_string_constant.dart';
+import 'package:phison_realestate_mobile/shared/constants/app_strings/sign_up_strings_constant.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phone_number_input.dart';
 
@@ -14,7 +16,7 @@ class CreateAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context: context, title: 'Create Account'),
+      appBar: getAppBar(context: context, title: SignupStrings.headingText),
       body: BlocProvider<CreateAccountCubit>(
         create: (context) => CreateAccountCubit(
           context.read<AuthenticationRepository>(),
@@ -25,7 +27,9 @@ class CreateAccountPage extends StatelessWidget {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  SnackBar(content: Text(state.error ?? 'Sign Up Failure')),
+                  SnackBar(
+                      content:
+                          Text(state.error ?? SignupErrorStrings.signupFailed)),
                 );
             }
 
@@ -59,8 +63,7 @@ class _CreateAccountForm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-                'Create your account by filling the following information'),
+            const Text(SignupStrings.subheadingText),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: BlocBuilder<CreateAccountCubit, CreateAccountState>(
@@ -111,7 +114,7 @@ class _CreateAccountForm extends StatelessWidget {
                               ),
                             ),
                           ),
-                        const Text('Continue'),
+                        const Text(SignupStrings.continueBtnText),
                       ],
                     ),
                   );
