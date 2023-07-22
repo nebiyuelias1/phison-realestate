@@ -7,8 +7,10 @@ import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.da
 import 'package:phison_realestate_mobile/shared/widgets/error_message.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 
+import '../../../generated/l10n.dart';
 import '../../app/bloc/bloc/app_bloc.dart';
 import '../bloc/profile_bloc.dart';
+import 'change_language_bottom_sheet.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -32,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: getAppBar(
         context: context,
-        title: 'My Profile',
+        title: S.of(context).myProfile,
         hideLeading: true,
       ),
       body: BlocProvider(
@@ -70,10 +72,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(
                         height: 8.0,
                       ),
-                      /**
-                       * TODO: Allow users to switch language.
                       _ProfileItem(
-                        label: 'Change Language',
+                        label: S.of(context).changeLanguage,
                         icon: Icons.language,
                         onTap: () {
                           showModalBottomSheet(
@@ -87,7 +87,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           );
                         },
                       ),
-                      */
                       const SizedBox(
                         height: 16.0,
                       ),
@@ -184,7 +183,7 @@ class _LogoutButton extends StatelessWidget {
             Navigator.of(context).popUntil((route) => route.isFirst);
             context.read<AppBloc>().add(AppLogoutRequested());
           },
-          child: const Text('Logout'),
+          child: Text(S.of(context).logout),
         );
       },
     );
