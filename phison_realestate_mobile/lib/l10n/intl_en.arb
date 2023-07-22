@@ -1,0 +1,9 @@
+{
+  "title": "Hello, World!",
+  "myProfile": "My Profile",
+  "changeLanguage": "Change Language",
+  "chooseLanguage": "Choose Language",
+  "english": "English",
+  "amharic": "Amharic",
+  "logout": "Logout"
+}

@@ -39,6 +39,8 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.1
   flutter_flavor: ^3.1.1
+  flutter_localizations:
+    sdk: flutter
   flutter_map: ^3.1.0
   flutter_otp_text_field: ^1.1.1
   flutter_svg: ^1.1.6
@@ -100,3 +102,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

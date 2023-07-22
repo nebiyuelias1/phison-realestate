@@ -27,3 +27,12 @@ class AppTokenChanged extends AppEvent {
   @override
   List<Object?> get props => [token];
 }
+
+class ChangeAppLocaleRequested extends AppEvent {
+  final LocaleOption option;
+
+  const ChangeAppLocaleRequested(this.option);
+
+  @override
+  List<Object?> get props => [option];
+}

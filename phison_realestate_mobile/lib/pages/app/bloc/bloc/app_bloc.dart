@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../../repositories/authentication_repository/authentication_repository.dart';
 import '../../../../repositories/authentication_repository/models/user.dart';
 
@@ -29,6 +30,19 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     });
     on<AppTokenChanged>(
         ((event, emit) => emit(state.copyWith(authToken: event.token))));
+    on<ChangeAppLocaleRequested>((event, emit) async {
+      final option = event.option;
+      late final Locale locale;
+      switch (option) {
+        case LocaleOption.english:
+          locale = S.delegate.supportedLocales[0];
+          break;
+        case LocaleOption.amharic:
+          locale = S.delegate.supportedLocales[1];
+          break;
+      }
+      emit(state.copyWith(currentLocale: locale));
+    });
   }
 
   final AuthenticationRepository _authenticationRepository;
