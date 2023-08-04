@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phison_realestate_mobile/api/property/models/property.dart';
 
+import '../../generated/l10n.dart';
 import '../constants/app_assets_constant.dart';
 
 class PropertyTypeBadge extends StatelessWidget {
@@ -16,7 +17,9 @@ class PropertyTypeBadge extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(4.0),
       child: Text(
-        propertyType == PropertyType.villa ? 'Vila' : 'Apartment',
+        propertyType == PropertyType.villa
+            ? S.of(context).villa
+            : S.of(context).apartment,
         style: Theme.of(context).textTheme.caption!.copyWith(
               color: Colors.white,
             ),

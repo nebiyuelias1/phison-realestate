@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:phison_realestate_mobile/api/notification/notification_api_client.dart';
+import 'package:phison_realestate_mobile/generated/l10n.dart';
 import 'package:phison_realestate_mobile/pages/home_page/bloc/home_bloc.dart';
 import 'package:phison_realestate_mobile/pages/home_page/view/home_page_app_bar.dart';
 import 'package:phison_realestate_mobile/pages/home_page/view/property_card.dart';
@@ -61,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Our Properties',
+                      S.of(context).ourProperties,
                       style: Theme.of(context).textTheme.headline4,
                     ),
                   ],
@@ -88,16 +89,16 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () => context
                                   .read<HomeBloc>()
                                   .add(PropertiesQueryRequested()),
-                              child: const Text('Try Again'),
+                              child: Text(S.of(context).tryAgain),
                             )
                           ],
                         ),
                       ),
                     );
                   } else if (state.properties.isEmpty) {
-                    return const SliverToBoxAdapter(
+                    return SliverToBoxAdapter(
                       child: Center(
-                        child: Text('🙁 No properties to show at the moment'),
+                        child: Text(S.of(context).noPropertiesToShowAtTheMoment),
                       ),
                     );
                   } else if (state.properties.isNotEmpty) {
@@ -148,7 +149,7 @@ class _FeaturedProperties extends StatelessWidget {
                     onPressed: () => context
                         .read<HomeBloc>()
                         .add(FeaturedPropertiesQueryRequested()),
-                    child: const Text('Try Again'))
+                    child: Text(S.of(context).tryAgain))
               ],
             ),
           );
@@ -157,7 +158,7 @@ class _FeaturedProperties extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Featured Properties',
+                S.of(context).featuredProperties,
                 style: Theme.of(context).textTheme.headline4,
               ),
               const SizedBox(

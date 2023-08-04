@@ -5,6 +5,7 @@ import 'package:phison_realestate_mobile/shared/constants/app_assets_constant.da
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../repositories/authentication_repository/authentication_repository.dart';
 import '../../../shared/widgets/phison_elevated_button.dart';
 import '../cubit/verify_otp_cubit.dart';
@@ -52,8 +53,8 @@ class VerifyOtpPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'A 6-digit code has been sent to your sms',
+                Text(
+                  S.of(context).a6digitCodeHasBeenSentToYourSms,
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
@@ -65,7 +66,7 @@ class VerifyOtpPage extends StatelessWidget {
                 BlocBuilder<VerifyOtpCubit, VerifyOtpState>(
                   builder: (context, state) {
                     return PhisonElevatedButton(
-                      label: 'Verify',
+                      label: S.of(context).verify,
                       onPressed: state.status.isValidated &&
                               !state.status.isSubmissionInProgress
                           ? () async {

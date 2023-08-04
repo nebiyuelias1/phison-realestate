@@ -11,6 +11,7 @@ import 'package:phison_realestate_mobile/repositories/payment_schedule_repositor
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:intl/intl.dart' as intl;
 
+import '../../../generated/l10n.dart';
 import '../../../shared/constants/app_assets_constant.dart';
 import '../../../shared/utils/format_money.dart';
 import '../../../shared/widgets/error_message.dart';
@@ -64,7 +65,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
     return Scaffold(
       appBar: getAppBar(
         context: context,
-        title: 'Payments',
+        title: S.of(context).payments,
         hideLeading: true,
       ),
       body: MultiBlocProvider(
@@ -182,8 +183,8 @@ class _PaymentItem extends StatelessWidget {
                     Text(
                       paymentSchedule.property.propertyType ==
                               PropertyType.villa
-                          ? 'Villa'
-                          : 'Apartment',
+                          ? S.of(context).villa
+                          : S.of(context).apartment,
                       style: Theme.of(context).textTheme.caption,
                     )
                   ],
@@ -202,8 +203,8 @@ class _PaymentItem extends StatelessWidget {
                 padding: const EdgeInsets.all(4.0),
                 child: Text(
                   paymentSchedule.status == PaymentScheduleStatus.pending
-                      ? 'Pending'
-                      : 'Completed',
+                      ? S.of(context).pending
+                      : S.of(context).completed,
                   style: Theme.of(context).textTheme.caption!.copyWith(
                         color: Colors.white,
                       ),

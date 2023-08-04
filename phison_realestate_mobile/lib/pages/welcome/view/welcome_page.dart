@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:phison_realestate_mobile/pages/login/view/login_page.dart';
 import 'package:phison_realestate_mobile/pages/main/view/main_page.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../shared/constants/app_assets_constant.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -54,7 +55,7 @@ class WelcomePage extends StatelessWidget {
                     height: 16.0,
                   ),
                   Text(
-                    'Let\'s Find Your',
+                    S.of(context).letsFindYour,
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -62,7 +63,7 @@ class WelcomePage extends StatelessWidget {
                         .copyWith(color: Colors.white),
                   ),
                   Text(
-                    'Dream Home',
+                    S.of(context).dreamHome,
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -70,7 +71,7 @@ class WelcomePage extends StatelessWidget {
                         .copyWith(color: Colors.white),
                   ),
                   Text(
-                    'A luxurious residential houses and apartments in Addis Ababa, Ethiopia.',
+                    S.of(context).aLuxuriousResidentialHousesAndApartmentsInAddisAbabaEthiopia,
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -85,26 +86,26 @@ class WelcomePage extends StatelessWidget {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: ((context) => const MainPage())));
                     },
-                    child: const Text(
-                      'Continue as Guest',
+                    child: Text(
+                      S.of(context).continueAsGuest,
                     ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Expanded(
+                    children: [
+                      const Expanded(
                         child: Divider(
                           color: Colors.white,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          'or',
-                          style: TextStyle(color: Colors.white),
+                          S.of(context).or,
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Divider(
                           color: Colors.white,
                         ),
@@ -123,8 +124,8 @@ class WelcomePage extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all(
                           PhisonColors.orange.shade900),
                     ),
-                    child: const Text(
-                      'Login',
+                    child: Text(
+                      S.of(context).login,
                     ),
                   )
                 ],

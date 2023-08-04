@@ -11,6 +11,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/intl.dart' as intl;
 
 import '../../../api/notification/models/notification.dart';
+import '../../../generated/l10n.dart';
 
 class NotificationsPage extends StatefulWidget {
   final NotificationRepository notificationRepository;
@@ -52,7 +53,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context: context, title: 'Notifications'),
+      appBar: getAppBar(context: context, title: S.of(context).notifications),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocProvider(
@@ -118,13 +119,14 @@ class _NotificationItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Text(
-                  _getNotificationHeader(notification.notificationType),
+                  _getNotificationHeader(
+                      notification.notificationType, context),
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    _getNotificationDescription(notification),
+                    _getNotificationDescription(notification, context),
                   ),
                 ),
                 Text(
@@ -139,23 +141,27 @@ class _NotificationItem extends StatelessWidget {
     );
   }
 
-  String _getNotificationHeader(NotificationType notificationType) {
+  String _getNotificationHeader(
+      NotificationType notificationType, BuildContext context) {
     switch (notificationType) {
       case NotificationType.paymentDue:
-        return 'Payment Due';
+        return S.of(context).paymentDue;
       default:
-        return 'Notification';
+        return S.of(context).notification;
     }
   }
 
-  String _getNotificationDescription(Notification notification) {
+  String _getNotificationDescription(
+      Notification notification, BuildContext context) {
     switch (notification.notificationType) {
       case NotificationType.paymentDue:
         final deadline = DateTime.parse(notification.data['deadline']);
         String formattedDate = intl.DateFormat.yMMMMd().format(deadline);
-        return 'You have an upcoming payment scheduled for $formattedDate.';
+        final notificationText =
+            S.of(context).youHaveAnUpcomingPaymentScheduledFor;
+        return '$notificationText $formattedDate.';
       default:
-        return 'You have a notification.';
+        return S.of(context).youHaveANotification;
     }
   }
 }
