@@ -7,6 +7,8 @@ import 'package:phison_realestate_mobile/pages/properties/view/properties_page.d
 import 'package:phison_realestate_mobile/repositories/properties_repository/properties_repository.dart';
 import 'package:phison_realestate_mobile/shared/widgets/bottom_navigation_bar.dart';
 
+import '../../../generated/l10n.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -57,22 +59,22 @@ class _MainPageState extends State<MainPage> {
         items: <BottomNavBarItem>[
           BottomNavBarItem(
             icon: const Icon(Icons.home_outlined),
-            title: const Text('Home'),
+            title: Text(S.of(context).home),
             textAlign: TextAlign.center,
           ),
           BottomNavBarItem(
             icon: const Icon(Icons.explore_outlined),
-            title: const Text('Properties'),
+            title: Text(S.of(context).properties),
             textAlign: TextAlign.center,
           ),
           BottomNavBarItem(
             icon: const Icon(Icons.credit_card_outlined),
-            title: const Text('Payments'),
+            title: Text(S.of(context).payments),
             textAlign: TextAlign.center,
           ),
           BottomNavBarItem(
             icon: const Icon(Icons.person_outline_outlined),
-            title: const Text('Profile '),
+            title: Text(S.of(context).profile),
             textAlign: TextAlign.center,
           ),
         ],

@@ -7,6 +7,7 @@ import 'package:phison_realestate_mobile/repositories/properties_repository/prop
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 
 import '../../../api/property/models/property.dart';
+import '../../../generated/l10n.dart';
 import '../bloc/properties_bloc.dart';
 
 class PropertiesPage extends StatefulWidget {
@@ -41,7 +42,7 @@ class _PropertiesPageState extends State<PropertiesPage> {
     return Scaffold(
       appBar: getAppBar(
         context: context,
-        title: 'Our Properties',
+        title: S.of(context).ourProperties,
         hideLeading: true,
       ),
       body: BlocProvider(

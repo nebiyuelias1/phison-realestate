@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
+import '../../generated/l10n.dart';
+
 class PhoneNumberInput extends StatelessWidget {
   final ValueChanged<PhoneNumber>? onChanged;
   const PhoneNumberInput({super.key, this.onChanged});
@@ -17,8 +19,8 @@ class PhoneNumberInput extends StatelessWidget {
       ),
       flagsButtonMargin: const EdgeInsets.symmetric(horizontal: 8.0),
       keyboardType: TextInputType.phone,
-      decoration: const InputDecoration(
-        hintText: 'Phone Number',
+      decoration: InputDecoration(
+        hintText: S.of(context).phoneNumber,
         counterText: '',
       ),
       initialCountryCode: 'ET',

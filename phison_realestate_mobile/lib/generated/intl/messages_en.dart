@@ -22,14 +22,66 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "a6digitCodeHasBeenSentToYourSms": MessageLookupByLibrary.simpleMessage(
+            "A 6-digit code has been sent to your sms"),
+        "aLuxuriousResidentialHousesAndApartmentsInAddisAbabaEthiopia":
+            MessageLookupByLibrary.simpleMessage(
+                "A luxurious residential houses and apartments in Addis Ababa, Ethiopia."),
         "amharic": MessageLookupByLibrary.simpleMessage("Amharic"),
+        "apartment": MessageLookupByLibrary.simpleMessage("Apartment"),
         "changeLanguage":
             MessageLookupByLibrary.simpleMessage("Change Language"),
         "chooseLanguage":
             MessageLookupByLibrary.simpleMessage("Choose Language"),
+        "completed": MessageLookupByLibrary.simpleMessage("Completed"),
+        "continueAsGuest":
+            MessageLookupByLibrary.simpleMessage("Continue as Guest"),
+        "continueStep": MessageLookupByLibrary.simpleMessage("Continue"),
+        "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
+        "createYourAccount":
+            MessageLookupByLibrary.simpleMessage("Create your account"),
+        "createYourAccountByFillingTheFollowingInformation":
+            MessageLookupByLibrary.simpleMessage(
+                "Create your account by filling the following information"),
+        "dreamHome": MessageLookupByLibrary.simpleMessage("Dream Home"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
+        "featuredProperties":
+            MessageLookupByLibrary.simpleMessage("Featured Properties"),
+        "goToLogin": MessageLookupByLibrary.simpleMessage("Go to Login"),
+        "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "letsFindYour":
+            MessageLookupByLibrary.simpleMessage("Let\'s Find Your"),
+        "location": MessageLookupByLibrary.simpleMessage("Location"),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
+        "loginByFillingTheFollowingInformation":
+            MessageLookupByLibrary.simpleMessage(
+                "Login by filling the following information"),
+        "loginToYourAccount":
+            MessageLookupByLibrary.simpleMessage("Login To Your Account"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "myProfile": MessageLookupByLibrary.simpleMessage("My Profile"),
-        "title": MessageLookupByLibrary.simpleMessage("Hello, World!")
+        "noPropertiesToShowAtTheMoment": MessageLookupByLibrary.simpleMessage(
+            "🙁 No properties to show at the moment"),
+        "notification": MessageLookupByLibrary.simpleMessage("Notification"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "or": MessageLookupByLibrary.simpleMessage("or"),
+        "ourProperties": MessageLookupByLibrary.simpleMessage("Our Properties"),
+        "paymentDue": MessageLookupByLibrary.simpleMessage("Payment Due"),
+        "payments": MessageLookupByLibrary.simpleMessage("Payments"),
+        "pending": MessageLookupByLibrary.simpleMessage("Pending"),
+        "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
+        "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "properties": MessageLookupByLibrary.simpleMessage("Properties"),
+        "signUpFailure":
+            MessageLookupByLibrary.simpleMessage("Sign Up Failure"),
+        "title": MessageLookupByLibrary.simpleMessage("Hello, World!"),
+        "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
+        "verify": MessageLookupByLibrary.simpleMessage("Verify"),
+        "villa": MessageLookupByLibrary.simpleMessage("Villa"),
+        "youHaveANotification":
+            MessageLookupByLibrary.simpleMessage("You have a notification."),
+        "youHaveAnUpcomingPaymentScheduledFor":
+            MessageLookupByLibrary.simpleMessage(
+                "You have an upcoming payment scheduled for")
       };
 }

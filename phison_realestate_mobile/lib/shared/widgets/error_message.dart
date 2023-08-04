@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../generated/l10n.dart';
+
 class ErrorMessage extends StatelessWidget {
   const ErrorMessage({
     Key? key,
@@ -19,7 +21,7 @@ class ErrorMessage extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).popUntil((route) => route.isFirst);
             },
-            child: const Text('Go to Login'),
+            child: Text(S.of(context).goToLogin),
           )
         ],
       ),

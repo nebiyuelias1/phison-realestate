@@ -7,6 +7,7 @@ import 'package:phison_realestate_mobile/repositories/authentication_repository/
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phison_elevated_button.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../shared/widgets/phone_number_input.dart';
 import '../../verify_otp/view/verify_otp_page.dart';
 
@@ -16,7 +17,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context: context, title: 'Login To Your Account'),
+      appBar: getAppBar(context: context, title: S.of(context).loginToYourAccount),
       body: const Padding(
         padding: EdgeInsets.all(8.0),
         child: LoginForm(),
@@ -52,7 +53,7 @@ class LoginForm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Login by filling the following information'),
+            Text(S.of(context).loginByFillingTheFollowingInformation),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: BlocBuilder<LoginCubit, LoginState>(
@@ -71,7 +72,7 @@ class LoginForm extends StatelessWidget {
             BlocBuilder<LoginCubit, LoginState>(
               builder: (context, state) {
                 return PhisonElevatedButton(
-                  label: 'Continue',
+                  label: S.of(context).continueStep,
                   showLoader: state.status.isSubmissionInProgress,
                   onPressed: state.status.isValidated &&
                           !state.status.isSubmissionInProgress
@@ -85,8 +86,8 @@ class LoginForm extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const Text(
-              'or',
+            Text(
+              S.of(context).or,
               textAlign: TextAlign.center,
             ),
             TextButton(
@@ -97,9 +98,9 @@ class LoginForm extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text(
-                'Create your account',
-                style: TextStyle(
+              child: Text(
+                S.of(context).createYourAccount,
+                style: const TextStyle(
                   decoration: TextDecoration.underline,
                 ),
               ),

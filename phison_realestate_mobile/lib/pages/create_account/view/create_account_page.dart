@@ -6,6 +6,7 @@ import 'package:phison_realestate_mobile/pages/verify_otp/view/verify_otp_page.d
 import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:phison_realestate_mobile/shared/widgets/phone_number_input.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../repositories/authentication_repository/authentication_repository.dart';
 
 class CreateAccountPage extends StatelessWidget {
@@ -14,7 +15,7 @@ class CreateAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context: context, title: 'Create Account'),
+      appBar: getAppBar(context: context, title: S.of(context).createAccount),
       body: BlocProvider<CreateAccountCubit>(
         create: (context) => CreateAccountCubit(
           context.read<AuthenticationRepository>(),
@@ -25,7 +26,7 @@ class CreateAccountPage extends StatelessWidget {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  SnackBar(content: Text(state.error ?? 'Sign Up Failure')),
+                  SnackBar(content: Text(state.error ?? S.of(context).signUpFailure)),
                 );
             }
 
@@ -59,8 +60,8 @@ class _CreateAccountForm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-                'Create your account by filling the following information'),
+            Text(
+                S.of(context).createYourAccountByFillingTheFollowingInformation),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: BlocBuilder<CreateAccountCubit, CreateAccountState>(
@@ -111,7 +112,7 @@ class _CreateAccountForm extends StatelessWidget {
                               ),
                             ),
                           ),
-                        const Text('Continue'),
+                        Text(S.of(context).continueStep),
                       ],
                     ),
                   );

@@ -11,6 +11,7 @@ import 'package:phison_realestate_mobile/shared/widgets/phison_app_bar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../api/property/models/property.dart';
+import '../../../generated/l10n.dart';
 import 'icon_row.dart';
 
 class PropertyDetailPage extends StatefulWidget {
@@ -161,7 +162,7 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                           property: widget.property,
                         ),
                         Text(
-                          'Location',
+                          S.of(context).location,
                           style:
                               Theme.of(context).textTheme.headline4!.copyWith(
                                     fontWeight: FontWeight.w500,
