@@ -1,0 +1,3 @@
+# This file is for digital ocean purpose only. https://github.com/cookiecutter/cookiecutter-django/issues/3710#issuecomment-1420710917
+
+-r production.txt
