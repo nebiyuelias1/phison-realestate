@@ -7,4 +7,4 @@ Deployment steps:
 - Setup Redis
 - Set .env variables including firebase admin auth env variable
 - Configure nginx
-- Configure gunicorn
+- Configure gunicorn with supervisord
