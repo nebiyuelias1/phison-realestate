@@ -1,3 +1,4 @@
+from .base import INSTALLED_APPS as BASE_INSTALLED_APPS
 from .base import *  # noqa
 from .base import env
 
@@ -91,7 +92,10 @@ ADMIN_URL = env("DJANGO_ADMIN_URL")
 # Anymail
 # ------------------------------------------------------------------------------
 # https://anymail.readthedocs.io/en/stable/installation/#installing-anymail
-INSTALLED_APPS += ["anymail"]  # noqa F405
+INSTALLED_APPS = BASE_INSTALLED_APPS + [
+    "anymail",
+    "storages",
+]  # noqa F405
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
 # https://anymail.readthedocs.io/en/stable/esps
@@ -144,5 +148,35 @@ LOGGING = {
     },
 }
 
-# Your stuff...
+# Digital Ocean Spaces settings..
 # ------------------------------------------------------------------------------
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_ACCESS_KEY_ID = env("DJANGO_AWS_ACCESS_KEY_ID")
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_SECRET_ACCESS_KEY = env("DJANGO_AWS_SECRET_ACCESS_KEY")
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_STORAGE_BUCKET_NAME = env("DJANGO_AWS_STORAGE_BUCKET_NAME")
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_QUERYSTRING_AUTH = False
+# DO NOT change these unless you know what you're doing.
+_AWS_EXPIRY = 60 * 60 * 24 * 7
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": f"max-age={_AWS_EXPIRY}, s-maxage={_AWS_EXPIRY}, must-revalidate"
+}
+#  https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_DEFAULT_ACL = None
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_S3_REGION_NAME = env("DJANGO_AWS_S3_REGION_NAME", default=None)
+AWS_S3_ENDPOINT_URL = env("DJANGO_AWS_S3_ENDPOINT_URL")
+AWS_LOCATION = env("DJANGO_AWS_LOCATION")
+AWS_DEFAULT_ACL = "public-read"
+
+# MEDIA
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#media-url
+MEDIA_URL = (
+    f"https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_REGION_NAME}."
+    f"digitaloceanspaces.com/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/"
+)
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
